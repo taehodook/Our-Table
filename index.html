@@ -3,7 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>우리집 식탁 🥦</title>
+<title>우리집 식탁 🥦 — 가족 냉장고 관리 앱</title>
+<meta name="description" content="냉동·냉장·상온 보관함 관리, 식단 계획, 장보기 목록, 지출 분석까지. 가족이 함께 쓰는 스마트 냉장고 앱.">
+
+<!-- Open Graph (카카오톡·페이스북·슬랙 등 썸네일) -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://w-table.vercel.app/">
+<meta property="og:title"       content="우리집 식탁 🥦">
+<meta property="og:description" content="냉장고 관리부터 식단 계획, 장보기, 지출 분석까지. 가족이 함께 쓰는 스마트 냉장고 앱.">
+<meta property="og:image"       content="https://w-table.vercel.app/og-image.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"      content="ko_KR">
+<meta property="og:site_name"   content="우리집 식탁">
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:url"         content="https://w-table.vercel.app/">
+<meta name="twitter:title"       content="우리집 식탁 🥦">
+<meta name="twitter:description" content="냉장고 관리부터 식단 계획, 장보기, 지출 분석까지. 가족이 함께 쓰는 스마트 냉장고 앱.">
+<meta name="twitter:image"       content="https://w-table.vercel.app/og-image.png">
+
+<link rel="canonical" href="https://w-table.vercel.app/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥦</text></svg>">
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -14,6 +37,63 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Noto Sans KR',sans-serif;background:var(--cream);color:var(--txt);min-height:100vh;}
+
+/* ── 그룹 코드 입력 화면 ── */
+#joinScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(135deg,#e8f5ea 0%,#faf7f2 60%,#f0f8ff 100%);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.join-card{
+  background:#fff;border-radius:28px;padding:36px 30px;
+  width:100%;max-width:440px;
+  box-shadow:0 24px 80px rgba(100,160,110,.18);border:1.5px solid #ddf0de;
+}
+.join-logo{text-align:center;margin-bottom:28px;}
+.join-logo-emoji{font-size:56px;display:block;margin-bottom:10px;}
+.join-logo-title{font-family:'DM Serif Display',serif;font-size:28px;color:var(--sage-d);}
+.join-logo-sub{font-size:13px;color:var(--muted);margin-top:6px;}
+
+.join-tabs{display:flex;border-radius:12px;overflow:hidden;border:1.5px solid var(--border);margin-bottom:22px;}
+.join-tab{flex:1;padding:11px;font-size:13px;font-weight:700;font-family:inherit;
+  border:none;background:var(--cream);color:var(--muted);cursor:pointer;transition:.15s;}
+.join-tab.active{background:var(--sage);color:#fff;}
+
+.join-section{display:none;}
+.join-section.active{display:block;}
+
+.jlabel{display:block;font-size:11px;font-weight:700;color:var(--muted);
+  margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
+.jinput{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:11px;
+  font-size:14px;font-family:inherit;background:var(--cream);color:var(--txt);
+  outline:none;transition:.15s;margin-bottom:10px;}
+.jinput:focus{border-color:var(--sage);background:#fff;}
+.jinput.code-style{
+  font-size:28px;font-weight:900;letter-spacing:6px;text-align:center;
+  text-transform:uppercase;font-family:monospace;
+}
+.jbtn{width:100%;padding:13px;background:var(--sage);color:#fff;border:none;
+  border-radius:12px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
+  transition:.2s;margin-top:4px;}
+.jbtn:hover{background:var(--sage-d);}
+
+.join-info{background:var(--sage-l);border-radius:12px;padding:14px 16px;margin-bottom:18px;
+  font-size:12px;color:#3a5a3e;line-height:1.8;}
+.join-info strong{color:var(--sage-d);}
+
+.join-new-code{
+  background:var(--cream);border:2px dashed var(--sage-l);border-radius:14px;
+  padding:16px;text-align:center;margin-bottom:14px;
+}
+.join-new-code-label{font-size:11px;color:var(--muted);margin-bottom:6px;}
+.join-new-code-val{font-size:32px;font-weight:900;color:var(--sage-d);
+  letter-spacing:6px;font-family:monospace;cursor:pointer;}
+.join-new-code-hint{font-size:11px;color:var(--muted);margin-top:6px;}
+
+.join-err{font-size:12px;color:var(--red);background:var(--red-l);border-radius:8px;
+  padding:8px 12px;margin-top:8px;display:none;}
+.join-err.show{display:block;}
+.join-divider{text-align:center;font-size:12px;color:var(--muted);margin:14px 0;}
 
 /* ── HEADER ── */
 header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px 20px;
@@ -28,15 +108,42 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .dot.off{background:var(--red);}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
 
+/* 그룹 뱃지 */
+.group-badge{
+  display:flex;align-items:center;gap:6px;
+  background:var(--sage-l);border:1px solid var(--sage);
+  border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;
+  color:var(--sage-d);cursor:pointer;transition:.15s;position:relative;
+}
+.group-badge:hover{background:var(--sage);color:#fff;}
+.group-code-text{letter-spacing:2px;font-family:monospace;}
+
+/* 그룹 팝업 */
+.group-popup{
+  position:absolute;top:46px;right:0;
+  background:#fff;border:1.5px solid var(--border);border-radius:14px;
+  box-shadow:0 8px 30px var(--shad);padding:12px;min-width:220px;
+  display:none;z-index:300;
+}
+.group-popup.open{display:block;}
+.gp-title{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;
+  text-transform:uppercase;letter-spacing:.4px;}
+.gp-code{font-size:24px;font-weight:900;color:var(--sage-d);letter-spacing:4px;
+  font-family:monospace;text-align:center;padding:10px;
+  background:var(--cream);border-radius:10px;margin-bottom:8px;}
+.gp-item{display:flex;align-items:center;gap:8px;padding:8px 10px;
+  border-radius:9px;font-size:13px;cursor:pointer;transition:.15s;color:var(--txt);}
+.gp-item:hover{background:var(--cream);}
+.gp-item.danger{color:var(--red);}
+.gp-item.danger:hover{background:var(--red-l);}
+
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:5px;background:var(--sage);color:#fff;
   border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-family:inherit;
   font-weight:600;cursor:pointer;transition:all .2s;}
 .btn:hover{background:var(--sage-d);transform:translateY(-1px);}
 .btn.sm{padding:6px 12px;font-size:12px;}
-.btn.terra{background:var(--terra);} .btn.terra:hover{background:#a05030;}
-.btn.sky{background:var(--sky);} .btn.sky:hover{background:#4a7d98;}
-.btn.amber{background:var(--amber);} .btn.amber:hover{background:#a08030;}
+.btn.terra{background:var(--terra);}.btn.terra:hover{background:#a05030;}
 
 /* ── TABS ── */
 .tabbar{background:var(--warm);border-bottom:2px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
@@ -48,37 +155,29 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .page{display:none;padding:18px;}
 .page.active{display:block;}
 
-/* ── SUMMARY ROW ── */
+/* ── SUMMARY ── */
 .sumrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px;}
 .scard{background:var(--warm);border:1.5px solid var(--border);border-radius:14px;padding:13px 15px;}
 .slabel{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
 .sval{font-size:24px;font-weight:900;line-height:1.1;margin-top:2px;}
 .ssub{font-size:11px;color:var(--muted);margin-top:2px;}
-.c1 .sval{color:var(--sage-d);}.c2 .sval{color:var(--terra);}.c3 .sval{color:var(--red);}.c4 .sval{color:var(--amber);}
+.c1 .sval{color:var(--sage-d);}.c2 .sval{color:var(--terra);}.c3 .sval{color:var(--red);}
 
+/* ── CATEGORY SUMMARY ── */
 .sort-sel{font-size:10px;font-family:inherit;border:1px solid var(--border);border-radius:7px;
   padding:3px 6px;background:var(--cream);color:var(--muted);cursor:pointer;outline:none;flex-shrink:0;}
-.sort-sel:focus{border-color:var(--sage);}
-
-/* ── CATEGORY SUMMARY STRIP ── */
-.cat-summary{
-  display:flex;flex-wrap:wrap;gap:5px;padding:8px 12px;
-  border-bottom:1px solid var(--border);background:var(--cream);
-  min-height:36px;align-items:center;
-}
-.cs-item{
-  display:flex;align-items:center;gap:3px;
-  padding:3px 8px;border-radius:20px;border:1.5px solid transparent;
-  cursor:pointer;transition:all .15s;user-select:none;
-  background:var(--warm);border-color:var(--border);
-}
+.cat-summary{display:flex;flex-wrap:wrap;gap:5px;padding:8px 12px;
+  border-bottom:1px solid var(--border);background:var(--cream);min-height:36px;align-items:center;}
+.cs-item{display:flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;
+  border:1.5px solid var(--border);cursor:pointer;transition:all .15s;user-select:none;
+  background:var(--warm);}
 .cs-item:hover{border-color:var(--sage);transform:translateY(-1px);}
 .cs-item.active-cat{border-color:var(--sage);background:var(--sage-l);}
 .cs-emoji{font-size:14px;line-height:1;}
 .cs-count{font-size:11px;font-weight:700;color:var(--txt);}
-.cs-empty{font-size:11px;color:var(--muted);padding:2px 4px;}
+.cs-empty{font-size:11px;color:var(--muted);}
 
-/* ── STORAGE GRID ── */
+/* ── STORAGE ── */
 .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 @media(max-width:880px){.sgrid{grid-template-columns:1fr 1fr;}}
 @media(max-width:560px){.sgrid{grid-template-columns:1fr;}}
@@ -93,14 +192,12 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .catbar{padding:7px 10px;display:flex;gap:5px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;}
 .catbar::-webkit-scrollbar{display:none;}
 .chip{white-space:nowrap;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;
-  border:1.5px solid var(--border);cursor:pointer;background:var(--cream);color:var(--muted);transition:all .15s;}
+  border:1.5px solid var(--border);cursor:pointer;background:var(--cream);color:var(--muted);transition:.15s;}
 .chip.active{background:var(--sage);color:#fff;border-color:var(--sage);}
 .chip:hover:not(.active){border-color:var(--sage);color:var(--sage);}
-.ilist{padding:8px 10px;display:flex;flex-direction:column;gap:5px;max-height:400px;overflow-y:auto;}
+.ilist{padding:8px 10px;display:flex;flex-direction:column;gap:5px;max-height:360px;overflow-y:auto;}
 .ilist::-webkit-scrollbar{width:3px;}
 .ilist::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-
-/* ── ITEM CARD ── */
 .icard{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-radius:10px;
   border:1.5px solid var(--border);background:var(--cream);transition:all .2s;animation:si .2s;}
 @keyframes si{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
@@ -114,16 +211,11 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .ds{background:var(--sage-l);color:var(--sage-d);}.dw{background:var(--amber-l);color:#8a6a1a;}
 .dd2{background:var(--red-l);color:var(--red);}.de{background:var(--red);color:#fff;}
 .dn{background:var(--border);color:var(--muted);}
-
-/* ── STOCK DISPLAY ── */
-.stock-wrap{margin-top:4px;display:flex;align-items:center;gap:6px;}
+.stock-wrap{display:flex;align-items:center;gap:6px;margin-top:4px;}
 .stock-bar-track{flex:1;height:6px;background:var(--border);border-radius:4px;overflow:hidden;}
 .stock-bar-fill{height:100%;border-radius:4px;transition:width .4s;}
 .stock-badge{font-size:10px;font-weight:700;white-space:nowrap;}
-.stock-hi{color:var(--sage-d);}
-.stock-mid{color:var(--amber);}
-.stock-lo{color:var(--red);}
-
+.stock-hi{color:var(--sage-d);}.stock-mid{color:var(--amber);}.stock-lo{color:var(--red);}
 .empty{text-align:center;padding:28px 12px;color:var(--muted);font-size:12px;}
 .empty div{font-size:26px;margin-bottom:6px;}
 .ibtns{display:flex;gap:3px;flex-shrink:0;}
@@ -150,7 +242,6 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
   font-size:13px;font-family:inherit;background:var(--cream);color:var(--txt);outline:none;transition:.15s;}
 .fi:focus,.fs:focus{border-color:var(--sage);}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.f3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 .mbtns{display:flex;gap:8px;margin-top:14px;}
 .bcnl{flex:1;padding:10px;border:1.5px solid var(--border);border-radius:10px;background:transparent;
   font-size:13px;font-family:inherit;cursor:pointer;color:var(--muted);transition:.15s;}
@@ -158,14 +249,10 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .bok{flex:2;padding:10px;border:none;border-radius:10px;background:var(--sage);color:#fff;
   font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:.15s;}
 .bok:hover{background:var(--sage-d);}
-
-/* stock unit toggle */
 .unit-row{display:flex;gap:6px;}
 .uopt{flex:1;padding:8px;border:1.5px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;
   font-family:inherit;cursor:pointer;background:var(--cream);color:var(--muted);text-align:center;transition:.15s;}
 .uopt.sel{background:var(--sage);border-color:var(--sage);color:#fff;}
-
-/* ── EXPIRY QUICK ── */
 .expw{display:flex;flex-direction:column;gap:6px;}
 .expq{display:flex;gap:4px;flex-wrap:wrap;}
 .qb{flex:1;min-width:44px;padding:6px 3px;border:1.5px solid var(--border);border-radius:8px;
@@ -179,7 +266,7 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .edr.show{display:flex;}
 .eprev{font-size:12px;color:var(--sage-d);font-weight:600;min-height:16px;}
 
-/* ── MEAL PLAN ── */
+/* ── MEAL ── */
 .phead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
 .ptitle{font-size:15px;font-weight:700;}
 .wgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
@@ -187,11 +274,9 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 @media(max-width:540px){.wgrid{grid-template-columns:repeat(2,1fr);}}
 .dcard{background:var(--warm);border:1.5px solid var(--border);border-radius:13px;overflow:hidden;}
 .dhead{padding:8px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.dname{font-size:12px;font-weight:700;}
-.ddate{font-size:10px;color:var(--muted);}
+.dname{font-size:12px;font-weight:700;}.ddate{font-size:10px;color:var(--muted);}
 .today .dhead{background:var(--sage);}
-.today .dname{color:#fff;}
-.today .ddate{color:rgba(255,255,255,.7);}
+.today .dname{color:#fff;}.today .ddate{color:rgba(255,255,255,.7);}
 .mslot{padding:5px 7px;border-bottom:1px solid var(--border);}
 .mslot:last-child{border-bottom:none;}
 .mtype{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px;}
@@ -201,24 +286,15 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .mingr{font-size:9px;color:var(--muted);font-style:italic;word-break:break-word;}
 .mstock{font-size:9px;font-weight:700;padding:1px 5px;border-radius:5px;white-space:nowrap;}
 .mstock.ok{background:var(--sage-l);color:var(--sage-d);}
-.mstock.low{background:var(--amber-l);color:#8a6a1a);}
+.mstock.low{background:var(--amber-l);color:#8a6a1a;}
 .mstock.none{background:var(--red-l);color:var(--red);}
 .madd{font-size:17px;color:var(--sage);cursor:pointer;background:none;border:none;line-height:1;transition:.1s;flex-shrink:0;}
 .madd:hover{transform:scale(1.25);}
 .mdone-btn{font-size:9px;padding:2px 6px;border:1px solid var(--sage);border-radius:5px;
   background:transparent;color:var(--sage);cursor:pointer;font-family:inherit;font-weight:600;transition:.15s;white-space:nowrap;}
-.mdone-btn:hover{background:var(--sage);color:#fff;}
-.mdone-btn.done{background:var(--sage);color:#fff;}
-
-/* ── MEAL MODAL INGREDIENT ── */
+.mdone-btn:hover,.mdone-btn.done{background:var(--sage);color:#fff;}
 .ingr-list{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
 .ingr-row{display:flex;gap:6px;align-items:center;}
-.ingr-row .fi{flex:2;}
-.ingr-row .fi.qty{flex:1;}
-.ingr-row .fi.unit{flex:1;}
-.ingr-sel{flex:2;padding:8px 10px;border:1.5px solid var(--sage-l);border-radius:9px;
-  font-size:12px;font-family:inherit;background:var(--sage-l);color:var(--sage-d);
-  font-weight:600;outline:none;cursor:pointer;}
 .add-ingr-btn{padding:6px 10px;border:1.5px dashed var(--border);border-radius:8px;
   font-size:12px;font-family:inherit;background:transparent;color:var(--muted);cursor:pointer;
   width:100%;margin-top:4px;transition:.15s;}
@@ -242,32 +318,10 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .cmemo{font-size:10px;color:var(--muted);}
 .cstock-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;white-space:nowrap;}
 .cstock-badge.linked{background:var(--sage-l);color:var(--sage-d);}
-.cstock-badge.unlinked{background:var(--border);color:var(--muted);}
 
-/* ── EXPENSE CHARTS ── */
+/* ── EXPENSE ── */
 .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:640px){.chart-grid{grid-template-columns:1fr;}}
-.legend-row{display:flex;align-items:center;gap:6px;}
-.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.legend-label{font-size:11px;flex:1;}
-.legend-pct{font-size:11px;font-weight:700;color:var(--muted);}
-
-/* ── EXPENSE TABLE ── */
-.elayout{display:grid;grid-template-columns:1fr 320px;gap:16px;}
-@media(max-width:860px){.elayout{grid-template-columns:1fr;}}
-.ebox{background:var(--warm);border:1.5px solid var(--border);border-radius:15px;overflow:hidden;}
-.ehead{display:grid;grid-template-columns:1fr 80px 90px 34px;gap:8px;
-  padding:9px 14px;background:var(--cream);border-bottom:1.5px solid var(--border);
-  font-size:11px;font-weight:700;color:var(--muted);}
-.erow{display:grid;grid-template-columns:1fr 80px 90px 34px;gap:8px;
-  padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;animation:si .2s;}
-.erow:last-child{border-bottom:none;}
-.erow:hover{background:var(--cream);}
-.ename2{font-size:13px;font-weight:600;}
-.edate2{font-size:10px;color:var(--muted);}
-.eprice{font-size:13px;font-weight:700;color:var(--sage-d);text-align:right;}
-.ecat2{font-size:10px;color:var(--muted);}
-.esum{display:flex;flex-direction:column;gap:10px;}
 .escard{background:var(--warm);border:1.5px solid var(--border);border-radius:15px;padding:16px;}
 .estitle{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px;}
 .etotal{font-size:30px;font-weight:900;color:var(--sage-d);line-height:1;}
@@ -282,14 +336,55 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .mtab{padding:4px 11px;border-radius:20px;font-size:12px;font-weight:600;
   border:1.5px solid var(--border);cursor:pointer;background:var(--cream);color:var(--muted);transition:.15s;}
 .mtab.active{background:var(--sage);color:#fff;border-color:var(--sage);}
+.ebox{background:var(--warm);border:1.5px solid var(--border);border-radius:15px;overflow:hidden;}
+.ehead{display:grid;grid-template-columns:1fr 80px 90px 34px;gap:8px;
+  padding:9px 14px;background:var(--cream);border-bottom:1.5px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);}
+.erow{display:grid;grid-template-columns:1fr 80px 90px 34px;gap:8px;
+  padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;animation:si .2s;}
+.erow:last-child{border-bottom:none;}
+.erow:hover{background:var(--cream);}
+.ename2{font-size:13px;font-weight:600;}
+.edate2{font-size:10px;color:var(--muted);}
+.eprice{font-size:13px;font-weight:700;color:var(--sage-d);text-align:right;}
+.ecat2{font-size:10px;color:var(--muted);}
+.legend-row{display:flex;align-items:center;gap:6px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-label{font-size:11px;flex:1;}.legend-pct{font-size:11px;font-weight:700;color:var(--muted);}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);
-  background:var(--txt);color:#fff;padding:9px 18px;border-radius:30px;font-size:13px;
-  z-index:999;transition:.3s;pointer-events:none;}
-.toast.show{transform:translateX(-50%) translateY(0);}
+/* ── 쿠팡 광고 ── */
+.ad-banner{display:block;text-decoration:none;padding:14px 18px;
+  background:linear-gradient(135deg,#fff8f8,var(--warm));border:1.5px solid #f5d0d0;
+  border-radius:14px;margin:14px 0 0;position:relative;overflow:hidden;transition:all .2s;}
+.ad-banner:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,33,26,.1);}
+.ad-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e8211a,#ff6b35,#e8211a);}
+.ad-banner-row{display:flex;align-items:center;gap:12px;}
+.ad-banner-icon{font-size:28px;flex-shrink:0;}
+.ad-banner-body{flex:1;}
+.ad-banner-title{font-size:13px;font-weight:700;color:var(--txt);}
+.ad-banner-sub{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.ad-banner-cta{flex-shrink:0;padding:7px 14px;background:#e8211a;color:#fff;border-radius:8px;font-size:12px;font-weight:700;white-space:nowrap;}
+.ad-banner-label{position:absolute;top:6px;right:8px;font-size:9px;color:var(--muted);}
+.ad-wrap{margin:14px 0 0;border-radius:14px;overflow:hidden;border:1.5px solid var(--border);background:var(--warm);position:relative;}
+.ad-label{position:absolute;top:6px;right:8px;font-size:9px;color:var(--muted);background:var(--cream);border:1px solid var(--border);border-radius:4px;padding:1px 5px;z-index:2;}
+.ad-inner{display:flex;align-items:center;gap:14px;padding:12px 16px;text-decoration:none;color:inherit;transition:background .15s;}
+.ad-inner:hover{background:var(--cream);}
+.ad-logo{flex-shrink:0;width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#e8211a,#ff4d4d);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;box-shadow:0 3px 10px rgba(232,33,26,.25);}
+.ad-body{flex:1;min-width:0;}
+.ad-title{font-size:13px;font-weight:700;color:var(--txt);}
+.ad-desc{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.5;}
+.ad-badge{flex-shrink:0;padding:5px 12px;border-radius:20px;background:#e8211a;color:#fff;font-size:11px;font-weight:700;white-space:nowrap;}
+.ad-inline{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:linear-gradient(135deg,#fff8f8,var(--warm));border:1.5px solid #f5d0d0;border-radius:12px;
+  text-decoration:none;color:inherit;margin:8px 0;transition:.15s;position:relative;}
+.ad-inline:hover{background:#fff0f0;}
+.ad-inline-icon{font-size:22px;flex-shrink:0;}
+.ad-inline-body{flex:1;min-width:0;}
+.ad-inline-title{font-size:12px;font-weight:700;color:var(--txt);}
+.ad-inline-sub{font-size:10px;color:var(--muted);line-height:1.5;}
+.ad-inline-arr{font-size:14px;color:#e8211a;font-weight:700;}
+.ad-inline-label{position:absolute;top:4px;right:7px;font-size:8px;color:var(--muted);}
 
-/* ── ITEM PICKER (modal inside modal) ── */
+/* ── PICKER ── */
 .picker-list{max-height:200px;overflow-y:auto;border:1.5px solid var(--border);border-radius:10px;margin-top:6px;}
 .picker-item{padding:9px 12px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;}
 .picker-item:last-child{border-bottom:none;}
@@ -299,22 +394,92 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .picker-search{width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:9px;
   font-size:13px;font-family:inherit;background:var(--cream);color:var(--txt);outline:none;margin-bottom:4px;}
 .picker-search:focus{border-color:var(--sage);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--txt);color:#fff;padding:9px 18px;border-radius:30px;font-size:13px;
+  z-index:999;transition:.3s;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
+
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-<!-- HEADER -->
+<!-- ===== 그룹 코드 입력 화면 ===== -->
+<div id="joinScreen">
+  <div class="join-card">
+    <div class="join-logo">
+      <span class="join-logo-emoji">🥦</span>
+      <div class="join-logo-title">우리집 식탁</div>
+      <div class="join-logo-sub">가족과 함께 쓰는 스마트 냉장고 관리</div>
+    </div>
+
+    <div class="join-tabs">
+      <button class="join-tab active" onclick="switchJoinTab('new')">새 그룹 만들기</button>
+      <button class="join-tab" onclick="switchJoinTab('join')">기존 그룹 참여</button>
+    </div>
+
+    <!-- 새 그룹 -->
+    <div class="join-section active" id="js-new">
+      <div class="join-info">
+        <strong>처음 사용하세요?</strong><br>
+        그룹 코드를 만들어 가족과 공유하세요.<br>
+        코드를 아는 사람만 같은 데이터를 볼 수 있어요.
+      </div>
+      <div class="join-new-code">
+        <div class="join-new-code-label">내 그룹 코드</div>
+        <div class="join-new-code-val" id="newGroupCode" onclick="genCode()">------</div>
+        <div class="join-new-code-hint">↑ 클릭해서 새 코드 생성</div>
+      </div>
+      <label class="jlabel">닉네임 (가족 내 표시 이름)</label>
+      <input class="jinput" id="newNickname" placeholder="예: 아빠, 엄마, 켈로그"/>
+      <button class="jbtn" onclick="createGroup()">✓ 이 코드로 시작하기</button>
+    </div>
+
+    <!-- 기존 그룹 참여 -->
+    <div class="join-section" id="js-join">
+      <div class="join-info">
+        <strong>가족에게 코드를 받으셨나요?</strong><br>
+        6자리 그룹 코드를 입력하면<br>
+        같은 냉장고 데이터를 함께 볼 수 있어요.
+      </div>
+      <label class="jlabel">닉네임 (가족 내 표시 이름)</label>
+      <input class="jinput" id="joinNickname" placeholder="예: 아빠, 엄마, 와이프"/>
+      <label class="jlabel">그룹 코드 (6자리)</label>
+      <input class="jinput code-style" id="joinCode" placeholder="ABC123" maxlength="6"
+        oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')joinGroup()"/>
+      <button class="jbtn" onclick="joinGroup()">→ 참여하기</button>
+    </div>
+
+    <div class="join-err" id="joinErr"></div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
 <header>
   <div style="display:flex;align-items:center;gap:10px;">
     <div class="logo">우리집 식탁<span> 🥦</span></div>
     <div class="conn"><div class="dot" id="dot"></div><span id="connTxt">연결중…</span></div>
   </div>
-  <button class="btn" onclick="openItemModal()">＋ 식품 추가</button>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="btn" onclick="openItemModal()">＋ 식품 추가</button>
+    <div style="position:relative;">
+      <div class="group-badge" onclick="toggleGroupPopup()">
+        👥 <span class="group-code-text" id="headerGroupCode">------</span>
+      </div>
+      <div class="group-popup" id="groupPopup">
+        <div class="gp-title">내 그룹 정보</div>
+        <div class="gp-code" id="popupGroupCode">------</div>
+        <div class="gp-item" onclick="copyCode()">📋 코드 복사 (가족에게 공유)</div>
+        <div class="gp-item" onclick="shareCode()">📤 공유하기</div>
+        <div class="gp-item danger" onclick="leaveGroup()">🚪 그룹 나가기</div>
+      </div>
+    </div>
+  </div>
 </header>
 
-<!-- TABS -->
 <div class="tabbar">
   <div class="tab active" onclick="goTab('storage',this)">🧊 보관함</div>
   <div class="tab" onclick="goTab('meal',this)">📅 식단 계획</div>
@@ -322,7 +487,7 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
   <div class="tab" onclick="goTab('expense',this)">💰 지출 내역</div>
 </div>
 
-<!-- ===== PAGE: STORAGE ===== -->
+<!-- PAGE: STORAGE -->
 <div class="page active" id="page-storage">
   <div class="sumrow">
     <div class="scard c1"><div class="slabel">총 식품</div><div class="sval" id="sT">0</div><div class="ssub">전체 보관</div></div>
@@ -349,80 +514,85 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
       <div class="ilist" id="lst-room"></div>
     </div>
   </div>
+  <a class="ad-banner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener" onclick="trackAd('storage')">
+    <div class="ad-banner-label">광고</div>
+    <div class="ad-banner-row">
+      <div class="ad-banner-icon">🛒</div>
+      <div class="ad-banner-body">
+        <div class="ad-banner-title">냉장고 재료 쿠팡에서 빠르게!</div>
+        <div class="ad-banner-sub">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+      </div>
+      <div class="ad-banner-cta">쿠팡 바로가기</div>
+    </div>
+  </a>
 </div>
 
-<!-- ===== PAGE: MEAL ===== -->
+<!-- PAGE: MEAL -->
 <div class="page" id="page-meal">
   <div class="phead">
-    <div>
-      <div class="ptitle">📅 이번 주 식단</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="wrange"></div>
-    </div>
-    <div style="display:flex;gap:6px;">
-      <button class="btn sm" onclick="mvWeek(-1)">◀ 이전주</button>
-      <button class="btn sm terra" onclick="mvWeek(0)">오늘</button>
-      <button class="btn sm" onclick="mvWeek(1)">다음주 ▶</button>
-    </div>
+    <div><div class="ptitle">📅 이번 주 식단</div><div style="font-size:11px;color:var(--muted);margin-top:2px;" id="wrange"></div></div>
+    <div style="display:flex;gap:6px;"><button class="btn sm" onclick="mvWeek(-1)">◀ 이전주</button><button class="btn sm terra" onclick="mvWeek(0)">오늘</button><button class="btn sm" onclick="mvWeek(1)">다음주 ▶</button></div>
   </div>
   <div class="wgrid" id="wgrid"></div>
 </div>
 
-<!-- ===== PAGE: CART ===== -->
+<!-- PAGE: CART -->
 <div class="page" id="page-cart">
-  <div class="phead">
-    <div class="ptitle">🛒 장보기 목록</div>
-  </div>
+  <div class="phead"><div class="ptitle">🛒 장보기 목록</div></div>
   <div class="clayout">
     <div class="cbox">
-      <div class="chead">
-        <div class="ctitle">🛒 구매 예정</div>
-        <button class="btn sm" onclick="openCartModal()">＋ 추가</button>
-      </div>
+      <div class="chead"><div class="ctitle">🛒 구매 예정</div><button class="btn sm" onclick="openCartModal()">＋ 추가</button></div>
       <div class="clist" id="cl-pending"></div>
+      <div style="padding:8px 10px 4px;">
+        <a class="ad-inline" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener" onclick="trackAd('cart')">
+          <div class="ad-inline-label">광고</div>
+          <div class="ad-inline-icon">🚀</div>
+          <div class="ad-inline-body">
+            <div class="ad-inline-title">같은 상품, 쿠팡 로켓배송으로!</div>
+            <div class="ad-inline-sub">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+          </div>
+          <div class="ad-inline-arr">→</div>
+        </a>
+      </div>
     </div>
     <div class="cbox">
-      <div class="chead">
-        <div class="ctitle">✅ 구매 완료</div>
-        <button class="bicon del" onclick="clearDone()" title="완료 항목 삭제">🗑</button>
-      </div>
+      <div class="chead"><div class="ctitle">✅ 구매 완료</div><button class="bicon del" onclick="clearDone()">🗑</button></div>
       <div class="clist" id="cl-done"></div>
     </div>
   </div>
+  <div class="ad-wrap" style="margin-top:14px;">
+    <div class="ad-label">광고</div>
+    <a class="ad-inner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener" onclick="trackAd('cart-bottom')">
+      <div class="ad-logo">쿠팡</div>
+      <div class="ad-body">
+        <div class="ad-title">🥩 신선식품 로켓프레시 특가</div>
+        <div class="ad-desc">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+      </div>
+      <div class="ad-badge">특가 보기</div>
+    </a>
+  </div>
 </div>
 
-<!-- ===== PAGE: EXPENSE ===== -->
+<!-- PAGE: EXPENSE -->
 <div class="page" id="page-expense">
-  <div class="phead">
-    <div class="ptitle">💰 장보기 지출 내역</div>
-    <button class="btn sm" onclick="openExpModal()">＋ 지출 추가</button>
-  </div>
-  <!-- 분석 기간 탭 -->
+  <div class="phead"><div class="ptitle">💰 장보기 지출 내역</div><button class="btn sm" onclick="openExpModal()">＋ 지출 추가</button></div>
   <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
     <div class="mtab active" id="anTab-week" onclick="setAnPeriod('week',this)">📊 최근 7일</div>
     <div class="mtab" id="anTab-month" onclick="setAnPeriod('month',this)">📊 이번달</div>
     <div class="mtab" id="anTab-history" onclick="setAnPeriod('history',this)">📋 전체 내역</div>
     <button class="btn sm" style="margin-left:auto;" onclick="renderExp()">🔄 새로고침</button>
   </div>
-  <!-- 분석 차트 섹션 -->
   <div id="analysisSection">
     <div class="chart-grid">
-      <!-- 총 지출 요약 -->
       <div class="escard">
         <div class="estitle" id="chartPeriodLabel">이번달 지출 요약</div>
         <div class="etotal" id="etotal">₩0</div>
         <div class="eperiod" id="eperiod"></div>
         <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div style="background:var(--cream);border-radius:9px;padding:10px;text-align:center;">
-            <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">건수</div>
-            <div style="font-size:18px;font-weight:900;color:var(--sage-d);" id="chartCnt">0건</div>
-          </div>
-          <div style="background:var(--cream);border-radius:9px;padding:10px;text-align:center;">
-            <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">건당 평균</div>
-            <div style="font-size:18px;font-weight:900;color:var(--terra);" id="chartAvg">₩0</div>
-          </div>
+          <div style="background:var(--cream);border-radius:9px;padding:10px;text-align:center;"><div style="font-size:10px;color:var(--muted);margin-bottom:3px;">건수</div><div style="font-size:18px;font-weight:900;color:var(--sage-d);" id="chartCnt">0건</div></div>
+          <div style="background:var(--cream);border-radius:9px;padding:10px;text-align:center;"><div style="font-size:10px;color:var(--muted);margin-bottom:3px;">건당 평균</div><div style="font-size:18px;font-weight:900;color:var(--terra);" id="chartAvg">₩0</div></div>
         </div>
       </div>
-      <!-- 카테고리 비중 도넛 -->
       <div class="escard">
         <div class="estitle">카테고리별 비중</div>
         <div style="display:flex;align-items:center;gap:12px;">
@@ -431,261 +601,110 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
         </div>
       </div>
     </div>
-    <!-- 일별 지출 바 차트 -->
-    <div class="escard" style="margin-top:12px;">
-      <div class="estitle" id="barChartTitle">일별 지출</div>
-      <div style="overflow-x:auto;">
-        <canvas id="barChart" height="140"></canvas>
-      </div>
-    </div>
-    <!-- 카테고리 막대 -->
-    <div class="escard" style="margin-top:12px;">
-      <div class="estitle">카테고리별 지출 금액</div>
-      <div class="cbdown" id="cbdown"></div>
-    </div>
+    <div class="escard" style="margin-top:12px;"><div class="estitle" id="barChartTitle">일별 지출</div><div style="overflow-x:auto;"><canvas id="barChart" height="140"></canvas></div></div>
+    <div class="escard" style="margin-top:12px;"><div class="estitle">카테고리별 지출 금액</div><div class="cbdown" id="cbdown"></div></div>
   </div>
-  <!-- 전체 내역 테이블 (history 탭) -->
   <div id="historySection" style="display:none;">
     <div class="mtabs" id="mtabs"></div>
-    <div class="ebox">
-      <div class="ehead"><div>상품명</div><div>분류</div><div style="text-align:right">금액</div><div>수정</div></div>
-      <div id="elist"></div>
-    </div>
+    <div class="ebox"><div class="ehead"><div>상품명</div><div>분류</div><div style="text-align:right">금액</div><div>수정</div></div><div id="elist"></div></div>
   </div>
+  <a class="ad-banner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener" onclick="trackAd('expense')" style="margin-top:16px;">
+    <div class="ad-banner-label">광고</div>
+    <div class="ad-banner-row">
+      <div class="ad-banner-icon">💸</div>
+      <div class="ad-banner-body">
+        <div class="ad-banner-title">식비 절약? 쿠팡 로켓배송이 답!</div>
+        <div class="ad-banner-sub">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+      </div>
+      <div class="ad-banner-cta">절약 시작</div>
+    </div>
+  </a>
 </div>
 
-<!-- ===== MODALS ===== -->
-
-<!-- 식품 추가/수정 -->
+<!-- MODALS -->
 <div class="ov" id="itemModal">
   <div class="modal">
     <div class="mtitle" id="itemModalTitle">📦 식품 추가</div>
-    <div class="fg">
-      <label class="fl">보관 위치</label>
-      <select class="fs" id="fLoc">
-        <option value="frozen">❄️ 냉동고</option>
-        <option value="fresh">🌿 냉장고</option>
-        <option value="room">🌡️ 상온 보관</option>
-      </select>
-    </div>
-    <div class="f2">
-      <div class="fg">
-        <label class="fl">분류</label>
-        <select class="fs" id="fCat">
-          <option value="고기">🥩 고기</option><option value="반찬">🍱 반찬</option>
-          <option value="야채">🥦 야채</option><option value="과일">🍎 과일</option>
-          <option value="아이스크림">🍦 아이스크림</option><option value="닭고기">🍗 닭고기</option>
-          <option value="소스">🫙 소스</option><option value="유제품">🥛 유제품</option>
-          <option value="음료">🧃 음료</option><option value="양념">🧂 양념</option>
-          <option value="곡류">🌾 곡류</option><option value="기타">📦 기타</option>
-        </select>
-      </div>
-      <div class="fg"><label class="fl">상품명</label><input class="fi" id="fName" placeholder="예: 삼겹살"/></div>
-    </div>
-
-    <!-- 재고 표시 -->
-    <div class="fg">
-      <label class="fl">재고 표시 방식 (선택)</label>
-      <div class="unit-row" id="unitRow">
-        <button type="button" class="uopt" data-u="none" onclick="selUnit('none')">없음</button>
-        <button type="button" class="uopt sel" data-u="pct" onclick="selUnit('pct')">% (퍼센트)</button>
-        <button type="button" class="uopt" data-u="count" onclick="selUnit('count')">개수</button>
-      </div>
-    </div>
-    <div class="fg" id="stockValWrap" style="display:none;">
-      <label class="fl" id="stockValLabel">현재 재고 (%)</label>
-      <input class="fi" type="number" id="fStock" placeholder="100" min="0" max="9999"/>
-    </div>
-
+    <div class="fg"><label class="fl">보관 위치</label><select class="fs" id="fLoc"><option value="frozen">❄️ 냉동고</option><option value="fresh">🌿 냉장고</option><option value="room">🌡️ 상온 보관</option></select></div>
+    <div class="f2"><div class="fg"><label class="fl">분류</label><select class="fs" id="fCat"><option value="고기">🥩 고기</option><option value="반찬">🍱 반찬</option><option value="야채">🥦 야채</option><option value="과일">🍎 과일</option><option value="아이스크림">🍦 아이스크림</option><option value="닭고기">🍗 닭고기</option><option value="소스">🫙 소스</option><option value="유제품">🥛 유제품</option><option value="음료">🧃 음료</option><option value="양념">🧂 양념</option><option value="곡류">🌾 곡류</option><option value="기타">📦 기타</option></select></div><div class="fg"><label class="fl">상품명</label><input class="fi" id="fName" placeholder="예: 삼겹살"/></div></div>
+    <div class="fg"><label class="fl">재고 표시 방식</label><div class="unit-row"><button type="button" class="uopt" data-u="none" onclick="selUnit('none')">없음</button><button type="button" class="uopt sel" data-u="pct" onclick="selUnit('pct')">%</button><button type="button" class="uopt" data-u="count" onclick="selUnit('count')">개수</button></div></div>
+    <div class="fg" id="stockValWrap" style="display:none;"><label class="fl" id="stockValLabel">현재 재고 (%)</label><input class="fi" type="number" id="fStock" placeholder="100" min="0" max="9999"/></div>
     <div class="fg"><label class="fl">구매일</label><input class="fi" type="date" id="fBought"/></div>
-    <div class="fg">
-      <label class="fl">유통기한</label>
-      <div class="expw">
-        <div class="expq">
-          <button type="button" class="qb" data-d="1" onclick="selExp(1)">+1일</button>
-          <button type="button" class="qb" data-d="2" onclick="selExp(2)">+2일</button>
-          <button type="button" class="qb" data-d="3" onclick="selExp(3)">+3일</button>
-          <button type="button" class="qb" data-d="7" onclick="selExp(7)">+7일</button>
-          <button type="button" class="qb" data-d="14" onclick="selExp(14)">+14일</button>
-          <button type="button" class="qb" data-d="30" onclick="selExp(30)">+30일</button>
-        </div>
-        <label class="etog"><input type="checkbox" id="etoggle" onchange="togExp(this)"><span>날짜로 직접 입력</span></label>
-        <div class="edr" id="edr"><input class="fi" type="date" id="fExpDate" oninput="onExpDate()"/></div>
-        <div class="eprev" id="eprev">선택 안 함</div>
-      </div>
+    <div class="fg"><label class="fl">유통기한</label>
+      <div class="expw"><div class="expq"><button type="button" class="qb" data-d="1" onclick="selExp(1)">+1일</button><button type="button" class="qb" data-d="2" onclick="selExp(2)">+2일</button><button type="button" class="qb" data-d="3" onclick="selExp(3)">+3일</button><button type="button" class="qb" data-d="7" onclick="selExp(7)">+7일</button><button type="button" class="qb" data-d="14" onclick="selExp(14)">+14일</button><button type="button" class="qb" data-d="30" onclick="selExp(30)">+30일</button></div>
+      <label class="etog"><input type="checkbox" id="etoggle" onchange="togExp(this)"><span>날짜로 직접 입력</span></label>
+      <div class="edr" id="edr"><input class="fi" type="date" id="fExpDate" oninput="onExpDate()"/></div>
+      <div class="eprev" id="eprev">선택 안 함</div></div>
       <input type="hidden" id="fExp"/>
     </div>
-    <div class="fg"><label class="fl">메모 (선택)</label><input class="fi" id="fMemo" placeholder="예: 반만 사용함"/></div>
-    <div class="mbtns">
-      <button class="bcnl" onclick="closeOv('itemModal')">취소</button>
-      <button class="bok" id="itemModalOkBtn" onclick="saveItem()">추가하기</button>
-    </div>
+    <div class="fg"><label class="fl">메모</label><input class="fi" id="fMemo" placeholder="예: 반만 사용함"/></div>
+    <div class="mbtns"><button class="bcnl" onclick="closeOv('itemModal')">취소</button><button class="bok" id="itemModalOkBtn" onclick="saveItem()">추가하기</button></div>
   </div>
 </div>
 
-<!-- 식단 추가 -->
 <div class="ov" id="mealModal">
   <div class="modal">
     <div class="mtitle" id="mTitle">🍽️ 식단 추가</div>
     <div class="fg"><label class="fl">메뉴명</label><input class="fi" id="mMenu" placeholder="예: 된장찌개"/></div>
-    <div class="fg">
-      <label class="fl">재료 (보관함에서 선택 또는 직접 입력)</label>
-      <input class="picker-search" id="ingrSearch" placeholder="🔍 보관함 검색..." oninput="renderIngrPicker()"/>
-      <div class="picker-list" id="ingrPicker"></div>
-      <div class="ingr-list" id="ingrList"></div>
-      <button type="button" class="add-ingr-btn" onclick="addManualIngr()">＋ 직접 입력</button>
-    </div>
-    <div class="fg"><label class="fl">메모</label><input class="fi" id="mMemo" placeholder="예: 맵게, 간 약하게"/></div>
-    <div class="mbtns">
-      <button class="bcnl" onclick="closeOv('mealModal')">취소</button>
-      <button class="bok" onclick="saveMeal()">저장하기</button>
-    </div>
+    <div class="fg"><label class="fl">재료 (보관함에서 선택 또는 직접 입력)</label><input class="picker-search" id="ingrSearch" placeholder="🔍 보관함 검색..." oninput="renderIngrPicker()"/><div class="picker-list" id="ingrPicker"></div><div class="ingr-list" id="ingrList"></div><button type="button" class="add-ingr-btn" onclick="addManualIngr()">＋ 직접 입력</button></div>
+    <div class="fg"><label class="fl">메모</label><input class="fi" id="mMemo" placeholder="예: 맵게"/></div>
+    <div class="mbtns"><button class="bcnl" onclick="closeOv('mealModal')">취소</button><button class="bok" onclick="saveMeal()">저장하기</button></div>
   </div>
 </div>
 
-<!-- 장보기 추가/수정 -->
 <div class="ov" id="cartModal">
   <div class="modal">
     <div class="mtitle" id="cartModalTitle">🛒 장보기 추가</div>
-    <div class="fg">
-      <label class="fl">보관함 검색 연동 (선택)</label>
-      <input class="picker-search" id="cartSearch" placeholder="🔍 보관함에서 검색..." oninput="renderCartPicker()"/>
-      <div class="picker-list" id="cartPicker"></div>
-    </div>
-    <div class="f2">
-      <div class="fg"><label class="fl">상품명</label><input class="fi" id="cName" placeholder="예: 두부"/></div>
-      <div class="fg"><label class="fl">수량 / 메모</label><input class="fi" id="cMemo" placeholder="예: 2모, 국거리용"/></div>
-    </div>
-    <div class="fg"><label class="fl">예상 가격 (원, 선택)</label><input class="fi" type="text" inputmode="numeric" id="cPrice" placeholder="예: 3,500" oninput="fmtComma(this)"/></div>
-    <div class="fg">
-      <label class="fl">분류</label>
-      <select class="fs" id="cCat">
-        <option value="식재료">🥦 식재료</option><option value="육류">🥩 육류</option>
-        <option value="수산">🐟 수산</option><option value="유제품">🥛 유제품</option>
-        <option value="과일">🍎 과일</option><option value="간식">🍫 간식</option>
-        <option value="음료">🧃 음료</option><option value="생활용품">🧴 생활용품</option>
-        <option value="기타">📦 기타</option>
-      </select>
-    </div>
-
-    <!-- 보관함 자동 추가 설정 -->
+    <div class="fg"><label class="fl">보관함 검색 연동</label><input class="picker-search" id="cartSearch" placeholder="🔍 보관함에서 검색..." oninput="renderCartPicker()"/><div class="picker-list" id="cartPicker"></div></div>
+    <div class="f2"><div class="fg"><label class="fl">상품명</label><input class="fi" id="cName" placeholder="예: 두부"/></div><div class="fg"><label class="fl">수량/메모</label><input class="fi" id="cMemo" placeholder="예: 2모"/></div></div>
+    <div class="fg"><label class="fl">예상 가격 (원)</label><input class="fi" type="text" inputmode="numeric" id="cPrice" placeholder="예: 3,500" oninput="fmtComma(this)"/></div>
+    <div class="fg"><label class="fl">분류</label><select class="fs" id="cCat"><option value="식재료">🥦 식재료</option><option value="육류">🥩 육류</option><option value="수산">🐟 수산</option><option value="유제품">🥛 유제품</option><option value="과일">🍎 과일</option><option value="간식">🍫 간식</option><option value="음료">🧃 음료</option><option value="생활용품">🧴 생활용품</option><option value="기타">📦 기타</option></select></div>
     <div style="border-top:1px solid var(--border);margin:10px 0;padding-top:10px;">
-      <div class="fl" style="margin-bottom:8px;">보관함 자동 추가 설정 (구매완료 시)</div>
-      <div class="f2">
-        <div class="fg">
-          <label class="fl">보관 위치</label>
-          <select class="fs" id="cLoc">
-            <option value="">연동 안 함</option>
-            <option value="frozen">❄️ 냉동고</option>
-            <option value="fresh">🌿 냉장고</option>
-            <option value="room">🌡️ 상온 보관</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label class="fl">식품 분류</label>
-          <select class="fs" id="cItemCat">
-            <option value="고기">🥩 고기</option><option value="반찬">🍱 반찬</option>
-            <option value="야채">🥦 야채</option><option value="과일">🍎 과일</option>
-            <option value="아이스크림">🍦 아이스크림</option><option value="닭고기">🍗 닭고기</option>
-            <option value="소스">🫙 소스</option><option value="유제품">🥛 유제품</option>
-            <option value="음료">🧃 음료</option><option value="양념">🧂 양념</option>
-            <option value="곡류">🌾 곡류</option><option value="기타">📦 기타</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- 재고 표시 방식 (보관함과 동일) -->
-      <div class="fg">
-        <label class="fl">재고 표시 방식</label>
-        <div class="unit-row">
-          <button type="button" class="uopt sel" data-cu="none" onclick="selCUnit('none')">없음</button>
-          <button type="button" class="uopt" data-cu="pct" onclick="selCUnit('pct')">% (퍼센트)</button>
-          <button type="button" class="uopt" data-cu="count" onclick="selCUnit('count')">개수</button>
-        </div>
-      </div>
-      <div class="fg" id="cStockValWrap" style="display:none;">
-        <label class="fl" id="cStockValLabel">초기 재고 (%)</label>
-        <input class="fi" type="number" id="cStock" placeholder="100" min="0" max="9999"/>
-      </div>
-
-      <!-- 구매일 -->
-      <div class="fg"><label class="fl">구매일 (보관함)</label><input class="fi" type="date" id="cBought"/></div>
-
-      <!-- 유통기한 퀵픽 (보관함과 동일) -->
-      <div class="fg">
-        <label class="fl">유통기한 (보관함)</label>
-        <div class="expw">
-          <div class="expq">
-            <button type="button" class="qb" data-cd="1" onclick="selCExp(1)">+1일</button>
-            <button type="button" class="qb" data-cd="2" onclick="selCExp(2)">+2일</button>
-            <button type="button" class="qb" data-cd="3" onclick="selCExp(3)">+3일</button>
-            <button type="button" class="qb" data-cd="7" onclick="selCExp(7)">+7일</button>
-            <button type="button" class="qb" data-cd="14" onclick="selCExp(14)">+14일</button>
-            <button type="button" class="qb" data-cd="30" onclick="selCExp(30)">+30일</button>
-          </div>
-          <label class="etog"><input type="checkbox" id="cetoggle" onchange="togCExp(this)"><span>날짜로 직접 입력</span></label>
-          <div class="edr" id="cedr"><input class="fi" type="date" id="cExpDate" oninput="onCExpDate()"/></div>
-          <div class="eprev" id="ceprev">선택 안 함</div>
-        </div>
+      <div class="fl" style="margin-bottom:8px;">보관함 자동 추가 설정</div>
+      <div class="f2"><div class="fg"><label class="fl">보관 위치</label><select class="fs" id="cLoc"><option value="">연동 안 함</option><option value="frozen">❄️ 냉동고</option><option value="fresh">🌿 냉장고</option><option value="room">🌡️ 상온</option></select></div><div class="fg"><label class="fl">식품 분류</label><select class="fs" id="cItemCat"><option value="고기">🥩 고기</option><option value="반찬">🍱 반찬</option><option value="야채">🥦 야채</option><option value="과일">🍎 과일</option><option value="아이스크림">🍦 아이스크림</option><option value="닭고기">🍗 닭고기</option><option value="소스">🫙 소스</option><option value="유제품">🥛 유제품</option><option value="음료">🧃 음료</option><option value="양념">🧂 양념</option><option value="곡류">🌾 곡류</option><option value="기타">📦 기타</option></select></div></div>
+      <div class="fg"><label class="fl">재고 표시</label><div class="unit-row"><button type="button" class="uopt sel" data-cu="none" onclick="selCUnit('none')">없음</button><button type="button" class="uopt" data-cu="pct" onclick="selCUnit('pct')">%</button><button type="button" class="uopt" data-cu="count" onclick="selCUnit('count')">개수</button></div></div>
+      <div class="fg" id="cStockValWrap" style="display:none;"><label class="fl" id="cStockValLabel">초기 재고</label><input class="fi" type="number" id="cStock" placeholder="100"/></div>
+      <div class="fg"><label class="fl">구매일</label><input class="fi" type="date" id="cBought"/></div>
+      <div class="fg"><label class="fl">유통기한</label>
+        <div class="expw"><div class="expq"><button type="button" class="qb" data-cd="1" onclick="selCExp(1)">+1일</button><button type="button" class="qb" data-cd="2" onclick="selCExp(2)">+2일</button><button type="button" class="qb" data-cd="3" onclick="selCExp(3)">+3일</button><button type="button" class="qb" data-cd="7" onclick="selCExp(7)">+7일</button><button type="button" class="qb" data-cd="14" onclick="selCExp(14)">+14일</button><button type="button" class="qb" data-cd="30" onclick="selCExp(30)">+30일</button></div>
+        <label class="etog"><input type="checkbox" id="cetoggle" onchange="togCExp(this)"><span>날짜로 직접 입력</span></label>
+        <div class="edr" id="cedr"><input class="fi" type="date" id="cExpDate" oninput="onCExpDate()"/></div>
+        <div class="eprev" id="ceprev">선택 안 함</div></div>
         <input type="hidden" id="cExp"/>
       </div>
     </div>
-
-    <input type="hidden" id="cLinkedId"/>
-    <input type="hidden" id="cEditId"/>
-    <div class="mbtns">
-      <button class="bcnl" onclick="closeOv('cartModal')">취소</button>
-      <button class="bok" id="cartModalOkBtn" onclick="saveCart()">추가하기</button>
-    </div>
+    <input type="hidden" id="cLinkedId"/><input type="hidden" id="cEditId"/>
+    <div class="mbtns"><button class="bcnl" onclick="closeOv('cartModal')">취소</button><button class="bok" id="cartModalOkBtn" onclick="saveCart()">추가하기</button></div>
   </div>
 </div>
 
-<!-- 지출 추가/수정 -->
 <div class="ov" id="expModal">
   <div class="modal">
     <div class="mtitle" id="expModalTitle">💰 지출 추가</div>
     <div class="fg"><label class="fl">날짜</label><input class="fi" type="date" id="eDate"/></div>
-    <div class="f2">
-      <div class="fg"><label class="fl">상품명</label><input class="fi" id="eName" placeholder="예: 이마트 장보기"/></div>
-      <div class="fg">
-        <label class="fl">분류</label>
-        <select class="fs" id="eCat">
-          <option value="식재료">🥦 식재료</option><option value="육류">🥩 육류</option>
-          <option value="수산">🐟 수산</option><option value="유제품">🥛 유제품</option>
-          <option value="과일">🍎 과일</option><option value="간식">🍫 간식</option>
-          <option value="음료">🧃 음료</option><option value="생활용품">🧴 생활용품</option>
-          <option value="기타">📦 기타</option>
-        </select>
-      </div>
-    </div>
+    <div class="f2"><div class="fg"><label class="fl">상품명</label><input class="fi" id="eName" placeholder="예: 이마트 장보기"/></div><div class="fg"><label class="fl">분류</label><select class="fs" id="eCat"><option value="식재료">🥦 식재료</option><option value="육류">🥩 육류</option><option value="수산">🐟 수산</option><option value="유제품">🥛 유제품</option><option value="과일">🍎 과일</option><option value="간식">🍫 간식</option><option value="음료">🧃 음료</option><option value="생활용품">🧴 생활용품</option><option value="기타">📦 기타</option></select></div></div>
     <div class="fg"><label class="fl">금액 (원)</label><input class="fi" type="text" inputmode="numeric" id="eAmt" placeholder="예: 35,000" oninput="fmtComma(this)"/></div>
-    <div class="fg"><label class="fl">메모</label><input class="fi" id="eMemo" placeholder="예: 영수증 번호…"/></div>
-    <input type="hidden" id="eEditId"/>
-    <input type="hidden" id="eLinkedCartId"/>
-    <div class="mbtns">
-      <button class="bcnl" onclick="closeOv('expModal')">취소</button>
-      <button class="bok" id="expModalOkBtn" onclick="saveExp()">저장하기</button>
-    </div>
+    <div class="fg"><label class="fl">메모</label><input class="fi" id="eMemo" placeholder="예: 영수증 번호"/></div>
+    <input type="hidden" id="eEditId"/><input type="hidden" id="eLinkedCartId"/>
+    <div class="mbtns"><button class="bcnl" onclick="closeOv('expModal')">취소</button><button class="bok" id="expModalOkBtn" onclick="saveExp()">저장하기</button></div>
   </div>
 </div>
 
-<!-- 재고 차감 확인 모달 -->
 <div class="ov" id="deductModal">
   <div class="modal">
     <div class="mtitle">✅ 식단 완료 — 재고 차감</div>
     <div id="deductList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:4px;"></div>
     <div style="font-size:11px;color:var(--muted);margin-top:8px;">차감할 양을 입력하세요 (0이면 차감 안 함)</div>
-    <div class="mbtns">
-      <button class="bcnl" onclick="closeOv('deductModal')">취소</button>
-      <button class="bok" onclick="applyDeduct()">차감 적용</button>
-    </div>
+    <div class="mbtns"><button class="bcnl" onclick="closeOv('deductModal')">취소</button><button class="bok" onclick="applyDeduct()">차감 적용</button></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── FIREBASE ──────────────────────────────────────────
+// ══════════════════════════════════════════════════
+// FIREBASE
+// ══════════════════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyANTwK6XAAqM9fTg6AO9_Q-2TLdhpvKxpg",
   authDomain: "home-food-a735a.firebaseapp.com",
@@ -693,8 +712,7 @@ const firebaseConfig = {
   projectId: "home-food-a735a",
   storageBucket: "home-food-a735a.firebasestorage.app",
   messagingSenderId: "709031959806",
-  appId: "1:709031959806:web:43f442996df144887b19af",
-  measurementId: "G-9T9G0Y5RQD"
+  appId: "1:709031959806:web:43f442996df144887b19af"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -705,42 +723,155 @@ db.ref('.info/connected').on('value', s => {
   document.getElementById('connTxt').textContent = ok ? '실시간 연동' : '오프라인';
 });
 
-// ── STATE ──────────────────────────────────────────────
-let items={}, carts={}, meals={}, exps={};
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let items={},carts={},meals={},exps={};
 let filt={frozen:'all',fresh:'all',room:'all'};
 let sortBy={frozen:'exp',fresh:'exp',room:'exp'};
+let weekOff=0,mctx=null,expMonth=null,anPeriod='month';
+let editingItemId=null,currentUnit='pct',currentCUnit='none';
+let mealIngredients=[],deductCtx=[];
+let currentGroup=null;
 
-// ── 쉼표 포맷 헬퍼 ────────────────────────────────────
-function fmtComma(el){
-  const raw=el.value.replace(/[^0-9]/g,'');
-  el.value=raw?Number(raw).toLocaleString():'';
-}
-function parseAmt(str){
-  return Number((str||'').replace(/[^0-9]/g,''))||0;
-}
-function fmtAmt(n){
-  return n?Number(n).toLocaleString():'';
-}
-let weekOff=0, mctx=null;
-let editingItemId=null;
-let currentUnit='pct';
-let mealIngredients=[];
-let deductCtx=[];
+const STORAGE_KEY = 'woori_group';
 
-const CCOLORS = {
-  '고기':'#d45f5f','반찬':'#c4714f','야채':'#7a9e7e','과일':'#e8a838',
-  '아이스크림':'#6b9db8','닭고기':'#c9a84c','소스':'#9b7ec8','유제품':'#5ba8b5',
-  '음료':'#4d9e6b','양념':'#a0522d','곡류':'#c8a45e','기타':'#aaa'
-};
-const CAT_EMOJI = {
-  '고기':'🥩','반찬':'🍱','야채':'🥦','과일':'🍎',
-  '아이스크림':'🍦','닭고기':'🍗','소스':'🫙','유제품':'🥛',
-  '음료':'🧃','양념':'🧂','곡류':'🌾','기타':'📦'
-};
-const DAYS = ['일','월','화','수','목','금','토'];
-const MTYPES = ['아침','점심','저녁','간식'];
+const CCOLORS={'고기':'#d45f5f','반찬':'#c4714f','야채':'#7a9e7e','과일':'#e8a838','아이스크림':'#6b9db8','닭고기':'#c9a84c','소스':'#9b7ec8','유제품':'#5ba8b5','음료':'#4d9e6b','양념':'#a0522d','곡류':'#c8a45e','기타':'#aaa'};
+const CAT_EMOJI={'고기':'🥩','반찬':'🍱','야채':'🥦','과일':'🍎','아이스크림':'🍦','닭고기':'🍗','소스':'🫙','유제품':'🥛','음료':'🧃','양념':'🧂','곡류':'🌾','기타':'📦'};
+const DAYS=['일','월','화','수','목','금','토'];
+const MTYPES=['아침','점심','저녁','간식'];
+const CHART_COLORS=['#7a9e7e','#c4714f','#6b9db8','#c9a84c','#9b7ec8','#5ba8b5','#d45f5f','#4d9e6b','#a0522d'];
 
-// ── TABS ──────────────────────────────────────────────
+// ══════════════════════════════════════════════════
+// 그룹 코드 관리
+// ══════════════════════════════════════════════════
+function gRef(path){ return db.ref('groups/'+currentGroup+'/'+path); }
+
+function genCode(){
+  const code = Math.random().toString(36).substring(2,8).toUpperCase();
+  document.getElementById('newGroupCode').textContent = code;
+  return code;
+}
+
+function switchJoinTab(t){
+  document.querySelectorAll('.join-tab').forEach((b,i)=>b.classList.toggle('active',i===(t==='new'?0:1)));
+  document.getElementById('js-new').classList.toggle('active',t==='new');
+  document.getElementById('js-join').classList.toggle('active',t==='join');
+  document.getElementById('joinErr').classList.remove('show');
+}
+
+function showJoinErr(msg){
+  const el=document.getElementById('joinErr');
+  el.textContent=msg; el.classList.add('show');
+}
+
+function createGroup(){
+  const code = document.getElementById('newGroupCode').textContent;
+  const nick = document.getElementById('newNickname').value.trim();
+  if(code==='------'||code.length<6){ showJoinErr('코드를 먼저 생성해주세요'); return; }
+  if(!nick){ showJoinErr('닉네임을 입력해주세요'); return; }
+  // Firebase에 그룹 등록
+  db.ref('groups/'+code).set({createdAt: Date.now()}).then(()=>{
+    enterGroup(code, nick);
+  });
+}
+
+function joinGroup(){
+  const code = document.getElementById('joinCode').value.trim().toUpperCase();
+  const nick = document.getElementById('joinNickname').value.trim();
+  if(code.length < 4){ showJoinErr('올바른 코드를 입력해주세요'); return; }
+  if(!nick){ showJoinErr('닉네임을 입력해주세요'); return; }
+  db.ref('groups/'+code).once('value', s => {
+    if(!s.exists()){ showJoinErr('존재하지 않는 그룹 코드예요 🥲'); return; }
+    enterGroup(code, nick);
+  });
+}
+
+function enterGroup(code, nick){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({code, nick}));
+  startWithGroup(code, nick);
+}
+
+function startWithGroup(code, nick){
+  currentGroup = code;
+  document.getElementById('joinScreen').style.display = 'none';
+  document.getElementById('headerGroupCode').textContent = code;
+  document.getElementById('popupGroupCode').textContent = code;
+  startListeners();
+  selUnit('pct'); selCUnit('none');
+  renderIngrPicker(); renderCartPicker();
+  toast('👋 안녕하세요, '+nick+'님!');
+}
+
+function leaveGroup(){
+  if(!confirm('그룹에서 나갈까요?\n(데이터는 유지됩니다)')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  stopListeners();
+  currentGroup = null;
+  document.getElementById('groupPopup').classList.remove('open');
+  document.getElementById('joinScreen').style.display = 'flex';
+  document.getElementById('newGroupCode').textContent = '------';
+}
+
+function copyCode(){
+  navigator.clipboard.writeText(currentGroup).then(()=>toast('그룹 코드 복사됨: '+currentGroup+' 📋'));
+  document.getElementById('groupPopup').classList.remove('open');
+}
+
+function shareCode(){
+  const text = '우리집 식탁 그룹 코드: '+currentGroup+'\n아래 링크로 접속 후 코드를 입력하세요!\n'+location.href;
+  if(navigator.share){ navigator.share({title:'우리집 식탁 그룹 초대',text}); }
+  else { navigator.clipboard.writeText(text).then(()=>toast('공유 텍스트 복사됨!')); }
+  document.getElementById('groupPopup').classList.remove('open');
+}
+
+function toggleGroupPopup(){
+  document.getElementById('groupPopup').classList.toggle('open');
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.group-badge')&&!e.target.closest('.group-popup'))
+    document.getElementById('groupPopup').classList.remove('open');
+});
+
+// ── Firebase 리스너 ──
+let activeListeners = [];
+function startListeners(){
+  const L=(r,cb)=>{r.on('value',cb); activeListeners.push(r);};
+  L(gRef('items'), s=>{items=s.val()||{}; renderStorage(); renderMeal(); renderCart();});
+  L(gRef('cart'),  s=>{carts=s.val()||{}; renderCart();});
+  L(gRef('meals'), s=>{meals=s.val()||{}; renderMeal();});
+  L(gRef('expenses'), s=>{exps=s.val()||{}; renderExp();});
+}
+function stopListeners(){
+  activeListeners.forEach(r=>r.off());
+  activeListeners=[];
+  items={}; carts={}; meals={}; exps={};
+}
+
+// ── 자동 로그인 (localStorage) ──
+(function(){
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(saved && saved.code){
+      // 코드 유효성 확인 후 자동 진입
+      db.ref('groups/'+saved.code).once('value', s=>{
+        if(s.exists()){
+          startWithGroup(saved.code, saved.nick||'');
+        } else {
+          // 존재하지 않는 그룹 → 화면 표시
+          localStorage.removeItem(STORAGE_KEY);
+          genCode();
+        }
+      });
+    } else {
+      genCode();
+    }
+  } catch(e){ genCode(); }
+})();
+
+// ══════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════
 function goTab(n,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -748,49 +879,24 @@ function goTab(n,el){
   document.getElementById('page-'+n).classList.add('active');
 }
 
-// ── D-DAY ─────────────────────────────────────────────
-function calcD(e){
-  if(!e) return null;
-  const t=new Date();t.setHours(0,0,0,0);
-  const x=new Date(e);x.setHours(0,0,0,0);
-  return Math.floor((x-t)/864e5);
-}
-function badge(e){
-  const d=calcD(e);
-  if(d===null) return '<span class="dd dn">기한없음</span>';
-  if(d<0)   return '<span class="dd de">D+'+(Math.abs(d))+' 만료</span>';
-  if(d===0)  return '<span class="dd dd2">오늘만료</span>';
-  if(d<=3)   return '<span class="dd dw">D-'+d+'</span>';
-  return '<span class="dd ds">D-'+d+'</span>';
-}
+// ══════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════
+function fmtComma(el){const r=el.value.replace(/[^0-9]/g,'');el.value=r?Number(r).toLocaleString():'';}
+function parseAmt(s){return Number((s||'').replace(/[^0-9]/g,''))||0;}
+function fmtAmt(n){return n?Number(n).toLocaleString():'';}
+function calcD(e){if(!e)return null;const t=new Date();t.setHours(0,0,0,0);const x=new Date(e);x.setHours(0,0,0,0);return Math.floor((x-t)/864e5);}
+function badge(e){const d=calcD(e);if(d===null)return'<span class="dd dn">기한없음</span>';if(d<0)return'<span class="dd de">D+'+Math.abs(d)+' 만료</span>';if(d===0)return'<span class="dd dd2">오늘만료</span>';if(d<=3)return'<span class="dd dw">D-'+d+'</span>';return'<span class="dd ds">D-'+d+'</span>';}
+function stockHTML(v){if(!v.unit||v.unit==='none'||v.stock===undefined||v.stock===null||v.stock==='')return'';const n=Number(v.stock);const pct=v.unit==='pct'?Math.min(n,100):Math.min(n*10,100);const bg=pct>50?'var(--sage)':pct>20?'var(--amber)':'var(--red)';const cls=pct>50?'stock-hi':pct>20?'stock-mid':'stock-lo';return'<div class="stock-wrap"><div class="stock-bar-track"><div class="stock-bar-fill" style="width:'+pct+'%;background:'+bg+'"></div></div><span class="stock-badge '+cls+'">'+(v.unit==='pct'?n+'%':n+'개')+'</span></div>';}
 
-// ── STOCK ─────────────────────────────────────────────
-function stockColor(val, unit){
-  const v = unit==='pct' ? val : Math.min(val*10,100);
-  if(v>50) return 'stock-hi';
-  if(v>20) return 'stock-mid';
-  return 'stock-lo';
-}
-function stockHTML(item){
-  if(!item.unit || item.unit==='none' || item.stock===undefined || item.stock===null || item.stock==='') return '';
-  const v = Number(item.stock);
-  const pct = item.unit==='pct' ? Math.min(v,100) : Math.min(v*10,100);
-  const label = item.unit==='pct' ? v+'%' : v+'개';
-  const cls = stockColor(v, item.unit);
-  return '<div class="stock-wrap">'
-    +'<div class="stock-bar-track"><div class="stock-bar-fill" style="width:'+pct+'%;background:'+(pct>50?'var(--sage)':pct>20?'var(--amber)':'var(--red)')+'"></div></div>'
-    +'<span class="stock-badge '+cls+'">'+label+'</span>'
-    +'</div>';
-}
-
-// ── STORAGE RENDER ─────────────────────────────────────
+// ══════════════════════════════════════════════════
+// STORAGE
+// ══════════════════════════════════════════════════
 function renderStorage(){
   const F=Object.entries(items).filter(([,v])=>v.loc==='frozen');
   const N=Object.entries(items).filter(([,v])=>v.loc==='fresh');
   const R=Object.entries(items).filter(([,v])=>v.loc==='room');
-  renderLoc('frozen',F,'❄️','cf');
-  renderLoc('fresh',N,'🌿','cn');
-  renderLoc('room',R,'🌡️','cr');
+  renderLoc('frozen',F,'❄️','cf'); renderLoc('fresh',N,'🌿','cn'); renderLoc('room',R,'🌡️','cr');
   const all=[...F,...N,...R];
   document.getElementById('sT').textContent=all.length;
   document.getElementById('sW').textContent=all.filter(([,v])=>{const d=calcD(v.exp);return d!==null&&d>=0&&d<=3;}).length;
@@ -798,856 +904,117 @@ function renderStorage(){
 }
 function renderLoc(type,arr,icon,cntId){
   document.getElementById(cntId).textContent=arr.length+'개';
-
-  // ── 분류별 이모지+개수 요약 ──
-  const catMap={};
-  arr.forEach(([,v])=>{
-    const c=v.cat||'기타';
-    catMap[c]=(catMap[c]||0)+1;
-  });
-  const catEntries=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
+  const cm={};arr.forEach(([,v])=>{const c=v.cat||'기타';cm[c]=(cm[c]||0)+1;});
+  const ce=Object.entries(cm).sort((a,b)=>b[1]-a[1]);
   const csEl=document.getElementById('cs-'+type);
-  if(csEl){
-    csEl.innerHTML=catEntries.length
-      ?catEntries.map(([c,n])=>`
-        <div class="cs-item${filt[type]===c?' active-cat':''}" onclick="setF('${type}','${filt[type]===c?'all':c}')" title="${c}">
-          <span class="cs-emoji">${CAT_EMOJI[c]||'📦'}</span>
-          <span class="cs-count">${n}</span>
-        </div>`).join('')
-      :'<span class="cs-empty">비어있어요</span>';
-  }
-
-  // ── 분류 칩 필터 ──
+  if(csEl)csEl.innerHTML=ce.length?ce.map(([c,n])=>`<div class="cs-item${filt[type]===c?' active-cat':''}" onclick="setF('${type}','${filt[type]===c?'all':c}')" title="${c}"><span class="cs-emoji">${CAT_EMOJI[c]||'📦'}</span><span class="cs-count">${n}</span></div>`).join(''):'<span class="cs-empty">비어있어요</span>';
   const cats=['all',...new Set(arr.map(([,v])=>v.cat).filter(Boolean))];
-  document.getElementById('bar-'+type).innerHTML=cats.map(c=>
-    '<div class="chip'+(filt[type]===c?' active':'')+'" onclick="setF(\''+type+'\',\''+c+'\')">'+
-    (c==='all'?'전체':c)+'</div>').join('');
-
-  const list=(filt[type]==='all'?arr:arr.filter(([,v])=>v.cat===filt[type]));
+  document.getElementById('bar-'+type).innerHTML=cats.map(c=>'<div class="chip'+(filt[type]===c?' active':'')+'" onclick="setF(\''+type+'\',\''+c+'\')">'+( c==='all'?'전체':c)+'</div>').join('');
+  const list=filt[type]==='all'?arr:arr.filter(([,v])=>v.cat===filt[type]);
   const s=sortBy[type]||'exp';
-  list.sort(([,a],[,b])=>{
-    if(s==='name') return (a.name||'').localeCompare(b.name||'');
-    if(s==='newest') return (b.ts||0)-(a.ts||0);
-    const da=calcD(a.exp),db=calcD(b.exp);
-    if(da===null&&db===null) return 0;
-    if(da===null) return 1; if(db===null) return -1;
-    return da-db;
-  });
+  list.sort(([,a],[,b])=>{if(s==='name')return(a.name||'').localeCompare(b.name||'');if(s==='newest')return(b.ts||0)-(a.ts||0);const da=calcD(a.exp),db2=calcD(b.exp);if(da===null&&db2===null)return 0;if(da===null)return 1;if(db2===null)return -1;return da-db2;});
   const el=document.getElementById('lst-'+type);
   if(!list.length){el.innerHTML='<div class="empty"><div>'+icon+'</div>비어있어요</div>';return;}
-  el.innerHTML=list.map(([id,v])=>
-    '<div class="icard">'
-    +'<div class="cdot" style="background:'+(CCOLORS[v.cat]||'#aaa')+'"></div>'
-    +'<div class="ibody">'
-    +'<div class="iname">'+v.name+'</div>'
-    +'<div class="imeta"><span class="isub">'+(v.cat||'')+' · 구매:'+(v.bought||'-')+'</span>'+badge(v.exp)+'</div>'
-    +stockHTML(v)
-    +(v.memo?'<div class="isub" style="margin-top:1px;">📝 '+v.memo+'</div>':'')
-    +'</div>'
-    +'<div class="ibtns">'
-    +'<button class="bicon edit" onclick="openEditModal(\''+id+'\')">✏️</button>'
-    +'<button class="bicon del" onclick="delItem(\''+id+'\')">🗑</button>'
-    +'</div>'
-    +'</div>').join('');
+  el.innerHTML=list.map(([id,v])=>'<div class="icard"><div class="cdot" style="background:'+(CCOLORS[v.cat]||'#aaa')+'"></div><div class="ibody"><div class="iname">'+v.name+'</div><div class="imeta"><span class="isub">'+(v.cat||'')+' · 구매:'+(v.bought||'-')+'</span>'+badge(v.exp)+'</div>'+stockHTML(v)+(v.memo?'<div class="isub" style="margin-top:1px;">📝 '+v.memo+'</div>':'')+'</div><div class="ibtns"><button class="bicon edit" onclick="openEditModal(\''+id+'\')">✏️</button><button class="bicon del" onclick="delItem(\''+id+'\')">🗑</button></div></div>').join('');
 }
 function setF(t,c){filt[t]=c;renderStorage();}
 function setSort(t,v){sortBy[t]=v;renderStorage();}
 
-// ── ITEM MODAL ────────────────────────────────────────
-function selUnit(u){
-  currentUnit=u;
-  document.querySelectorAll('.uopt').forEach(b=>b.classList.toggle('sel',b.dataset.u===u));
-  const show=u!=='none';
-  document.getElementById('stockValWrap').style.display=show?'':'none';
-  if(show){
-    document.getElementById('stockValLabel').textContent = u==='pct'?'현재 재고 (%)':'현재 재고 (개수)';
-    document.getElementById('fStock').placeholder = u==='pct'?'100 (최대 100%)':'예: 3';
-    document.getElementById('fStock').max = u==='pct'?100:9999;
-  }
-}
+// ITEM MODAL
+function selUnit(u){currentUnit=u;document.querySelectorAll('.uopt').forEach(b=>b.classList.toggle('sel',b.dataset.u===u));const show=u!=='none';document.getElementById('stockValWrap').style.display=show?'':'none';if(show){document.getElementById('stockValLabel').textContent=u==='pct'?'현재 재고 (%)':'현재 재고 (개수)';document.getElementById('fStock').placeholder=u==='pct'?'100':'예: 3';}}
+function openItemModal(){editingItemId=null;document.getElementById('itemModalTitle').textContent='📦 식품 추가';document.getElementById('itemModalOkBtn').textContent='추가하기';document.getElementById('fBought').value=new Date().toISOString().split('T')[0];['fName','fMemo'].forEach(i=>document.getElementById(i).value='');document.getElementById('fStock').value='';selUnit('pct');resetExp();openOv('itemModal');}
+function openEditModal(id){editingItemId=id;const v=items[id];if(!v)return;document.getElementById('itemModalTitle').textContent='✏️ 식품 수정';document.getElementById('itemModalOkBtn').textContent='수정하기';document.getElementById('fLoc').value=v.loc||'fresh';document.getElementById('fCat').value=v.cat||'기타';document.getElementById('fName').value=v.name||'';document.getElementById('fBought').value=v.bought||'';document.getElementById('fMemo').value=v.memo||'';selUnit(v.unit||'none');if(v.unit&&v.unit!=='none')document.getElementById('fStock').value=v.stock!==undefined?v.stock:'';resetExp();if(v.exp){document.getElementById('fExp').value=v.exp;document.getElementById('etoggle').checked=true;document.getElementById('edr').classList.add('show');document.getElementById('fExpDate').value=v.exp;const d=calcD(v.exp);document.getElementById('eprev').textContent='📅 '+v.exp.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');}openOv('itemModal');}
+function saveItem(){const name=document.getElementById('fName').value.trim();if(!name){toast('상품명을 입력해주세요');return;}const data={loc:document.getElementById('fLoc').value,cat:document.getElementById('fCat').value,name,bought:document.getElementById('fBought').value,exp:document.getElementById('fExp').value,memo:document.getElementById('fMemo').value.trim(),unit:currentUnit,stock:currentUnit!=='none'?Number(document.getElementById('fStock').value||0):null,ts:Date.now()};if(editingItemId){gRef('items/'+editingItemId).update(data);toast(name+' 수정 완료! ✓');}else{gRef('items').push(data);toast(name+' 추가 완료! ✓');}closeOv('itemModal');}
+function delItem(id){if(confirm('삭제할까요?'))gRef('items/'+id).remove();}
 
-function openItemModal(){
-  editingItemId=null;
-  document.getElementById('itemModalTitle').textContent='📦 식품 추가';
-  document.getElementById('itemModalOkBtn').textContent='추가하기';
-  document.getElementById('fBought').value=new Date().toISOString().split('T')[0];
-  document.getElementById('fName').value='';
-  document.getElementById('fMemo').value='';
-  document.getElementById('fStock').value='';
-  selUnit('pct');
-  resetExp();
-  openOv('itemModal');
-}
+function selExp(d){document.querySelectorAll('.qb').forEach(b=>b.classList.remove('sel'));document.querySelector('.qb[data-d="'+d+'"]').classList.add('sel');document.getElementById('etoggle').checked=false;document.getElementById('edr').classList.remove('show');const x=new Date();x.setDate(x.getDate()+d);const iso=x.toISOString().split('T')[0];document.getElementById('fExp').value=iso;document.getElementById('eprev').textContent='📅 '+iso.replace(/-/g,'.')+' (D-'+d+')';}
+function togExp(cb){document.getElementById('edr').classList.toggle('show',cb.checked);document.querySelectorAll('.qb').forEach(b=>b.classList.remove('sel'));document.getElementById('fExp').value='';document.getElementById('eprev').textContent=cb.checked?'날짜를 선택해주세요':'선택 안 함';}
+function onExpDate(){const v=document.getElementById('fExpDate').value;document.getElementById('fExp').value=v;if(v){const d=calcD(v);document.getElementById('eprev').textContent='📅 '+v.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');}}
+function resetExp(){document.querySelectorAll('.qb').forEach(b=>b.classList.remove('sel'));document.getElementById('etoggle').checked=false;document.getElementById('edr').classList.remove('show');document.getElementById('fExp').value='';document.getElementById('fExpDate').value='';document.getElementById('eprev').textContent='선택 안 함';}
 
-function openEditModal(id){
-  editingItemId=id;
-  const v=items[id];
-  if(!v) return;
-  document.getElementById('itemModalTitle').textContent='✏️ 식품 수정';
-  document.getElementById('itemModalOkBtn').textContent='수정하기';
-  document.getElementById('fLoc').value=v.loc||'fresh';
-  document.getElementById('fCat').value=v.cat||'기타';
-  document.getElementById('fName').value=v.name||'';
-  document.getElementById('fBought').value=v.bought||'';
-  document.getElementById('fMemo').value=v.memo||'';
-  const u=v.unit||'none';
-  selUnit(u);
-  if(u!=='none') document.getElementById('fStock').value=v.stock!==undefined?v.stock:'';
-  // expiry
-  resetExp();
-  if(v.exp){
-    document.getElementById('fExp').value=v.exp;
-    document.getElementById('etoggle').checked=true;
-    document.getElementById('edr').classList.add('show');
-    document.getElementById('fExpDate').value=v.exp;
-    const d=calcD(v.exp);
-    document.getElementById('eprev').textContent='📅 '+v.exp.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');
-  }
-  openOv('itemModal');
-}
-
-function saveItem(){
-  const name=document.getElementById('fName').value.trim();
-  if(!name){toast('상품명을 입력해주세요');return;}
-  const data={
-    loc:document.getElementById('fLoc').value,
-    cat:document.getElementById('fCat').value,
-    name, bought:document.getElementById('fBought').value,
-    exp:document.getElementById('fExp').value,
-    memo:document.getElementById('fMemo').value.trim(),
-    unit:currentUnit,
-    stock:currentUnit!=='none'?Number(document.getElementById('fStock').value||0):null,
-    ts:Date.now()
-  };
-  if(editingItemId){
-    db.ref('items/'+editingItemId).update(data);
-    toast(name+' 수정 완료! ✓');
-  } else {
-    db.ref('items').push(data);
-    toast(name+' 추가 완료! ✓');
-  }
-  closeOv('itemModal');
-}
-function delItem(id){if(confirm('삭제할까요?'))db.ref('items/'+id).remove();}
-
-// ── EXPIRY ────────────────────────────────────────────
-function selExp(d){
-  document.querySelectorAll('.qb').forEach(b=>b.classList.remove('sel'));
-  document.querySelector('.qb[data-d="'+d+'"]').classList.add('sel');
-  document.getElementById('etoggle').checked=false;
-  document.getElementById('edr').classList.remove('show');
-  const x=new Date();x.setDate(x.getDate()+d);
-  const iso=x.toISOString().split('T')[0];
-  document.getElementById('fExp').value=iso;
-  document.getElementById('eprev').textContent='📅 '+iso.replace(/-/g,'.')+' (D-'+d+')';
-}
-function togExp(cb){
-  document.getElementById('edr').classList.toggle('show',cb.checked);
-  document.querySelectorAll('.qb').forEach(b=>b.classList.remove('sel'));
-  document.getElementById('fExp').value='';
-  document.getElementById('eprev').textContent=cb.checked?'날짜를 선택해주세요':'선택 안 함';
-}
-function onExpDate(){
-  const v=document.getElementById('fExpDate').value;
-  document.getElementById('fExp').value=v;
-  if(v){const d=calcD(v);document.getElementById('eprev').textContent='📅 '+v.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');}
-}
-function resetExp(){
-  document.querySelectorAll('.qb').forEach(b=>b.classList.remove('sel'));
-  document.getElementById('etoggle').checked=false;
-  document.getElementById('edr').classList.remove('show');
-  document.getElementById('fExp').value='';
-  document.getElementById('fExpDate').value='';
-  document.getElementById('eprev').textContent='선택 안 함';
-}
-
-// ── MEAL PLAN ─────────────────────────────────────────
-function getWeekDays(off){
-  const t=new Date();t.setHours(0,0,0,0);
-  const mon=new Date(t);mon.setDate(t.getDate()-(t.getDay()||7)+1+off*7);
-  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d;});
-}
-function renderMeal(){
-  const days=getWeekDays(weekOff);
-  const f=d=>(d.getMonth()+1)+'/'+d.getDate();
-  document.getElementById('wrange').textContent=days[0].getFullYear()+'년 '+f(days[0])+' ~ '+f(days[6]);
-  const today=new Date();today.setHours(0,0,0,0);
-  document.getElementById('wgrid').innerHTML=days.map(d=>{
-    const dk=d.toISOString().split('T')[0];
-    const isTd=d.getTime()===today.getTime();
-    return '<div class="dcard'+(isTd?' today':'')+'">'
-      +'<div class="dhead"><div class="dname">'+DAYS[d.getDay()]+'요일</div><div class="ddate">'+f(d)+'</div></div>'
-      +MTYPES.map(mt=>{
-        const ms=Object.entries(meals).filter(([,v])=>v.date===dk&&v.type===mt);
-        return '<div class="mslot">'
-          +'<div class="mtype">'+mt+'</div>'
-          +ms.map(([mid,m])=>{
-            const ingrHTML=(m.ingredients||[]).map(ig=>{
-              const itm=ig.itemId?items[ig.itemId]:null;
-              let stockBadge='';
-              if(itm && itm.unit && itm.unit!=='none' && itm.stock!==null && itm.stock!==undefined){
-                const sv=Number(itm.stock);
-                const label=itm.unit==='pct'?sv+'%':sv+'개';
-                const cls=sv>50?'ok':sv>20?'low':'none';
-                stockBadge='<span class="mstock '+cls+'">재고'+label+'</span>';
-              }
-              return '<div class="mingr">🥄 '+ig.name+(ig.qty?' '+ig.qty:'')+(ig.unit?' '+ig.unit:'')+' '+stockBadge+'</div>';
-            }).join('');
-            return '<div class="mentry">'
-              +'<div class="mentry-body">'
-              +'<div class="mname">'+m.menu+'</div>'
-              +ingrHTML
-              +(m.memo?'<div class="mingr">💬 '+m.memo+'</div>':'')
-              +'</div>'
-              +'<div style="display:flex;flex-direction:column;gap:2px;">'
-              +'<button class="mdone-btn'+(m.done?' done':'')+'" onclick="openDeduct(\''+mid+'\')">'+(m.done?'✓완료':'완료')+'</button>'
-              +'<button class="bicon del" onclick="delMeal(\''+mid+'\')" style="width:20px;height:20px;font-size:11px;">✕</button>'
-              +'</div>'
-              +'</div>';
-          }).join('')
-          +'<button class="madd" onclick="openMealModal(\''+dk+'\',\''+mt+'\')">＋</button>'
-          +'</div>';
-      }).join('')
-      +'</div>';
-  }).join('');
-}
+// ══════════════════════════════════════════════════
+// MEAL
+// ══════════════════════════════════════════════════
+function getWeekDays(off){const t=new Date();t.setHours(0,0,0,0);const mon=new Date(t);mon.setDate(t.getDate()-(t.getDay()||7)+1+off*7);return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d;});}
+function renderMeal(){const days=getWeekDays(weekOff);const f=d=>(d.getMonth()+1)+'/'+d.getDate();document.getElementById('wrange').textContent=days[0].getFullYear()+'년 '+f(days[0])+' ~ '+f(days[6]);const today=new Date();today.setHours(0,0,0,0);document.getElementById('wgrid').innerHTML=days.map(d=>{const dk=d.toISOString().split('T')[0];const isTd=d.getTime()===today.getTime();return'<div class="dcard'+(isTd?' today':'')+'"><div class="dhead"><div class="dname">'+DAYS[d.getDay()]+'요일</div><div class="ddate">'+f(d)+'</div></div>'+MTYPES.map(mt=>{const ms=Object.entries(meals).filter(([,v])=>v.date===dk&&v.type===mt);return'<div class="mslot"><div class="mtype">'+mt+'</div>'+ms.map(([mid,m])=>'<div class="mentry"><div class="mentry-body"><div class="mname">'+m.menu+'</div>'+((m.ingredients||[]).map(ig=>{const itm=ig.itemId?items[ig.itemId]:null;let sb='';if(itm&&itm.unit&&itm.unit!=='none'&&itm.stock!==null){const sv=Number(itm.stock);const cls=sv>50?'ok':sv>20?'low':'none';sb='<span class="mstock '+cls+'">재고'+(itm.unit==='pct'?sv+'%':sv+'개')+'</span>';}return'<div class="mingr">🥄 '+ig.name+(ig.qty?' '+ig.qty:'')+(ig.unit?' '+ig.unit:'')+' '+sb+'</div>';}).join(''))+(m.memo?'<div class="mingr">💬 '+m.memo+'</div>':'')+'</div><div style="display:flex;flex-direction:column;gap:2px;"><button class="mdone-btn'+(m.done?' done':'')+'" onclick="openDeduct(\''+mid+'\')">'+(m.done?'✓완료':'완료')+'</button><button class="bicon del" onclick="delMeal(\''+mid+'\')" style="width:20px;height:20px;font-size:11px;">✕</button></div></div>').join('')+'<button class="madd" onclick="openMealModal(\''+dk+'\',\''+mt+'\')">＋</button></div>';}).join('')+'</div>';}).join('');}
 function mvWeek(d){weekOff=d===0?0:weekOff+d;renderMeal();}
-
-// ── MEAL INGREDIENTS ──────────────────────────────────
-function renderIngrPicker(){
-  const q=document.getElementById('ingrSearch').value.toLowerCase();
-  const all=Object.entries(items).filter(([,v])=>!q||v.name.toLowerCase().includes(q));
-  const el=document.getElementById('ingrPicker');
-  if(!all.length){el.innerHTML='<div style="padding:10px;font-size:12px;color:var(--muted);text-align:center;">보관함에 없어요</div>';return;}
-  el.innerHTML=all.slice(0,8).map(([id,v])=>{
-    const sv=v.unit&&v.unit!=='none'&&v.stock!==null?'재고 '+(v.unit==='pct'?v.stock+'%':v.stock+'개'):'';
-    return '<div class="picker-item" onclick="addIngrFromStorage(\''+id+'\')">'
-      +'<div class="cdot" style="background:'+(CCOLORS[v.cat]||'#aaa')+';width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div>'
-      +'<div><div class="pi-name">'+v.name+'</div>'
-      +'<div class="pi-sub">'+(v.cat||'')+' · '+(v.loc==='frozen'?'❄️냉동':v.loc==='fresh'?'🌿냉장':'🌡️상온')+(sv?' · '+sv:'')+'</div>'
-      +'</div></div>';
-  }).join('');
-}
-function addIngrFromStorage(itemId){
-  const v=items[itemId];
-  if(!v) return;
-  mealIngredients.push({itemId, name:v.name, qty:'', unit:''});
-  renderIngrList();
-  document.getElementById('ingrSearch').value='';
-  renderIngrPicker();
-}
-function addManualIngr(){
-  mealIngredients.push({itemId:null, name:'', qty:'', unit:''});
-  renderIngrList();
-}
-function renderIngrList(){
-  document.getElementById('ingrList').innerHTML=mealIngredients.map((ig,i)=>
-    '<div class="ingr-row">'
-    +'<input class="fi" placeholder="재료명" value="'+ig.name+'" oninput="mealIngredients['+i+'].name=this.value"/>'
-    +'<input class="fi qty" placeholder="양" value="'+ig.qty+'" oninput="mealIngredients['+i+'].qty=this.value"/>'
-    +'<input class="fi unit" placeholder="단위" value="'+ig.unit+'" oninput="mealIngredients['+i+'].unit=this.value"/>'
-    +'<button type="button" class="bicon del" onclick="removeIngr('+i+')">✕</button>'
-    +'</div>').join('');
-}
+function renderIngrPicker(){const q=document.getElementById('ingrSearch').value.toLowerCase();const all=Object.entries(items).filter(([,v])=>!q||v.name.toLowerCase().includes(q));const el=document.getElementById('ingrPicker');if(!all.length){el.innerHTML='<div style="padding:10px;font-size:12px;color:var(--muted);text-align:center;">보관함에 없어요</div>';return;}el.innerHTML=all.slice(0,8).map(([id,v])=>'<div class="picker-item" onclick="addIngrFromStorage(\''+id+'\')"><div style="background:'+(CCOLORS[v.cat]||'#aaa')+';width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div><div><div class="pi-name">'+v.name+'</div><div class="pi-sub">'+(v.cat||'')+' · '+(v.loc==='frozen'?'❄️냉동':v.loc==='fresh'?'🌿냉장':'🌡️상온')+(v.unit&&v.unit!=='none'?' · 재고 '+(v.unit==='pct'?v.stock+'%':v.stock+'개'):'')+'</div></div></div>').join('');}
+function addIngrFromStorage(id){const v=items[id];if(!v)return;mealIngredients.push({itemId:id,name:v.name,qty:'',unit:''});renderIngrList();document.getElementById('ingrSearch').value='';renderIngrPicker();}
+function addManualIngr(){mealIngredients.push({itemId:null,name:'',qty:'',unit:''});renderIngrList();}
+function renderIngrList(){document.getElementById('ingrList').innerHTML=mealIngredients.map((ig,i)=>'<div class="ingr-row"><input class="fi" placeholder="재료명" value="'+ig.name+'" oninput="mealIngredients['+i+'].name=this.value"/><input class="fi" style="flex:1;" placeholder="양" value="'+ig.qty+'" oninput="mealIngredients['+i+'].qty=this.value"/><input class="fi" style="flex:1;" placeholder="단위" value="'+ig.unit+'" oninput="mealIngredients['+i+'].unit=this.value"/><button type="button" class="bicon del" onclick="removeIngr('+i+')">✕</button></div>').join('');}
 function removeIngr(i){mealIngredients.splice(i,1);renderIngrList();}
+function openMealModal(dk,mt){mctx={dk,mt};mealIngredients=[];document.getElementById('mTitle').textContent='🍽️ '+mt+' 추가 ('+dk+')';document.getElementById('mMenu').value='';document.getElementById('mMemo').value='';document.getElementById('ingrSearch').value='';renderIngrList();renderIngrPicker();openOv('mealModal');}
+function saveMeal(){const menu=document.getElementById('mMenu').value.trim();if(!menu){toast('메뉴명을 입력해주세요');return;}gRef('meals').push({date:mctx.dk,type:mctx.mt,menu,ingredients:mealIngredients.filter(ig=>ig.name.trim()),memo:document.getElementById('mMemo').value.trim(),done:false,ts:Date.now()});closeOv('mealModal');toast(menu+' 저장! ✓');}
+function delMeal(id){gRef('meals/'+id).remove();}
+function openDeduct(mealId){const m=meals[mealId];if(!m)return;const ingrs=(m.ingredients||[]).filter(ig=>ig.itemId&&items[ig.itemId]);deductCtx={mealId,ingrs};if(!ingrs.length){gRef('meals/'+mealId+'/done').set(!m.done);toast(m.done?'완료 취소':'식단 완료! ✓');return;}document.getElementById('deductList').innerHTML=ingrs.map((ig,i)=>{const itm=items[ig.itemId];const cur=itm.unit&&itm.unit!=='none'?Number(itm.stock||0):0;const lbl=itm.unit==='pct'?'%':'개';return'<div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--cream);border-radius:9px;border:1.5px solid var(--border);"><div style="flex:1;"><div style="font-size:13px;font-weight:600;">'+ig.name+'</div><div style="font-size:10px;color:var(--muted);">현재 재고: '+cur+lbl+'</div></div><input type="number" class="fi" style="width:70px;" id="deduct-'+i+'" value="'+(ig.qty||'')+'" placeholder="0"/><span style="font-size:12px;color:var(--muted);">'+lbl+'</span></div>';}).join('');openOv('deductModal');}
+function applyDeduct(){const{mealId,ingrs}=deductCtx;ingrs.forEach((ig,i)=>{const val=Number(document.getElementById('deduct-'+i).value||0);if(!val||!ig.itemId)return;const itm=items[ig.itemId];if(!itm||!itm.unit||itm.unit==='none')return;gRef('items/'+ig.itemId+'/stock').set(Math.max(0,Number(itm.stock||0)-val));});gRef('meals/'+mealId+'/done').set(true);closeOv('deductModal');toast('완료! 재고 차감됐어요 ✓');}
 
-function openMealModal(dk,mt){
-  mctx={dk,mt};
-  mealIngredients=[];
-  document.getElementById('mTitle').textContent='🍽️ '+mt+' 추가 ('+dk+')';
-  document.getElementById('mMenu').value='';
-  document.getElementById('mMemo').value='';
-  document.getElementById('ingrSearch').value='';
-  renderIngrList();
-  renderIngrPicker();
-  openOv('mealModal');
-}
-function saveMeal(){
-  const menu=document.getElementById('mMenu').value.trim();
-  if(!menu){toast('메뉴명을 입력해주세요');return;}
-  db.ref('meals').push({
-    date:mctx.dk, type:mctx.mt, menu,
-    ingredients: mealIngredients.filter(ig=>ig.name.trim()),
-    memo:document.getElementById('mMemo').value.trim(),
-    done:false, ts:Date.now()
-  });
-  closeOv('mealModal'); toast(menu+' 저장! ✓');
-}
-function delMeal(id){db.ref('meals/'+id).remove();}
+// ══════════════════════════════════════════════════
+// CART
+// ══════════════════════════════════════════════════
+function selCUnit(u){currentCUnit=u;document.querySelectorAll('.uopt[data-cu]').forEach(b=>b.classList.toggle('sel',b.dataset.cu===u));const show=u!=='none';document.getElementById('cStockValWrap').style.display=show?'':'none';if(show)document.getElementById('cStockValLabel').textContent=u==='pct'?'초기 재고 (%)':'초기 재고 (개수)';}
+function selCExp(d){document.querySelectorAll('.qb[data-cd]').forEach(b=>b.classList.remove('sel'));document.querySelector('.qb[data-cd="'+d+'"]').classList.add('sel');document.getElementById('cetoggle').checked=false;document.getElementById('cedr').classList.remove('show');const x=new Date();x.setDate(x.getDate()+d);const iso=x.toISOString().split('T')[0];document.getElementById('cExp').value=iso;document.getElementById('ceprev').textContent='📅 '+iso.replace(/-/g,'.')+' (D-'+d+')';}
+function togCExp(cb){document.getElementById('cedr').classList.toggle('show',cb.checked);document.querySelectorAll('.qb[data-cd]').forEach(b=>b.classList.remove('sel'));document.getElementById('cExp').value='';document.getElementById('ceprev').textContent=cb.checked?'날짜를 선택해주세요':'선택 안 함';}
+function onCExpDate(){const v=document.getElementById('cExpDate').value;document.getElementById('cExp').value=v;if(v){const d=calcD(v);document.getElementById('ceprev').textContent='📅 '+v.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');}}
+function resetCExp(){document.querySelectorAll('.qb[data-cd]').forEach(b=>b.classList.remove('sel'));document.getElementById('cetoggle').checked=false;document.getElementById('cedr').classList.remove('show');document.getElementById('cExp').value='';document.getElementById('cExpDate').value='';document.getElementById('ceprev').textContent='선택 안 함';selCUnit('none');}
+function renderCartPicker(){const q=document.getElementById('cartSearch').value.toLowerCase();const all=Object.entries(items).filter(([,v])=>!q||v.name.toLowerCase().includes(q));const el=document.getElementById('cartPicker');if(!all.length){el.innerHTML='<div style="padding:10px;font-size:12px;color:var(--muted);text-align:center;">검색 결과 없음</div>';return;}el.innerHTML=all.slice(0,6).map(([id,v])=>'<div class="picker-item" onclick="selectCartItem(\''+id+'\')"><div style="background:'+(CCOLORS[v.cat]||'#aaa')+';width:8px;height:8px;border-radius:50%;flex-shrink:0;"></div><div><div class="pi-name">'+v.name+'</div><div class="pi-sub">'+(v.loc==='frozen'?'❄️냉동':v.loc==='fresh'?'🌿냉장':'🌡️상온')+(v.unit&&v.unit!=='none'?' · 재고 '+(v.unit==='pct'?v.stock+'%':v.stock+'개'):'')+'</div></div></div>').join('');}
+function selectCartItem(id){const v=items[id];document.getElementById('cName').value=v.name;document.getElementById('cLoc').value=v.loc;document.getElementById('cLinkedId').value=id;document.getElementById('cItemCat').value=v.cat||'기타';document.getElementById('cartSearch').value='';document.getElementById('cartPicker').innerHTML='';toast(v.name+' 연동됨!');}
+function renderCart(){const all=Object.entries(carts);const pend=all.filter(([,v])=>!v.checked).sort(([,a],[,b])=>a.ts-b.ts);const done=all.filter(([,v])=>v.checked).sort(([,a],[,b])=>b.doneAt-a.doneAt);
+const mkP=([id,v])=>{const linked=v.linkedId&&items[v.linkedId];const stk=linked&&linked.unit&&linked.unit!=='none'?'재고 '+(linked.unit==='pct'?Number(linked.stock)+'%':Number(linked.stock)+'개'):'';return'<div class="ci"><div class="cbox2" onclick="checkCart(\''+id+'\')" title="구매완료"></div><div style="flex:1;min-width:0;"><div class="cin">'+v.name+'</div>'+(v.memo?'<div class="cmemo">'+v.memo+'</div>':'')+(v.price?'<div class="cmemo">💰 예상 ₩'+Number(v.price).toLocaleString()+'</div>':'')+(v.loc?'<div class="cmemo">'+(v.loc==='frozen'?'❄️냉동':v.loc==='fresh'?'🌿냉장':'🌡️상온')+' 자동추가</div>':'')+(stk?'<span class="cstock-badge linked">'+stk+'</span>':'')+'</div><div style="display:flex;gap:3px;"><button class="bicon edit" onclick="openEditCart(\''+id+'\')">✏️</button><button class="bicon del" onclick="delCart(\''+id+'\')">🗑</button></div></div>';};
+const mkD=([id,v])=>'<div class="ci chk"><div class="cbox2" style="background:var(--sage);border-color:var(--sage);">✓</div><div style="flex:1;min-width:0;"><div class="cin">'+v.name+'</div>'+(v.memo?'<div class="cmemo">'+v.memo+'</div>':'')+(v.actualPrice?'<div class="cmemo" style="color:var(--sage-d);font-weight:600;">💰 ₩'+Number(v.actualPrice).toLocaleString()+' 지출됨</div>':'')+'</div><div style="display:flex;gap:3px;"><button class="bicon edit" onclick="openEditCart(\''+id+'\')">✏️</button><button class="bicon del" onclick="delCart(\''+id+'\')">🗑</button></div></div>';
+document.getElementById('cl-pending').innerHTML=pend.length?pend.map(mkP).join(''):'<div class="empty"><div>🛒</div>구매 예정 없음</div>';
+document.getElementById('cl-done').innerHTML=done.length?done.map(mkD).join(''):'<div class="empty"><div>✅</div>완료 목록 없음</div>';}
+function openCartModal(){document.getElementById('cartModalTitle').textContent='🛒 장보기 추가';document.getElementById('cartModalOkBtn').textContent='추가하기';['cEditId','cLinkedId'].forEach(i=>document.getElementById(i).value='');['cName','cMemo','cPrice','cStock'].forEach(i=>document.getElementById(i).value='');document.getElementById('cLoc').value='';document.getElementById('cBought').value=new Date().toISOString().split('T')[0];document.getElementById('cartSearch').value='';document.getElementById('cartPicker').innerHTML='';resetCExp();openOv('cartModal');}
+function openEditCart(id){const v=carts[id];if(!v)return;document.getElementById('cartModalTitle').textContent='✏️ 장보기 수정';document.getElementById('cartModalOkBtn').textContent='수정하기';document.getElementById('cEditId').value=id;document.getElementById('cName').value=v.name||'';document.getElementById('cMemo').value=v.memo||'';document.getElementById('cPrice').value=fmtAmt(v.checked?(v.actualPrice||v.price||0):(v.price||0));document.getElementById('cCat').value=v.cat||'기타';document.getElementById('cLoc').value=v.loc||'';document.getElementById('cLinkedId').value=v.linkedId||'';document.getElementById('cItemCat').value=v.itemCat||'기타';document.getElementById('cBought').value=v.boughtDate||new Date().toISOString().split('T')[0];document.getElementById('cartSearch').value='';document.getElementById('cartPicker').innerHTML='';selCUnit(v.cUnit||'none');if(v.cUnit&&v.cUnit!=='none')document.getElementById('cStock').value=v.cStock!==undefined?v.cStock:'';resetCExp();if(v.expDate){document.getElementById('cExp').value=v.expDate;document.getElementById('cetoggle').checked=true;document.getElementById('cedr').classList.add('show');document.getElementById('cExpDate').value=v.expDate;const d=calcD(v.expDate);document.getElementById('ceprev').textContent='📅 '+v.expDate.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');}openOv('cartModal');}
+function saveCart(){const name=document.getElementById('cName').value.trim();if(!name){toast('상품명을 입력해주세요');return;}const editId=document.getElementById('cEditId').value;const data={name,memo:document.getElementById('cMemo').value.trim(),price:parseAmt(document.getElementById('cPrice').value),cat:document.getElementById('cCat').value,loc:document.getElementById('cLoc').value,itemCat:document.getElementById('cItemCat').value,linkedId:document.getElementById('cLinkedId').value||null,boughtDate:document.getElementById('cBought').value,expDate:document.getElementById('cExp').value,cUnit:currentCUnit,cStock:currentCUnit!=='none'?Number(document.getElementById('cStock').value||100):null};
+if(editId){const prev=carts[editId];gRef('cart/'+editId).update(data);if(prev&&prev.checked&&prev.expenseId){const newAmt=parseAmt(document.getElementById('cPrice').value)||prev.actualPrice||0;gRef('expenses/'+prev.expenseId).update({name:data.name,amt:newAmt,cat:data.cat});gRef('cart/'+editId+'/actualPrice').set(newAmt);toast(name+' 수정 + 지출 반영 ✓');}else toast(name+' 수정됐어요 ✓');}else{gRef('cart').push({...data,checked:false,ts:Date.now()});toast(name+' 추가! 🛒');}closeOv('cartModal');}
+function checkCart(id){const c=carts[id];if(!c||c.checked)return;const today=new Date().toISOString().split('T')[0];const actualPrice=c.price||0;
+const after=(eid)=>{gRef('cart/'+id).update({checked:true,doneAt:Date.now(),actualPrice,expenseId:eid||null});if(c.loc){if(c.linkedId&&items[c.linkedId]){const itm=items[c.linkedId];if(itm.unit==='pct')gRef('items/'+c.linkedId+'/stock').set(100);else if(itm.unit==='count')gRef('items/'+c.linkedId+'/stock').set(Number(itm.stock||0)+1);if(c.boughtDate)gRef('items/'+c.linkedId+'/bought').set(c.boughtDate);toast(c.name+' 재고 보충됐어요! ✓');}else{gRef('items').push({loc:c.loc,cat:c.itemCat||'기타',name:c.name,bought:c.boughtDate||today,exp:c.expDate||'',memo:'',unit:c.cUnit||'pct',stock:c.cStock!=null?c.cStock:100,ts:Date.now()});toast(c.name+' 보관함에 추가됐어요! ✓');}}else toast(c.name+' 구매완료!'+(actualPrice>0?' · ₩'+actualPrice.toLocaleString()+' 기록':''));};
+if(actualPrice>0){const ref=gRef('expenses').push({date:today,name:c.name,amt:actualPrice,cat:c.cat||'식재료',memo:'장보기 자동기록',cartId:id,ts:Date.now()});after(ref.key);}else after(null);}
+function delCart(id){gRef('cart/'+id).remove();}
+function clearDone(){Object.entries(carts).filter(([,v])=>v.checked).forEach(([id])=>gRef('cart/'+id).remove());}
 
-// ── MEAL DEDUCT (재고 차감) ────────────────────────────
-function openDeduct(mealId){
-  const m=meals[mealId];
-  if(!m) return;
-  const ingrs=(m.ingredients||[]).filter(ig=>ig.itemId&&items[ig.itemId]);
-  deductCtx={mealId, ingrs};
-  if(!ingrs.length){
-    // 재고 연동 없으면 바로 완료 처리
-    db.ref('meals/'+mealId+'/done').set(!m.done);
-    toast(m.done?'완료 취소':'식단 완료! ✓');
-    return;
-  }
-  document.getElementById('deductList').innerHTML=ingrs.map((ig,i)=>{
-    const itm=items[ig.itemId];
-    const cur=itm.unit&&itm.unit!=='none'?Number(itm.stock||0):0;
-    const label=itm.unit==='pct'?'%':'개';
-    return '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--cream);border-radius:9px;border:1.5px solid var(--border);">'
-      +'<div style="flex:1;"><div style="font-size:13px;font-weight:600;">'+ig.name+'</div>'
-      +'<div style="font-size:10px;color:var(--muted);">현재 재고: '+cur+label+'</div></div>'
-      +'<input type="number" class="fi" style="width:70px;" id="deduct-'+i+'" value="'+(ig.qty||'')+'" placeholder="0"/> '
-      +'<span style="font-size:12px;color:var(--muted);">'+label+'</span>'
-      +'</div>';
-  }).join('');
-  openOv('deductModal');
-}
-function applyDeduct(){
-  const {mealId, ingrs}=deductCtx;
-  ingrs.forEach((ig,i)=>{
-    const val=Number(document.getElementById('deduct-'+i).value||0);
-    if(!val||!ig.itemId) return;
-    const itm=items[ig.itemId];
-    if(!itm||!itm.unit||itm.unit==='none') return;
-    const newStock=Math.max(0,Number(itm.stock||0)-val);
-    db.ref('items/'+ig.itemId+'/stock').set(newStock);
-  });
-  db.ref('meals/'+mealId+'/done').set(true);
-  closeOv('deductModal');
-  toast('완료! 재고가 차감됐어요 ✓');
-}
-
-// ── CART ──────────────────────────────────────────────
-function renderCartPicker(){
-  const q=document.getElementById('cartSearch').value.toLowerCase();
-  const all=Object.entries(items).filter(([,v])=>!q||v.name.toLowerCase().includes(q));
-  const el=document.getElementById('cartPicker');
-  if(!all.length){el.innerHTML='<div style="padding:10px;font-size:12px;color:var(--muted);text-align:center;">검색 결과 없음</div>';return;}
-  el.innerHTML=all.slice(0,6).map(([id,v])=>
-    '<div class="picker-item" onclick="selectCartItem(\''+id+'\')">'
-    +'<div class="cdot" style="background:'+(CCOLORS[v.cat]||'#aaa')+';width:8px;height:8px;border-radius:50%;"></div>'
-    +'<div><div class="pi-name">'+v.name+'</div>'
-    +'<div class="pi-sub">'+(v.loc==='frozen'?'❄️냉동':v.loc==='fresh'?'🌿냉장':'🌡️상온')
-    +(v.unit&&v.unit!=='none'?' · 재고 '+(v.unit==='pct'?v.stock+'%':v.stock+'개'):'')+'</div></div>'
-    +'</div>').join('');
-}
-function selectCartItem(id){
-  const v=items[id];
-  document.getElementById('cName').value=v.name;
-  document.getElementById('cLoc').value=v.loc;
-  document.getElementById('cLinkedId').value=id;
-  document.getElementById('cItemCat').value=v.cat||'기타';
-  document.getElementById('cartSearch').value='';
-  document.getElementById('cartPicker').innerHTML='';
-  toast(v.name+' 연동됨!');
-}
-
-function renderCart(){
-  const all=Object.entries(carts);
-  const pend=all.filter(([,v])=>!v.checked).sort(([,a],[,b])=>a.ts-b.ts);
-  const done=all.filter(([,v])=>v.checked).sort(([,a],[,b])=>b.doneAt-a.doneAt);
-
-  const mkPend=([id,v])=>{
-    const linked=v.linkedId&&items[v.linkedId];
-    const stockTxt=linked&&linked.unit&&linked.unit!=='none'
-      ?'재고 '+(linked.unit==='pct'?Number(linked.stock)+'%':Number(linked.stock)+'개'):'';
-    return '<div class="ci">'
-      +'<div class="cbox2" onclick="checkCart(\''+id+'\')" title="구매완료"></div>'
-      +'<div style="flex:1;min-width:0;">'
-      +'<div class="cin">'+v.name+'</div>'
-      +(v.memo?'<div class="cmemo">'+v.memo+'</div>':'')
-      +(v.price?'<div class="cmemo">💰 예상 '+Number(v.price).toLocaleString()+'원</div>':'')
-      +(v.loc?'<div class="cmemo">'+(v.loc==='frozen'?'❄️냉동':v.loc==='fresh'?'🌿냉장':'🌡️상온')+' 자동추가</div>':'')
-      +(stockTxt?'<span class="cstock-badge linked">'+stockTxt+'</span>':'')
-      +'</div>'
-      +'<div style="display:flex;gap:3px;">'
-      +'<button class="bicon edit" onclick="openEditCart(\''+id+'\')" title="수정">✏️</button>'
-      +'<button class="bicon del" onclick="delCart(\''+id+'\')" title="삭제">🗑</button>'
-      +'</div>'
-      +'</div>';
-  };
-
-  const mkDone=([id,v])=>{
-    return '<div class="ci chk">'
-      +'<div class="cbox2" style="background:var(--sage);border-color:var(--sage);">✓</div>'
-      +'<div style="flex:1;min-width:0;">'
-      +'<div class="cin">'+v.name+'</div>'
-      +(v.memo?'<div class="cmemo">'+v.memo+'</div>':'')
-      +(v.actualPrice?'<div class="cmemo" style="color:var(--sage-d);font-weight:600;">💰 '+Number(v.actualPrice).toLocaleString()+'원 지출됨</div>':'')
-      +(v.loc?'<div class="cmemo">'+(v.loc==='frozen'?'❄️냉동':v.loc==='fresh'?'🌿냉장':'🌡️상온')+' 추가됨</div>':'')
-      +'</div>'
-      +'<div style="display:flex;gap:3px;">'
-      +'<button class="bicon edit" onclick="openEditCart(\''+id+'\')" title="수정">✏️</button>'
-      +'<button class="bicon del" onclick="delCart(\''+id+'\')" title="삭제">🗑</button>'
-      +'</div>'
-      +'</div>';
-  };
-
-  document.getElementById('cl-pending').innerHTML=pend.length?pend.map(mkPend).join(''):'<div class="empty"><div>🛒</div>구매 예정 없음</div>';
-  document.getElementById('cl-done').innerHTML=done.length?done.map(mkDone).join(''):'<div class="empty"><div>✅</div>완료 목록 없음</div>';
-}
-
-function openCartModal(){
-  document.getElementById('cartModalTitle').textContent='🛒 장보기 추가';
-  document.getElementById('cartModalOkBtn').textContent='추가하기';
-  document.getElementById('cEditId').value='';
-  document.getElementById('cName').value='';
-  document.getElementById('cMemo').value='';
-  document.getElementById('cPrice').value='';
-  document.getElementById('cLoc').value='';
-  document.getElementById('cLinkedId').value='';
-  document.getElementById('cBought').value=new Date().toISOString().split('T')[0];
-  document.getElementById('cStock').value='';
-  document.getElementById('cartSearch').value='';
-  document.getElementById('cartPicker').innerHTML='';
-  resetCExp();
-  openOv('cartModal');
-}
-
-function openEditCart(id){
-  const v=carts[id];
-  if(!v) return;
-  document.getElementById('cartModalTitle').textContent='✏️ 장보기 수정';
-  document.getElementById('cartModalOkBtn').textContent='수정하기';
-  document.getElementById('cEditId').value=id;
-  document.getElementById('cName').value=v.name||'';
-  document.getElementById('cMemo').value=v.memo||'';
-  document.getElementById('cPrice').value=fmtAmt(v.checked?(v.actualPrice||v.price||0):(v.price||0));
-  document.getElementById('cCat').value=v.cat||'기타';
-  document.getElementById('cLoc').value=v.loc||'';
-  document.getElementById('cLinkedId').value=v.linkedId||'';
-  document.getElementById('cItemCat').value=v.itemCat||'기타';
-  document.getElementById('cBought').value=v.boughtDate||new Date().toISOString().split('T')[0];
-  document.getElementById('cartSearch').value='';
-  document.getElementById('cartPicker').innerHTML='';
-  // 재고 단위 복원
-  selCUnit(v.cUnit||'none');
-  if(v.cUnit&&v.cUnit!=='none') document.getElementById('cStock').value=v.cStock!==undefined?v.cStock:'';
-  // 유통기한 복원
-  resetCExp();
-  if(v.expDate){
-    document.getElementById('cExp').value=v.expDate;
-    document.getElementById('cetoggle').checked=true;
-    document.getElementById('cedr').classList.add('show');
-    document.getElementById('cExpDate').value=v.expDate;
-    const d=calcD(v.expDate);
-    document.getElementById('ceprev').textContent='📅 '+v.expDate.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');
-  }
-  openOv('cartModal');
-}
-
-function saveCart(){
-  const name=document.getElementById('cName').value.trim();
-  if(!name){toast('상품명을 입력해주세요');return;}
-  const editId=document.getElementById('cEditId').value;
-  const data={
-    name,
-    memo:document.getElementById('cMemo').value.trim(),
-    price:parseAmt(document.getElementById('cPrice').value),
-    cat:document.getElementById('cCat').value,
-    loc:document.getElementById('cLoc').value,
-    itemCat:document.getElementById('cItemCat').value,
-    linkedId:document.getElementById('cLinkedId').value||null,
-    boughtDate:document.getElementById('cBought').value,
-    expDate:document.getElementById('cExp').value,
-    cUnit:currentCUnit,
-    cStock:currentCUnit!=='none'?Number(document.getElementById('cStock').value||100):null,
-  };
-  if(editId){
-    const prev=carts[editId];
-    db.ref('cart/'+editId).update(data);
-    // 완료된 항목이고 연동 지출이 있으면 지출도 자동 업데이트
-    if(prev&&prev.checked&&prev.expenseId){
-      const newAmt=parseAmt(document.getElementById('cPrice').value)||prev.actualPrice||0;
-      db.ref('expenses/'+prev.expenseId).update({
-        name:data.name,
-        amt:newAmt,
-        cat:data.cat||'식재료'
-      });
-      db.ref('cart/'+editId+'/actualPrice').set(newAmt);
-      toast(name+' 수정 + 지출 내역 반영됐어요 ✓');
-    } else {
-      toast(name+' 수정됐어요 ✓');
-    }
-  } else {
-    db.ref('cart').push({...data, checked:false, ts:Date.now()});
-    toast(name+' 추가! 🛒');
-  }
-  closeOv('cartModal');
-}
-
-// 구매완료 처리 → 지출 자동 기록 + 보관함 자동 추가
-function checkCart(id){
-  const c=carts[id];
-  if(!c||c.checked) return;
-  const today=new Date().toISOString().split('T')[0];
-  const actualPrice=c.price||0;
-  let expenseId=null;
-
-  // 1) 가격 있으면 지출 내역 자동 기록 → expenseId 저장
-  const afterExpense=(eid)=>{
-    // 2) 완료 처리 (expenseId 같이 저장)
-    db.ref('cart/'+id).update({checked:true, doneAt:Date.now(), actualPrice, expenseId:eid||null});
-
-    // 3) 보관함 연동
-    if(c.loc){
-      if(c.linkedId && items[c.linkedId]){
-        const itm=items[c.linkedId];
-        if(itm.unit==='pct') db.ref('items/'+c.linkedId+'/stock').set(100);
-        else if(itm.unit==='count') db.ref('items/'+c.linkedId+'/stock').set(Number(itm.stock||0)+1);
-        if(c.boughtDate) db.ref('items/'+c.linkedId+'/bought').set(c.boughtDate);
-        toast(c.name+' 재고 보충됐어요! ✓');
-      } else {
-        db.ref('items').push({
-          loc:c.loc, cat:c.itemCat||'기타', name:c.name,
-          bought:c.boughtDate||today, exp:c.expDate||'',
-          memo:'', unit:c.cUnit||'pct', stock:c.cStock!==null&&c.cStock!==undefined?c.cStock:100, ts:Date.now()
-        });
-        toast(c.name+' 보관함에 추가됐어요! ✓');
-      }
-    } else {
-      toast(c.name+' 구매완료!'+(actualPrice>0?' · ₩'+actualPrice.toLocaleString()+' 지출 기록':''));
-    }
-  };
-
-  if(actualPrice>0){
-    const ref=db.ref('expenses').push({
-      date:today, name:c.name, amt:actualPrice,
-      cat:c.cat||'식재료', memo:'장보기 자동기록',
-      cartId:id, ts:Date.now()
-    });
-    afterExpense(ref.key);
-  } else {
-    afterExpense(null);
-  }
-}
-
-function delCart(id){db.ref('cart/'+id).remove();}
-function clearDone(){Object.entries(carts).filter(([,v])=>v.checked).forEach(([id])=>db.ref('cart/'+id).remove());}
-
-// ── CART EXPIRY QUICK (보관함과 동일) ─────────────────
-let currentCUnit='none';
-function selCUnit(u){
-  currentCUnit=u;
-  document.querySelectorAll('.uopt[data-cu]').forEach(b=>b.classList.toggle('sel',b.dataset.cu===u));
-  const show=u!=='none';
-  document.getElementById('cStockValWrap').style.display=show?'':'none';
-  if(show){
-    document.getElementById('cStockValLabel').textContent=u==='pct'?'초기 재고 (%)':'초기 재고 (개수)';
-    document.getElementById('cStock').placeholder=u==='pct'?'100':'예: 3';
-  }
-}
-function selCExp(d){
-  document.querySelectorAll('.qb[data-cd]').forEach(b=>b.classList.remove('sel'));
-  document.querySelector('.qb[data-cd="'+d+'"]').classList.add('sel');
-  document.getElementById('cetoggle').checked=false;
-  document.getElementById('cedr').classList.remove('show');
-  const x=new Date();x.setDate(x.getDate()+d);
-  const iso=x.toISOString().split('T')[0];
-  document.getElementById('cExp').value=iso;
-  document.getElementById('ceprev').textContent='📅 '+iso.replace(/-/g,'.')+' (D-'+d+')';
-}
-function togCExp(cb){
-  document.getElementById('cedr').classList.toggle('show',cb.checked);
-  document.querySelectorAll('.qb[data-cd]').forEach(b=>b.classList.remove('sel'));
-  document.getElementById('cExp').value='';
-  document.getElementById('ceprev').textContent=cb.checked?'날짜를 선택해주세요':'선택 안 함';
-}
-function onCExpDate(){
-  const v=document.getElementById('cExpDate').value;
-  document.getElementById('cExp').value=v;
-  if(v){const d=calcD(v);document.getElementById('ceprev').textContent='📅 '+v.replace(/-/g,'.')+(d>=0?' (D-'+d+')':' (D+'+Math.abs(d)+' 만료)');}
-}
-function resetCExp(){
-  document.querySelectorAll('.qb[data-cd]').forEach(b=>b.classList.remove('sel'));
-  document.getElementById('cetoggle').checked=false;
-  document.getElementById('cedr').classList.remove('show');
-  document.getElementById('cExp').value='';
-  document.getElementById('cExpDate').value='';
-  document.getElementById('ceprev').textContent='선택 안 함';
-  selCUnit('none');
-}
-
-// ── EXPENSE + CHARTS ──────────────────────────────────
-let anPeriod='month', expMonth=null;
-const CHART_COLORS=['#7a9e7e','#c4714f','#6b9db8','#c9a84c','#9b7ec8','#5ba8b5','#d45f5f','#4d9e6b','#a0522d'];
-
-function monthKey(d){return (d||'').slice(0,7);}
-
-function setAnPeriod(p,el){
-  anPeriod=p;
-  document.querySelectorAll('[id^="anTab-"]').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  const showAnalysis=p!=='history';
-  document.getElementById('analysisSection').style.display=showAnalysis?'':'none';
-  document.getElementById('historySection').style.display=showAnalysis?'none':'';
-  if(showAnalysis) renderCharts();
-  else renderHistory();
-}
-
-function getFilteredExps(period){
-  const all=Object.entries(exps);
-  const today=new Date(); today.setHours(23,59,59,999);
-  if(period==='week'){
-    const from=new Date(); from.setDate(from.getDate()-6); from.setHours(0,0,0,0);
-    return all.filter(([,v])=>v.date&&new Date(v.date)>=from&&new Date(v.date)<=today);
-  }
-  if(period==='month'){
-    const ym=today.toISOString().slice(0,7);
-    return all.filter(([,v])=>monthKey(v.date)===ym);
-  }
-  return all;
-}
-
-function renderCharts(){
-  const fil=getFilteredExps(anPeriod).sort(([,a],[,b])=>a.date.localeCompare(b.date));
-  const total=fil.reduce((s,[,v])=>s+Number(v.amt||0),0);
-  const cnt=fil.length;
-
-  const lbl=anPeriod==='week'?'최근 7일':'이번달';
-  document.getElementById('chartPeriodLabel').textContent=lbl+' 지출 요약';
-  document.getElementById('etotal').textContent='₩'+total.toLocaleString();
-  document.getElementById('eperiod').textContent=lbl+' 총 '+cnt+'건';
-  document.getElementById('chartCnt').textContent=cnt+'건';
-  document.getElementById('chartAvg').textContent=cnt?'₩'+Math.round(total/cnt).toLocaleString():'₩0';
-  document.getElementById('barChartTitle').textContent=anPeriod==='week'?'최근 7일 일별 지출':'이번달 일별 지출';
-
-  // 카테고리 집계
-  const cm={};
-  fil.forEach(([,v])=>{cm[v.cat||'기타']=(cm[v.cat||'기타']||0)+Number(v.amt||0);});
-  const ca=Object.entries(cm).sort((a,b)=>b[1]-a[1]);
-  const mx=ca[0]?.[1]||1;
-
-  // 카테고리 막대
-  document.getElementById('cbdown').innerHTML=ca.length
-    ?ca.map(([c,a],i)=>'<div class="cbrow">'
-      +'<div class="cblabel">'+c+'</div>'
-      +'<div class="cbtrack"><div class="cbfill" style="width:'+Math.round(a/mx*100)+'%;background:'+CHART_COLORS[i%CHART_COLORS.length]+'"></div></div>'
-      +'<div class="cbamt">₩'+a.toLocaleString()+'</div>'
-      +'</div>').join('')
-    :'<div style="font-size:12px;color:var(--muted);">데이터 없음</div>';
-
-  // 도넛 차트
-  drawDonut(ca, total);
-  // 바 차트
-  drawBar(fil);
-}
-
-function drawDonut(ca, total){
-  const canvas=document.getElementById('donutChart');
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,110,110);
-  if(!ca.length||!total){
-    ctx.beginPath();ctx.arc(55,55,40,0,Math.PI*2);
-    ctx.strokeStyle='#e8e0d5';ctx.lineWidth=18;ctx.stroke();
-    document.getElementById('donutLegend').innerHTML='<div style="font-size:11px;color:var(--muted);">데이터 없음</div>';
-    return;
-  }
-  let start=-Math.PI/2;
-  ca.forEach(([c,a],i)=>{
-    const slice=(a/total)*Math.PI*2;
-    ctx.beginPath();
-    ctx.moveTo(55,55);
-    ctx.arc(55,55,46,start,start+slice);
-    ctx.closePath();
-    ctx.fillStyle=CHART_COLORS[i%CHART_COLORS.length];
-    ctx.fill();
-    start+=slice;
-  });
-  // 가운데 흰 원
-  ctx.beginPath();ctx.arc(55,55,28,0,Math.PI*2);
-  ctx.fillStyle='#fffef9';ctx.fill();
-  // 범례
-  document.getElementById('donutLegend').innerHTML=ca.slice(0,5).map(([c,a],i)=>
-    '<div class="legend-row">'
-    +'<div class="legend-dot" style="background:'+CHART_COLORS[i%CHART_COLORS.length]+'"></div>'
-    +'<div class="legend-label">'+c+'</div>'
-    +'<div class="legend-pct">'+Math.round(a/total*100)+'%</div>'
-    +'</div>').join('');
-}
-
-function drawBar(fil){
-  const canvas=document.getElementById('barChart');
-  const ctx=canvas.getContext('2d');
-  // 날짜별 집계
-  const dm={};
-  fil.forEach(([,v])=>{dm[v.date]=(dm[v.date]||0)+Number(v.amt||0);});
-
-  let labels=[];
-  if(anPeriod==='week'){
-    for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);labels.push(d.toISOString().split('T')[0]);}
-  } else {
-    const now=new Date();
-    const yr=now.getFullYear(),mo=now.getMonth();
-    const days=new Date(yr,mo+1,0).getDate();
-    for(let i=1;i<=days;i++) labels.push(yr+'-'+(String(mo+1).padStart(2,'0'))+'-'+(String(i).padStart(2,'0')));
-  }
-  const vals=labels.map(l=>dm[l]||0);
-  const maxVal=Math.max(...vals,1);
-  const W=Math.max(labels.length*28,canvas.parentElement.clientWidth||300);
-  canvas.width=W; canvas.height=140;
-  ctx.clearRect(0,0,W,140);
-  const barW=Math.min(22,W/labels.length-4);
-  const gap=(W-barW*labels.length)/(labels.length+1);
-
-  vals.forEach((v,i)=>{
-    const x=gap+(barW+gap)*i;
-    const bh=v?(v/maxVal)*90:2;
-    const y=110-bh;
-    ctx.fillStyle=v?'#7a9e7e':'#e8e0d5';
-    roundRect(ctx,x,y,barW,bh,4);
-    ctx.fill();
-    // x축 라벨
-    ctx.fillStyle='#8a8a8a';
-    ctx.font='9px Noto Sans KR, sans-serif';
-    ctx.textAlign='center';
-    const lbl=anPeriod==='week'?(['일','월','화','수','목','금','토'][new Date(labels[i]).getDay()]):(i%5===0?String(i+1):'');
-    ctx.fillText(lbl,x+barW/2,125);
-    // 금액 라벨
-    if(v){
-      ctx.fillStyle='#4d7a52';
-      ctx.font='bold 9px Noto Sans KR, sans-serif';
-      const txt=v>=10000?Math.round(v/1000)+'k':String(v);
-      ctx.fillText(txt,x+barW/2,y-3);
-    }
-  });
-}
-
-function roundRect(ctx,x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h);
-  ctx.lineTo(x,y+h);
-  ctx.lineTo(x,y+r);
-  ctx.quadraticCurveTo(x,y,x+r,y);
-  ctx.closePath();
-}
-
-function renderHistory(){
-  const all=Object.entries(exps);
-  const months=[...new Set(all.map(([,v])=>monthKey(v.date)).filter(Boolean))].sort().reverse();
-  if(!months.length) months.push(new Date().toISOString().slice(0,7));
-  if(!expMonth||!months.includes(expMonth)) expMonth=months[0];
-  document.getElementById('mtabs').innerHTML=months.map(m=>
-    '<div class="mtab'+(m===expMonth?' active':'')+'" onclick="selMon(\''+m+'\')">'+m+'</div>').join('');
-  const fil=all.filter(([,v])=>monthKey(v.date)===expMonth).sort(([,a],[,b])=>b.date.localeCompare(a.date));
-  document.getElementById('elist').innerHTML=fil.length
-    ?fil.map(([id,v])=>{
-      const isCart=v.cartId&&carts[v.cartId];
-      return '<div class="erow">'
-        +'<div><div class="ename2">'+v.name+(isCart?'<span style="font-size:9px;color:var(--sage);background:var(--sage-l);border-radius:4px;padding:1px 5px;margin-left:4px;">🛒연동</span>':'')+'</div>'
-        +'<div class="edate2">'+v.date+(v.memo?' · '+v.memo:'')+'</div></div>'
-        +'<div class="ecat2">'+(v.cat||'기타')+'</div>'
-        +'<div class="eprice">₩'+Number(v.amt).toLocaleString()+'</div>'
-        +'<div style="display:flex;gap:2px;">'
-        +'<button class="bicon edit" onclick="openEditExp(\''+id+'\')" title="수정">✏️</button>'
-        +'<button class="bicon del" onclick="delExp(\''+id+'\')" title="삭제">🗑</button>'
-        +'</div>'
-        +'</div>';
-    }).join('')
-    :'<div class="empty" style="padding:30px"><div>💰</div>지출 내역이 없어요</div>';
-}
-
+// ══════════════════════════════════════════════════
+// EXPENSE + CHARTS
+// ══════════════════════════════════════════════════
+function monthKey(d){return(d||'').slice(0,7);}
+function setAnPeriod(p,el){anPeriod=p;document.querySelectorAll('[id^="anTab-"]').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('analysisSection').style.display=p!=='history'?'':'none';document.getElementById('historySection').style.display=p==='history'?'':'none';if(p==='history')renderHistory();else renderCharts();}
+function getFilteredExps(p){const all=Object.entries(exps);const today=new Date();today.setHours(23,59,59,999);if(p==='week'){const from=new Date();from.setDate(from.getDate()-6);from.setHours(0,0,0,0);return all.filter(([,v])=>v.date&&new Date(v.date)>=from&&new Date(v.date)<=today);}if(p==='month'){const ym=today.toISOString().slice(0,7);return all.filter(([,v])=>monthKey(v.date)===ym);}return all;}
+function renderCharts(){const fil=getFilteredExps(anPeriod).sort(([,a],[,b])=>a.date.localeCompare(b.date));const total=fil.reduce((s,[,v])=>s+Number(v.amt||0),0);const cnt=fil.length;const lbl=anPeriod==='week'?'최근 7일':'이번달';document.getElementById('chartPeriodLabel').textContent=lbl+' 지출 요약';document.getElementById('etotal').textContent='₩'+total.toLocaleString();document.getElementById('eperiod').textContent=lbl+' 총 '+cnt+'건';document.getElementById('chartCnt').textContent=cnt+'건';document.getElementById('chartAvg').textContent=cnt?'₩'+Math.round(total/cnt).toLocaleString():'₩0';document.getElementById('barChartTitle').textContent=anPeriod==='week'?'최근 7일 일별 지출':'이번달 일별 지출';const cm={};fil.forEach(([,v])=>{cm[v.cat||'기타']=(cm[v.cat||'기타']||0)+Number(v.amt||0);});const ca=Object.entries(cm).sort((a,b)=>b[1]-a[1]);const mx=ca[0]?.[1]||1;document.getElementById('cbdown').innerHTML=ca.length?ca.map(([c,a],i)=>'<div class="cbrow"><div class="cblabel">'+c+'</div><div class="cbtrack"><div class="cbfill" style="width:'+Math.round(a/mx*100)+'%;background:'+CHART_COLORS[i%CHART_COLORS.length]+'"></div></div><div class="cbamt">₩'+a.toLocaleString()+'</div></div>').join(''):'<div style="font-size:12px;color:var(--muted);">데이터 없음</div>';drawDonut(ca,total);drawBar(fil);}
+function drawDonut(ca,total){const canvas=document.getElementById('donutChart');const ctx=canvas.getContext('2d');ctx.clearRect(0,0,110,110);if(!ca.length||!total){ctx.beginPath();ctx.arc(55,55,40,0,Math.PI*2);ctx.strokeStyle='#e8e0d5';ctx.lineWidth=18;ctx.stroke();document.getElementById('donutLegend').innerHTML='<div style="font-size:11px;color:var(--muted);">데이터 없음</div>';return;}let start=-Math.PI/2;ca.forEach(([c,a],i)=>{const sl=(a/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(55,55);ctx.arc(55,55,46,start,start+sl);ctx.closePath();ctx.fillStyle=CHART_COLORS[i%CHART_COLORS.length];ctx.fill();start+=sl;});ctx.beginPath();ctx.arc(55,55,28,0,Math.PI*2);ctx.fillStyle='#fffef9';ctx.fill();document.getElementById('donutLegend').innerHTML=ca.slice(0,5).map(([c,a],i)=>'<div class="legend-row"><div class="legend-dot" style="background:'+CHART_COLORS[i%CHART_COLORS.length]+'"></div><div class="legend-label">'+c+'</div><div class="legend-pct">'+Math.round(a/total*100)+'%</div></div>').join('');}
+function drawBar(fil){const canvas=document.getElementById('barChart');const ctx=canvas.getContext('2d');const dm={};fil.forEach(([,v])=>{dm[v.date]=(dm[v.date]||0)+Number(v.amt||0);});let labels=[];if(anPeriod==='week'){for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);labels.push(d.toISOString().split('T')[0]);}}else{const now=new Date();const yr=now.getFullYear(),mo=now.getMonth();const days=new Date(yr,mo+1,0).getDate();for(let i=1;i<=days;i++)labels.push(yr+'-'+(String(mo+1).padStart(2,'0'))+'-'+(String(i).padStart(2,'0')));}const vals=labels.map(l=>dm[l]||0);const maxVal=Math.max(...vals,1);const W=Math.max(labels.length*28,canvas.parentElement.clientWidth||300);canvas.width=W;canvas.height=140;ctx.clearRect(0,0,W,140);const barW=Math.min(22,W/labels.length-4);const gap=(W-barW*labels.length)/(labels.length+1);vals.forEach((v,i)=>{const x=gap+(barW+gap)*i;const bh=v?(v/maxVal)*90:2;const y=110-bh;ctx.fillStyle=v?'#7a9e7e':'#e8e0d5';roundRect(ctx,x,y,barW,bh,4);ctx.fill();ctx.fillStyle='#8a8a8a';ctx.font='9px Noto Sans KR,sans-serif';ctx.textAlign='center';const lbl=anPeriod==='week'?(['일','월','화','수','목','금','토'][new Date(labels[i]).getDay()]):(i%5===0?String(i+1):'');ctx.fillText(lbl,x+barW/2,125);if(v){ctx.fillStyle='#4d7a52';ctx.font='bold 9px Noto Sans KR,sans-serif';ctx.fillText(v>=10000?Math.round(v/1000)+'k':String(v),x+barW/2,y-3);}});}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h);ctx.lineTo(x,y+h);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+function renderHistory(){const all=Object.entries(exps);const months=[...new Set(all.map(([,v])=>monthKey(v.date)).filter(Boolean))].sort().reverse();if(!months.length)months.push(new Date().toISOString().slice(0,7));if(!expMonth||!months.includes(expMonth))expMonth=months[0];document.getElementById('mtabs').innerHTML=months.map(m=>'<div class="mtab'+(m===expMonth?' active':'')+'" onclick="selMon(\''+m+'\')">'+m+'</div>').join('');const fil=all.filter(([,v])=>monthKey(v.date)===expMonth).sort(([,a],[,b])=>b.date.localeCompare(a.date));document.getElementById('elist').innerHTML=fil.length?fil.map(([id,v])=>'<div class="erow"><div><div class="ename2">'+v.name+(v.cartId&&carts[v.cartId]?'<span style="font-size:9px;color:var(--sage);background:var(--sage-l);border-radius:4px;padding:1px 5px;margin-left:4px;">🛒연동</span>':'')+'</div><div class="edate2">'+v.date+(v.memo?' · '+v.memo:'')+'</div></div><div class="ecat2">'+(v.cat||'기타')+'</div><div class="eprice">₩'+Number(v.amt).toLocaleString()+'</div><div style="display:flex;gap:2px;"><button class="bicon edit" onclick="openEditExp(\''+id+'\')">✏️</button><button class="bicon del" onclick="delExp(\''+id+'\')">🗑</button></div></div>').join(''):'<div class="empty" style="padding:30px"><div>💰</div>지출 내역이 없어요</div>';}
 function selMon(m){expMonth=m;renderHistory();}
-function renderExp(){
-  if(anPeriod==='history') renderHistory();
-  else renderCharts();
-}
+function renderExp(){if(anPeriod==='history')renderHistory();else renderCharts();}
+function openExpModal(){document.getElementById('expModalTitle').textContent='💰 지출 추가';document.getElementById('expModalOkBtn').textContent='저장하기';['eEditId','eLinkedCartId'].forEach(i=>document.getElementById(i).value='');document.getElementById('eDate').value=new Date().toISOString().split('T')[0];['eName','eAmt','eMemo'].forEach(i=>document.getElementById(i).value='');openOv('expModal');}
+function openEditExp(expId){const v=exps[expId];if(!v)return;document.getElementById('expModalTitle').textContent='✏️ 지출 수정';document.getElementById('expModalOkBtn').textContent='수정하기';document.getElementById('eEditId').value=expId;document.getElementById('eLinkedCartId').value=v.cartId||'';document.getElementById('eDate').value=v.date||'';document.getElementById('eName').value=v.name||'';document.getElementById('eAmt').value=fmtAmt(v.amt)||'';document.getElementById('eCat').value=v.cat||'식재료';document.getElementById('eMemo').value=v.memo||'';openOv('expModal');}
+function saveExp(){const n=document.getElementById('eName').value.trim();const a=document.getElementById('eAmt').value;if(!n||!parseAmt(a)){toast('상품명과 금액을 입력해주세요');return;}const editId=document.getElementById('eEditId').value;const cartId=document.getElementById('eLinkedCartId').value;const data={date:document.getElementById('eDate').value,name:n,amt:parseAmt(a),cat:document.getElementById('eCat').value,memo:document.getElementById('eMemo').value.trim()};if(editId){gRef('expenses/'+editId).update(data);if(cartId&&carts[cartId])gRef('cart/'+cartId).update({name:n,price:parseAmt(a),actualPrice:parseAmt(a),cat:data.cat});toast(n+' 지출 수정됐어요 ✓');}else{gRef('expenses').push({...data,ts:Date.now()});toast('₩'+parseAmt(a).toLocaleString()+' 기록! ✓');}closeOv('expModal');}
+function addExp(){saveExp();}
+function delExp(id){if(!confirm('삭제할까요?'))return;const v=exps[id];if(v&&v.cartId&&carts[v.cartId])gRef('cart/'+v.cartId+'/expenseId').remove();gRef('expenses/'+id).remove();}
 
-function openExpModal(){
-  document.getElementById('expModalTitle').textContent='💰 지출 추가';
-  document.getElementById('expModalOkBtn').textContent='저장하기';
-  document.getElementById('eEditId').value='';
-  document.getElementById('eLinkedCartId').value='';
-  document.getElementById('eDate').value=new Date().toISOString().split('T')[0];
-  document.getElementById('eName').value='';
-  document.getElementById('eAmt').value='';
-  document.getElementById('eMemo').value='';
-  openOv('expModal');
-}
-
-function openEditExp(expId){
-  const v=exps[expId];
-  if(!v) return;
-  document.getElementById('expModalTitle').textContent='✏️ 지출 수정';
-  document.getElementById('expModalOkBtn').textContent='수정하기';
-  document.getElementById('eEditId').value=expId;
-  document.getElementById('eLinkedCartId').value=v.cartId||'';
-  document.getElementById('eDate').value=v.date||'';
-  document.getElementById('eName').value=v.name||'';
-  document.getElementById('eAmt').value=fmtAmt(v.amt)||'';
-  document.getElementById('eCat').value=v.cat||'식재료';
-  document.getElementById('eMemo').value=v.memo||'';
-  openOv('expModal');
-}
-
-function saveExp(){
-  const n=document.getElementById('eName').value.trim();
-  const a=document.getElementById('eAmt').value;
-  if(!n||!parseAmt(a)){toast('상품명과 금액을 입력해주세요');return;}
-  const editId=document.getElementById('eEditId').value;
-  const cartId=document.getElementById('eLinkedCartId').value;
-  const data={
-    date:document.getElementById('eDate').value,
-    name:n, amt:parseAmt(a),
-    cat:document.getElementById('eCat').value,
-    memo:document.getElementById('eMemo').value.trim()
-  };
-  if(editId){
-    db.ref('expenses/'+editId).update(data);
-    // 연동된 장보기 완료 항목도 금액 동기화
-    if(cartId&&carts[cartId]){
-      db.ref('cart/'+cartId).update({
-        name:n,
-        price:parseAmt(a),
-        actualPrice:parseAmt(a),
-        cat:data.cat
-      });
-    }
-    toast(n+' 지출 수정됐어요 ✓'+(cartId?'  · 장보기 연동 반영':''));
-  } else {
-    db.ref('expenses').push({...data, ts:Date.now()});
-    toast('₩'+parseAmt(a).toLocaleString()+' 기록! ✓');
-  }
-  closeOv('expModal');
-}
-
-// 하위 호환 (기존 addExp 호출 남아있을 경우 대비)
-function addExp(){ saveExp(); }
-function delExp(id){
-  if(!confirm('삭제할까요?')) return;
-  const v=exps[id];
-  // 연동 장보기가 있으면 expenseId 참조 제거
-  if(v&&v.cartId&&carts[v.cartId]){
-    db.ref('cart/'+v.cartId+'/expenseId').remove();
-  }
-  db.ref('expenses/'+id).remove();
-}
-
-// ── MODAL HELPERS ─────────────────────────────────────
+// ══════════════════════════════════════════════════
+// MODAL + AD
+// ══════════════════════════════════════════════════
 function openOv(id){document.getElementById(id).classList.add('open');}
 function closeOv(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.ov').forEach(o=>{
-  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
-});
-// ── FIREBASE LISTENERS ─────────────────────────────────
-db.ref('items').on('value',s=>{items=s.val()||{};renderStorage();renderMeal();renderCart();});
-db.ref('cart').on('value',s=>{carts=s.val()||{};renderCart();});
-db.ref('meals').on('value',s=>{meals=s.val()||{};renderMeal();});
-db.ref('expenses').on('value',s=>{exps=s.val()||{};renderExp();});
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function trackAd(loc){console.log('[쿠팡파트너스] 클릭:',loc);}
 
-// ── TOAST ──────────────────────────────────────────────
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
-
-// ── INIT ──────────────────────────────────────────────
-selUnit('pct');
-selCUnit('none');
-renderIngrPicker();
-renderCartPicker();
+// ══════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 </script>
+
+<!-- FOOTER -->
+<div style="background:#f5f5f5;border-top:1px solid #e0e0e0;padding:14px 20px;font-family:'Noto Sans KR',sans-serif;">
+  <div style="max-width:900px;margin:0 auto;text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center;">
+    <div style="font-size:12px;font-weight:700;color:#555;">🥦 우리집 식탁</div>
+    <div style="font-size:11px;color:#888;">© 2025 우리집 식탁. All rights reserved.</div>
+    <div style="font-size:10px;color:#bbb;line-height:1.6;margin-top:2px;">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+  </div>
+</div>
+
 </body>
 </html>

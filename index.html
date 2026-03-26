@@ -3,7 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>우리집 식탁 🥦</title>
+<title>우리집 식탁 🥦 — 가족 냉장고 관리 앱</title>
+<meta name="description" content="냉동·냉장·상온 보관함 관리, 식단 계획, 장보기 목록, 지출 분석까지. 가족이 함께 쓰는 스마트 냉장고 앱.">
+
+<!-- Open Graph (카카오톡·페이스북·슬랙 등 썸네일) -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://w-table.vercel.app/">
+<meta property="og:title"       content="우리집 식탁 🥦">
+<meta property="og:description" content="냉장고 관리부터 식단 계획, 장보기, 지출 분석까지. 가족이 함께 쓰는 스마트 냉장고 앱.">
+<meta property="og:image"       content="https://w-table.vercel.app/og-image.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"      content="ko_KR">
+<meta property="og:site_name"   content="우리집 식탁">
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:url"         content="https://w-table.vercel.app/">
+<meta name="twitter:title"       content="우리집 식탁 🥦">
+<meta name="twitter:description" content="냉장고 관리부터 식단 계획, 장보기, 지출 분석까지. 가족이 함께 쓰는 스마트 냉장고 앱.">
+<meta name="twitter:image"       content="https://w-table.vercel.app/og-image.png">
+
+<link rel="canonical" href="https://w-table.vercel.app/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥦</text></svg>">
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -73,71 +96,100 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--cream);color:var(--t
 .join-divider{text-align:center;font-size:12px;color:var(--muted);margin:14px 0;}
 
 /* ── HEADER ── */
-header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px 20px;
+header{
+  background:var(--warm);border-bottom:2px solid var(--border);
+  padding:0 14px;height:52px;
   display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:200;box-shadow:0 2px 12px var(--shad);}
-.logo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--sage-d);}
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 8px var(--shad);
+  gap:10px;
+}
+.logo{
+  font-family:'DM Serif Display',serif;font-size:18px;color:var(--sage-d);
+  white-space:nowrap;flex-shrink:0;
+}
 .logo span{color:var(--terra);}
-.conn{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);
-  background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:3px 10px;}
-.dot{width:7px;height:7px;border-radius:50%;background:#ccc;transition:.3s;}
-.dot.on{background:var(--sage);animation:pulse 2s infinite;}
-.dot.off{background:var(--red);}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+/* conn 완전 숨김 */
+.conn{display:none;}
+.dot{display:none;}
+
+/* 헤더 우측 */
+.header-right{
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
 
 /* 그룹 뱃지 */
 .group-badge{
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:center;gap:4px;
   background:var(--sage-l);border:1px solid var(--sage);
-  border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;
-  color:var(--sage-d);cursor:pointer;transition:.15s;position:relative;
+  border-radius:20px;padding:5px 12px;
+  font-size:12px;font-weight:700;color:var(--sage-d);
+  cursor:pointer;white-space:nowrap;
 }
-.group-badge:hover{background:var(--sage);color:#fff;}
-.group-code-text{letter-spacing:2px;font-family:monospace;}
+.group-badge:active{background:var(--sage);color:#fff;}
+.group-code-text{letter-spacing:1.5px;font-family:monospace;font-size:12px;}
 
 /* 그룹 팝업 */
 .group-popup{
-  position:absolute;top:46px;right:0;
+  position:absolute;top:44px;right:0;
   background:#fff;border:1.5px solid var(--border);border-radius:14px;
-  box-shadow:0 8px 30px var(--shad);padding:12px;min-width:220px;
+  box-shadow:0 8px 30px var(--shad);padding:12px;
+  min-width:240px;max-width:90vw;
   display:none;z-index:300;
 }
 .group-popup.open{display:block;}
 .gp-title{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;
   text-transform:uppercase;letter-spacing:.4px;}
-.gp-code{font-size:24px;font-weight:900;color:var(--sage-d);letter-spacing:4px;
+.gp-code{
+  font-size:26px;font-weight:900;color:var(--sage-d);letter-spacing:5px;
   font-family:monospace;text-align:center;padding:10px;
-  background:var(--cream);border-radius:10px;margin-bottom:8px;}
-.gp-item{display:flex;align-items:center;gap:8px;padding:8px 10px;
+  background:var(--cream);border-radius:10px;margin-bottom:8px;
+}
+.gp-item{display:flex;align-items:center;gap:8px;padding:9px 10px;
   border-radius:9px;font-size:13px;cursor:pointer;transition:.15s;color:var(--txt);}
-.gp-item:hover{background:var(--cream);}
+.gp-item:hover,.gp-item:active{background:var(--cream);}
 .gp-item.danger{color:var(--red);}
 .gp-item.danger:hover{background:var(--red-l);}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:5px;background:var(--sage);color:#fff;
-  border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-family:inherit;
-  font-weight:600;cursor:pointer;transition:all .2s;}
-.btn:hover{background:var(--sage-d);transform:translateY(-1px);}
-.btn.sm{padding:6px 12px;font-size:12px;}
+.btn{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--sage);color:#fff;border:none;border-radius:10px;
+  padding:8px 14px;font-size:13px;font-family:inherit;font-weight:600;
+  cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;
+}
+.btn:hover{background:var(--sage-d);}
+.btn:active{transform:scale(.97);}
+.btn.sm{padding:6px 11px;font-size:12px;}
 .btn.terra{background:var(--terra);}.btn.terra:hover{background:#a05030;}
 
 /* ── TABS ── */
-.tabbar{background:var(--warm);border-bottom:2px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
+.tabbar{
+  background:var(--warm);border-bottom:2px solid var(--border);
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
 .tabbar::-webkit-scrollbar{display:none;}
-.tab{padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;
-  border-bottom:2.5px solid transparent;color:var(--muted);transition:all .15s;user-select:none;}
+.tab{
+  padding:11px 14px;font-size:12px;font-weight:600;cursor:pointer;
+  white-space:nowrap;border-bottom:2.5px solid transparent;
+  color:var(--muted);transition:all .15s;user-select:none;flex-shrink:0;
+}
 .tab.active{color:var(--sage-d);border-bottom-color:var(--sage);}
 .tab:hover:not(.active){color:var(--txt);}
-.page{display:none;padding:18px;}
+.page{display:none;padding:14px;}
 .page.active{display:block;}
 
 /* ── SUMMARY ── */
-.sumrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px;}
-.scard{background:var(--warm);border:1.5px solid var(--border);border-radius:14px;padding:13px 15px;}
-.slabel{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
-.sval{font-size:24px;font-weight:900;line-height:1.1;margin-top:2px;}
-.ssub{font-size:11px;color:var(--muted);margin-top:2px;}
+.sumrow{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-bottom:14px;
+}
+.scard{background:var(--warm);border:1.5px solid var(--border);border-radius:12px;padding:11px 12px;}
+.slabel{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.sval{font-size:22px;font-weight:900;line-height:1.1;margin-top:2px;}
+.ssub{font-size:10px;color:var(--muted);margin-top:2px;}
 .c1 .sval{color:var(--sage-d);}.c2 .sval{color:var(--terra);}.c3 .sval{color:var(--red);}
 
 /* ── CATEGORY SUMMARY ── */
@@ -176,8 +228,8 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .ilist::-webkit-scrollbar{width:3px;}
 .ilist::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 .icard{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-radius:10px;
-  border:1.5px solid var(--border);background:var(--cream);transition:all .2s;animation:si .2s;}
-@keyframes si{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  border:1.5px solid var(--border);background:var(--cream);}
+/* si 애니메이션 제거 — Firebase 재렌더 시 깜빡임 원인 */
 .icard:hover{border-color:var(--sage-l);background:var(--warm);}
 .cdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
 .ibody{flex:1;min-width:0;}
@@ -203,7 +255,7 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .bicon.edit:hover{background:var(--amber-l);color:var(--amber);}
 
 /* ── MODAL ── */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.38);backdrop-filter:blur(4px);
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);
   z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;
   opacity:0;pointer-events:none;transition:opacity .2s;}
 .ov.open{opacity:1;pointer-events:all;}
@@ -285,7 +337,7 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .ctitle{font-size:14px;font-weight:700;}
 .clist{padding:8px 10px;display:flex;flex-direction:column;gap:5px;max-height:460px;overflow-y:auto;}
 .ci{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:10px;
-  border:1.5px solid var(--border);background:var(--cream);transition:all .2s;animation:si .2s;}
+  border:1.5px solid var(--border);background:var(--cream);}
 .ci:hover{border-color:var(--sage-l);}
 .ci.chk{opacity:.5;}.ci.chk .cin{text-decoration:line-through;}
 .cbox2{width:19px;height:19px;border-radius:6px;border:2px solid var(--border);
@@ -317,7 +369,7 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 .ehead{display:grid;grid-template-columns:1fr 80px 90px 34px;gap:8px;
   padding:9px 14px;background:var(--cream);border-bottom:1.5px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);}
 .erow{display:grid;grid-template-columns:1fr 80px 90px 34px;gap:8px;
-  padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;animation:si .2s;}
+  padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;}
 .erow:last-child{border-bottom:none;}
 .erow:hover{background:var(--cream);}
 .ename2{font-size:13px;font-weight:600;}
@@ -331,7 +383,7 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 /* ── 쿠팡 광고 ── */
 .ad-banner{display:block;text-decoration:none;padding:14px 18px;
   background:linear-gradient(135deg,#fff8f8,var(--warm));border:1.5px solid #f5d0d0;
-  border-radius:14px;margin:14px 0 0;position:relative;overflow:hidden;transition:all .2s;}
+  border-radius:14px;margin:14px 0 0;position:relative;overflow:hidden;}
 .ad-banner:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,33,26,.1);}
 .ad-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e8211a,#ff6b35,#e8211a);}
 .ad-banner-row{display:flex;align-items:center;gap:12px;}
@@ -436,21 +488,18 @@ header{background:var(--warm);border-bottom:2px solid var(--border);padding:13px
 
 <!-- ===== MAIN APP ===== -->
 <header>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <div class="logo">우리집 식탁<span> 🥦</span></div>
-    <div class="conn"><div class="dot" id="dot"></div><span id="connTxt">연결중…</span></div>
-  </div>
-  <div style="display:flex;align-items:center;gap:8px;">
+  <div class="logo">우리집 식탁 <span>🥦</span></div>
+  <div class="header-right">
     <button class="btn" onclick="openItemModal()">＋ 식품 추가</button>
     <div style="position:relative;">
       <div class="group-badge" onclick="toggleGroupPopup()">
         👥 <span class="group-code-text" id="headerGroupCode">------</span>
       </div>
       <div class="group-popup" id="groupPopup">
-        <div class="gp-title">내 그룹 정보</div>
+        <div class="gp-title">내 그룹</div>
         <div class="gp-code" id="popupGroupCode">------</div>
-        <div class="gp-item" onclick="copyCode()">📋 코드 복사 (가족에게 공유)</div>
-        <div class="gp-item" onclick="shareCode()">📤 공유하기</div>
+        <div class="gp-item" onclick="copyCode()">📋 코드만 복사</div>
+        <div class="gp-item" onclick="shareCode()">📤 링크+코드 공유</div>
         <div class="gp-item danger" onclick="leaveGroup()">🚪 그룹 나가기</div>
       </div>
     </div>
@@ -693,12 +742,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
-db.ref('.info/connected').on('value', s => {
-  const ok = s.val();
-  document.getElementById('dot').className = 'dot ' + (ok ? 'on' : 'off');
-  document.getElementById('connTxt').textContent = ok ? '실시간 연동' : '오프라인';
-});
+// 실시간 연동 표시 제거됨
 
 // ══════════════════════════════════════════════════
 // STATE
@@ -791,14 +835,30 @@ function leaveGroup(){
 }
 
 function copyCode(){
-  navigator.clipboard.writeText(currentGroup).then(()=>toast('그룹 코드 복사됨: '+currentGroup+' 📋'));
+  navigator.clipboard.writeText(currentGroup)
+    .then(()=>toast('그룹 코드 복사됨: '+currentGroup+' 📋'));
   document.getElementById('groupPopup').classList.remove('open');
 }
 
 function shareCode(){
-  const text = '우리집 식탁 그룹 코드: '+currentGroup+'\n아래 링크로 접속 후 코드를 입력하세요!\n'+location.href;
-  if(navigator.share){ navigator.share({title:'우리집 식탁 그룹 초대',text}); }
-  else { navigator.clipboard.writeText(text).then(()=>toast('공유 텍스트 복사됨!')); }
+  const APP_URL = 'https://w-table.vercel.app';
+  const text =
+    '🥦 우리집 식탁 초대\n\n' +
+    '아래 링크로 접속 후 그룹 코드를 입력하세요!\n' +
+    '🔗 ' + APP_URL + '\n\n' +
+    '👥 그룹 코드: ' + currentGroup + '\n\n' +
+    '냉장고 재고·식단·장보기·지출을 가족과 함께 관리해요 😊';
+
+  if(navigator.share){
+    navigator.share({
+      title:'우리집 식탁 🥦',
+      text,
+      url: APP_URL
+    }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text)
+      .then(()=>toast('공유 텍스트 복사됨! 카카오톡에 붙여넣기 하세요 📋'));
+  }
   document.getElementById('groupPopup').classList.remove('open');
 }
 
@@ -812,12 +872,31 @@ document.addEventListener('click', e=>{
 
 // ── Firebase 리스너 ──
 let activeListeners = [];
+
+// 디바운스: 짧은 시간 내 연속 호출을 한 번으로 묶음 (깜빡임 핵심 해결)
+function debounce(fn, ms){
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(()=>fn(...args), ms); };
+}
+
+const _renderStorage = debounce(renderStorage, 80);
+const _renderMeal    = debounce(renderMeal,    80);
+const _renderCart    = debounce(renderCart,    80);
+const _renderExp     = debounce(renderExp,     80);
+
 function startListeners(){
   const L=(r,cb)=>{r.on('value',cb); activeListeners.push(r);};
-  L(gRef('items'), s=>{items=s.val()||{}; renderStorage(); renderMeal(); renderCart();});
-  L(gRef('cart'),  s=>{carts=s.val()||{}; renderCart();});
-  L(gRef('meals'), s=>{meals=s.val()||{}; renderMeal();});
-  L(gRef('expenses'), s=>{exps=s.val()||{}; renderExp();});
+
+  // items 변경 → storage만 즉시, meal/cart는 디바운스
+  L(gRef('items'), s=>{
+    items = s.val()||{};
+    _renderStorage();
+    _renderMeal();
+    _renderCart();
+  });
+  L(gRef('cart'),     s=>{ carts=s.val()||{}; _renderCart(); });
+  L(gRef('meals'),    s=>{ meals=s.val()||{}; _renderMeal(); });
+  L(gRef('expenses'), s=>{ exps =s.val()||{}; _renderExp();  });
 }
 function stopListeners(){
   activeListeners.forEach(r=>r.off());

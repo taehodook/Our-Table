@@ -3106,9 +3106,6 @@
       const c = carts[id]; if (!c || c.checked) return; // 한국 시간(KST) 기준으로 정확한 오늘 날짜 계산
       const d = new Date();
       d.setHours(d.getHours() + 9);
-      // 한국 시간(KST) 기준으로 정확한 오늘 날짜 계산
-      const d = new Date();
-      d.setHours(d.getHours() + 9);
       const today = d.toISOString().split('T')[0]; const actualPrice = c.price || 0;
       const after = (eid) => { gRef('cart/' + id).update({ checked: true, doneAt: Date.now(), actualPrice, expenseId: eid || null }); if (c.loc) { if (c.linkedId && items[c.linkedId]) { const itm = items[c.linkedId]; if (itm.unit === 'pct') gRef('items/' + c.linkedId + '/stock').set(100); else if (itm.unit === 'count') gRef('items/' + c.linkedId + '/stock').set(Number(itm.stock || 0) + 1); if (c.boughtDate) gRef('items/' + c.linkedId + '/bought').set(c.boughtDate); toast(c.name + ' 재고 보충됐어요! ✓'); } else { gRef('items').push({ loc: c.loc, cat: c.itemCat || '기타', name: c.name, bought: c.boughtDate || today, exp: c.expDate || '', memo: '', unit: c.cUnit || 'pct', stock: c.cStock != null ? c.cStock : 100, ts: Date.now() }); toast(c.name + ' 보관함에 추가됐어요! ✓'); } } else toast(c.name + ' 구매완료!' + (actualPrice > 0 ? ' · ₩' + actualPrice.toLocaleString() + ' 기록' : '')); };
       if (actualPrice > 0) { const ref = gRef('expenses').push({ date: today, name: c.name, amt: actualPrice, cat: c.cat || '식재료', memo: '장보기 자동기록', cartId: id, ts: Date.now() }); after(ref.key); } else after(null);
@@ -3260,8 +3257,6 @@
         return;
       }
 
-      const d = new Date();
-      d.setHours(d.getHours() + 9);
       // 한국 시간(KST) 기준으로 정확한 오늘 날짜 계산
       const d = new Date();
       d.setHours(d.getHours() + 9);

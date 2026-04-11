@@ -2144,208 +2144,225 @@
   <!-- PAGE: HOME DASHBOARD -->
   <div class="page active" id="page-home">
 
-    <!-- 주간 네비 -->
+    <div class="sect" style="margin-bottom: 20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size:16px; margin:0; font-weight:bold;">💸 우리집 지출 요약</h2>
+        <select id="expense-filter" onchange="updateHomeExpenses()"
+          style="padding:4px 8px; border-radius:6px; border:1px solid #ccc; font-family:inherit; font-size:13px;">
+          <option value="month">이번 달</option>
+          <option value="week">이번 주</option>
+          <option value="day">오늘</option>
+        </select>
+      </div>
+      <div id="home-expense-result"
+        style="background:#fff; padding:18px; border-radius:10px; border:1px solid #eee; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.02);">
+      </div>
+    </div>
     <div class="hw-nav">
-      <button class="btn sm" onclick="homeWeek(-1)">◀</button>
-      <div class="hw-range" id="hwRange">이번 주</div>
-      <button class="btn sm terra" onclick="homeWeek(0)">오늘</button>
-      <button class="btn sm" onclick="homeWeek(1)">▶</button>
+
+      <!-- 주간 네비 -->
+      <div class="hw-nav">
+        <button class="btn sm" onclick="homeWeek(-1)">◀</button>
+        <div class="hw-range" id="hwRange">이번 주</div>
+        <button class="btn sm terra" onclick="homeWeek(0)">오늘</button>
+        <button class="btn sm" onclick="homeWeek(1)">▶</button>
+      </div>
+
+      <!-- ① 요일별 장보기 테이블 -->
+      <div class="hbox">
+        <div class="hbox-head">
+          <span class="hbox-title">🛒 이번 주 장보기</span>
+          <span class="hbox-total" id="hwCartTotal">합계 ₩0</span>
+        </div>
+        <div class="hw-scroll">
+          <table class="hw-table" id="hwCartTable">
+            <thead>
+              <tr>
+                <th class="hw-th-day">요일</th>
+                <th>항목</th>
+                <th class="hw-th-amt">금액</th>
+                <th class="hw-th-memo">메모</th>
+              </tr>
+            </thead>
+            <tbody id="hwCartBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ② 요일별 식단 테이블 -->
+      <div class="hbox" style="margin-top:14px;">
+        <div class="hbox-head">
+          <span class="hbox-title">📅 이번 주 식단</span>
+        </div>
+        <div class="hw-scroll">
+          <table class="hw-table" id="hwMealTable">
+            <thead>
+              <tr>
+                <th class="hw-th-mtype">식사</th>
+                <th class="hw-th-day2">월</th>
+                <th class="hw-th-day2">화</th>
+                <th class="hw-th-day2">수</th>
+                <th class="hw-th-day2">목</th>
+                <th class="hw-th-day2">금</th>
+                <th class="hw-th-day2">토</th>
+                <th class="hw-th-day2">일</th>
+              </tr>
+            </thead>
+            <tbody id="hwMealBody"></tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
 
-    <!-- ① 요일별 장보기 테이블 -->
-    <div class="hbox">
-      <div class="hbox-head">
-        <span class="hbox-title">🛒 이번 주 장보기</span>
-        <span class="hbox-total" id="hwCartTotal">합계 ₩0</span>
-      </div>
-      <div class="hw-scroll">
-        <table class="hw-table" id="hwCartTable">
-          <thead>
-            <tr>
-              <th class="hw-th-day">요일</th>
-              <th>항목</th>
-              <th class="hw-th-amt">금액</th>
-              <th class="hw-th-memo">메모</th>
-            </tr>
-          </thead>
-          <tbody id="hwCartBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ② 요일별 식단 테이블 -->
-    <div class="hbox" style="margin-top:14px;">
-      <div class="hbox-head">
-        <span class="hbox-title">📅 이번 주 식단</span>
-      </div>
-      <div class="hw-scroll">
-        <table class="hw-table" id="hwMealTable">
-          <thead>
-            <tr>
-              <th class="hw-th-mtype">식사</th>
-              <th class="hw-th-day2">월</th>
-              <th class="hw-th-day2">화</th>
-              <th class="hw-th-day2">수</th>
-              <th class="hw-th-day2">목</th>
-              <th class="hw-th-day2">금</th>
-              <th class="hw-th-day2">토</th>
-              <th class="hw-th-day2">일</th>
-            </tr>
-          </thead>
-          <tbody id="hwMealBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- PAGE: STORAGE -->
-  <div class="page" id="page-storage">
-    <div class="sumrow">
-      <div class="scard c1">
-        <div class="slabel">총 식품</div>
-        <div class="sval" id="sT">0</div>
-        <div class="ssub">전체 보관</div>
-      </div>
-      <div class="scard c2">
-        <div class="slabel">⚠️ 유통 임박</div>
-        <div class="sval" id="sW">0</div>
-        <div class="ssub">3일 이내</div>
-      </div>
-      <div class="scard c3">
-        <div class="slabel">🚨 만료됨</div>
-        <div class="sval" id="sE">0</div>
-        <div class="ssub">기한 초과</div>
-      </div>
-    </div>
-    <div class="sgrid">
-      <div class="sbox sbox-frozen">
-        <div class="shead">
-          <div class="sicon">❄️</div>
-          <div style="flex:1;">
-            <div class="sname">냉동고</div>
-            <div class="scnt" id="cf">0개</div>
-          </div><select class="sort-sel" onchange="setSort('frozen',this.value)">
-            <option value="exp">유통기한순</option>
-            <option value="name">이름순</option>
-            <option value="newest">최신순</option>
-          </select>
+    <!-- PAGE: STORAGE -->
+    <div class="page" id="page-storage">
+      <div class="sumrow">
+        <div class="scard c1">
+          <div class="slabel">총 식품</div>
+          <div class="sval" id="sT">0</div>
+          <div class="ssub">전체 보관</div>
         </div>
-        <div class="cat-summary" id="cs-frozen"></div>
-        <div class="catbar" id="bar-frozen"></div>
-        <div class="ilist" id="lst-frozen"></div>
-      </div>
-      <div class="sbox sbox-fresh">
-        <div class="shead">
-          <div class="sicon">🌿</div>
-          <div style="flex:1;">
-            <div class="sname">냉장고</div>
-            <div class="scnt" id="cn">0개</div>
-          </div><select class="sort-sel" onchange="setSort('fresh',this.value)">
-            <option value="exp">유통기한순</option>
-            <option value="name">이름순</option>
-            <option value="newest">최신순</option>
-          </select>
+        <div class="scard c2">
+          <div class="slabel">⚠️ 유통 임박</div>
+          <div class="sval" id="sW">0</div>
+          <div class="ssub">3일 이내</div>
         </div>
-        <div class="cat-summary" id="cs-fresh"></div>
-        <div class="catbar" id="bar-fresh"></div>
-        <div class="ilist" id="lst-fresh"></div>
-      </div>
-      <div class="sbox sbox-room">
-        <div class="shead">
-          <div class="sicon">🌡️</div>
-          <div style="flex:1;">
-            <div class="sname">상온 보관</div>
-            <div class="scnt" id="cr">0개</div>
-          </div><select class="sort-sel" onchange="setSort('room',this.value)">
-            <option value="exp">유통기한순</option>
-            <option value="name">이름순</option>
-            <option value="newest">최신순</option>
-          </select>
-        </div>
-        <div class="cat-summary" id="cs-room"></div>
-        <div class="catbar" id="bar-room"></div>
-        <div class="ilist" id="lst-room"></div>
-      </div>
-    </div>
-    <a class="ad-banner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener"
-      onclick="trackAd('storage')">
-      <div class="ad-banner-label">광고</div>
-      <div class="ad-banner-row">
-        <div class="ad-banner-icon">🛒</div>
-        <div class="ad-banner-body">
-          <div class="ad-banner-title">냉장고 재료 쿠팡에서 빠르게!</div>
-          <div class="ad-banner-sub">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
-        </div>
-        <div class="ad-banner-cta">쿠팡 바로가기</div>
-      </div>
-    </a>
-  </div>
-
-  <!-- PAGE: MEAL -->
-  <div class="page" id="page-meal">
-    <div class="phead">
-      <div>
-        <div class="ptitle">📅 이번 주 식단</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="wrange"></div>
-      </div>
-      <div style="display:flex;gap:6px;"><button class="btn sm" onclick="mvWeek(-1)">◀ 이전주</button><button
-          class="btn sm terra" onclick="mvWeek(0)">오늘</button><button class="btn sm" onclick="mvWeek(1)">다음주 ▶</button>
-      </div>
-    </div>
-    <div class="wgrid" id="wgrid"></div>
-  </div>
-
-  <!-- PAGE: CART -->
-  <div class="page" id="page-cart">
-    <div class="phead">
-      <div class="ptitle">🛒 장보기 목록</div>
-      <div style="display:flex; gap:6px; align-items:center;">
-        <input type="file" id="receipt-upload" accept="image/*" style="display: none;">
-        <button class="btn sm terra" onclick="document.getElementById('receipt-upload').click()">📸 영수증 스캔</button>
-      </div>
-    </div>
-    <div id="scan-status"
-      style="font-size: 12px; color: var(--sage-d); font-weight: bold; text-align: center; margin-bottom: 10px;"></div>
-
-    <div class="clayout">
-      <div class="cbox">
-        <div class="chead">
-          <div class="ctitle">🛒 구매 예정</div><button class="btn sm" onclick="openCartModal()">＋ 추가</button>
-        </div>
-        <div class="clist" id="cl-pending"></div>
-        <div style="padding:8px 10px 4px;">
-          <a class="ad-inline" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener"
-            onclick="trackAd('cart')">
-            <div class="ad-inline-label">광고</div>
-            <div class="ad-inline-icon">🚀</div>
-            <div class="ad-inline-body">
-              <div class="ad-inline-title">같은 상품, 쿠팡 로켓배송으로!</div>
-              <div class="ad-inline-sub">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
-            </div>
-            <div class="ad-inline-arr">→</div>
-          </a>
+        <div class="scard c3">
+          <div class="slabel">🚨 만료됨</div>
+          <div class="sval" id="sE">0</div>
+          <div class="ssub">기한 초과</div>
         </div>
       </div>
-      <div class="cbox">
-        <div class="chead">
-          <div class="ctitle">✅ 구매 완료</div><button class="bicon del" onclick="clearDone()">🗑</button>
+      <div class="sgrid">
+        <div class="sbox sbox-frozen">
+          <div class="shead">
+            <div class="sicon">❄️</div>
+            <div style="flex:1;">
+              <div class="sname">냉동고</div>
+              <div class="scnt" id="cf">0개</div>
+            </div><select class="sort-sel" onchange="setSort('frozen',this.value)">
+              <option value="exp">유통기한순</option>
+              <option value="name">이름순</option>
+              <option value="newest">최신순</option>
+            </select>
+          </div>
+          <div class="cat-summary" id="cs-frozen"></div>
+          <div class="catbar" id="bar-frozen"></div>
+          <div class="ilist" id="lst-frozen"></div>
         </div>
-        <div class="clist" id="cl-done"></div>
+        <div class="sbox sbox-fresh">
+          <div class="shead">
+            <div class="sicon">🌿</div>
+            <div style="flex:1;">
+              <div class="sname">냉장고</div>
+              <div class="scnt" id="cn">0개</div>
+            </div><select class="sort-sel" onchange="setSort('fresh',this.value)">
+              <option value="exp">유통기한순</option>
+              <option value="name">이름순</option>
+              <option value="newest">최신순</option>
+            </select>
+          </div>
+          <div class="cat-summary" id="cs-fresh"></div>
+          <div class="catbar" id="bar-fresh"></div>
+          <div class="ilist" id="lst-fresh"></div>
+        </div>
+        <div class="sbox sbox-room">
+          <div class="shead">
+            <div class="sicon">🌡️</div>
+            <div style="flex:1;">
+              <div class="sname">상온 보관</div>
+              <div class="scnt" id="cr">0개</div>
+            </div><select class="sort-sel" onchange="setSort('room',this.value)">
+              <option value="exp">유통기한순</option>
+              <option value="name">이름순</option>
+              <option value="newest">최신순</option>
+            </select>
+          </div>
+          <div class="cat-summary" id="cs-room"></div>
+          <div class="catbar" id="bar-room"></div>
+          <div class="ilist" id="lst-room"></div>
+        </div>
       </div>
-    </div>
-    <div class="ad-wrap" style="margin-top:14px;">
-      <div class="ad-label">광고</div>
-      <a class="ad-inner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener"
-        onclick="trackAd('cart-bottom')">
-        <div class="ad-logo">쿠팡</div>
-        <div class="ad-body">
-          <div class="ad-title">🥩 신선식품 로켓프레시 특가</div>
-          <div class="ad-desc">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+      <a class="ad-banner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener"
+        onclick="trackAd('storage')">
+        <div class="ad-banner-label">광고</div>
+        <div class="ad-banner-row">
+          <div class="ad-banner-icon">🛒</div>
+          <div class="ad-banner-body">
+            <div class="ad-banner-title">냉장고 재료 쿠팡에서 빠르게!</div>
+            <div class="ad-banner-sub">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+          </div>
+          <div class="ad-banner-cta">쿠팡 바로가기</div>
         </div>
-        <div class="ad-badge">특가 보기</div>
       </a>
     </div>
+
+    <!-- PAGE: MEAL -->
+    <div class="page" id="page-meal">
+      <div class="phead">
+        <div>
+          <div class="ptitle">📅 이번 주 식단</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="wrange"></div>
+        </div>
+        <div style="display:flex;gap:6px;"><button class="btn sm" onclick="mvWeek(-1)">◀ 이전주</button><button
+            class="btn sm terra" onclick="mvWeek(0)">오늘</button><button class="btn sm" onclick="mvWeek(1)">다음주
+            ▶</button>
+        </div>
+      </div>
+      <div class="wgrid" id="wgrid"></div>
+    </div>
+
+    <!-- PAGE: CART -->
+    <div class="page" id="page-cart">
+      <div class="phead">
+        <div class="ptitle">🛒 장보기 목록</div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <input type="file" id="receipt-upload" accept="image/*" style="display: none;">
+          <button class="btn sm terra" onclick="document.getElementById('receipt-upload').click()">📸 영수증 스캔</button>
+        </div>
+      </div>
+      <div id="scan-status"
+        style="font-size: 12px; color: var(--sage-d); font-weight: bold; text-align: center; margin-bottom: 10px;">
+      </div>
+    </div>
+    <div class="cbox">
+      <div class="chead">
+        <div class="ctitle">🛒 구매 예정</div><button class="btn sm" onclick="openCartModal()">＋ 추가</button>
+      </div>
+      <div class="clist" id="cl-pending"></div>
+      <div style="padding:8px 10px 4px;">
+        <a class="ad-inline" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener"
+          onclick="trackAd('cart')">
+          <div class="ad-inline-label">광고</div>
+          <div class="ad-inline-icon">🚀</div>
+          <div class="ad-inline-body">
+            <div class="ad-inline-title">같은 상품, 쿠팡 로켓배송으로!</div>
+            <div class="ad-inline-sub">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+          </div>
+          <div class="ad-inline-arr">→</div>
+        </a>
+      </div>
+    </div>
+    <div class="cbox">
+      <div class="chead">
+        <div class="ctitle">✅ 구매 완료</div><button class="bicon del" onclick="clearDone()">🗑</button>
+      </div>
+      <div class="clist" id="cl-done"></div>
+    </div>
+  </div>
+  <div class="ad-wrap" style="margin-top:14px;">
+    <div class="ad-label">광고</div>
+    <a class="ad-inner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener"
+      onclick="trackAd('cart-bottom')">
+      <div class="ad-logo">쿠팡</div>
+      <div class="ad-body">
+        <div class="ad-title">🥩 신선식품 로켓프레시 특가</div>
+        <div class="ad-desc">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+      </div>
+      <div class="ad-badge">특가 보기</div>
+    </a>
+  </div>
   </div>
 
   <!-- PAGE: EXPENSE -->
@@ -2487,6 +2504,24 @@
       <div class="fg"><label class="fl">메모</label><input class="fi" id="mMemo" placeholder="예: 맵게" /></div>
       <div class="mbtns"><button class="bcnl" onclick="closeOv('mealModal')">취소</button><button class="bok"
           onclick="saveMeal()">저장하기</button></div>
+    </div>
+    <div class="ov" id="modal-receipt">
+      <div class="modal">
+        <div class="mhead">
+          <div class="mtitle">🧾 영수증 내역 확인</div>
+          <div class="mclose" onclick="closeOv('modal-receipt')">✕</div>
+        </div>
+        <div class="mbody" style="max-height: 60vh; overflow-y: auto;">
+          <p style="font-size: 13px; color: var(--sage-d); margin-bottom: 12px; font-weight: bold;">
+            AI가 분석한 내역입니다. 수정하거나 삭제한 뒤 저장하세요!
+          </p>
+          <div id="receipt-items-container" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+        <div class="mfoot">
+          <button class="btn w100" style="background: var(--sage); color: white;" onclick="saveReceiptData()">✅ 한 번에
+            저장하기</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2776,6 +2811,7 @@
       L(gRef('cart'), s => { carts = s.val() || {}; _renderCart(); _renderHome(); });
       L(gRef('meals'), s => { meals = s.val() || {}; _renderMeal(); _renderHome(); });
       L(gRef('expenses'), s => { exps = s.val() || {}; _renderExp(); _renderHome(); });
+      updateHomeExpenses();
     }
     function stopListeners() {
       activeListeners.forEach(r => r.off());
@@ -3016,7 +3052,7 @@
 
     // ITEM MODAL
     function selUnit(u) { currentUnit = u; document.querySelectorAll('.uopt').forEach(b => b.classList.toggle('sel', b.dataset.u === u)); const show = u !== 'none'; document.getElementById('stockValWrap').style.display = show ? '' : 'none'; if (show) { document.getElementById('stockValLabel').textContent = u === 'pct' ? '현재 재고 (%)' : '현재 재고 (개수)'; document.getElementById('fStock').placeholder = u === 'pct' ? '100' : '예: 3'; } }
-    function openItemModal() { editingItemId = null; document.getElementById('itemModalTitle').textContent = '📦 식품 추가'; document.getElementById('itemModalOkBtn').textContent = '추가하기'; document.getElementById('fBought').value = new Date().toISOString().split('T')[0];['fName', 'fMemo'].forEach(i => document.getElementById(i).value = ''); document.getElementById('fStock').value = ''; selUnit('pct'); resetExp(); openOv('itemModal'); }
+    function openItemModal() { editingItemId = null; document.getElementById('itemModalTitle').textContent = '📦 식품 추가'; document.getElementById('itemModalOkBtn').textContent = '추가하기'; document.getElementById('fBought').value = (function () { let d = new Date(); d.setHours(d.getHours() + 9); return d.toISOString().split('T')[0]; })();['fName', 'fMemo'].forEach(i => document.getElementById(i).value = ''); document.getElementById('fStock').value = ''; selUnit('pct'); resetExp(); openOv('itemModal'); }
     function openEditModal(id) { editingItemId = id; const v = items[id]; if (!v) return; document.getElementById('itemModalTitle').textContent = '✏️ 식품 수정'; document.getElementById('itemModalOkBtn').textContent = '수정하기'; document.getElementById('fLoc').value = v.loc || 'fresh'; document.getElementById('fCat').value = v.cat || '기타'; document.getElementById('fName').value = v.name || ''; document.getElementById('fBought').value = v.bought || ''; document.getElementById('fMemo').value = v.memo || ''; selUnit(v.unit || 'none'); if (v.unit && v.unit !== 'none') document.getElementById('fStock').value = v.stock !== undefined ? v.stock : ''; resetExp(); if (v.exp) { document.getElementById('fExp').value = v.exp; document.getElementById('etoggle').checked = true; document.getElementById('edr').classList.add('show'); document.getElementById('fExpDate').value = v.exp; const d = calcD(v.exp); document.getElementById('eprev').textContent = '📅 ' + v.exp.replace(/-/g, '.') + (d >= 0 ? ' (D-' + d + ')' : ' (D+' + Math.abs(d) + ' 만료)'); } openOv('itemModal'); }
     function saveItem() { const name = document.getElementById('fName').value.trim(); if (!name) { toast('상품명을 입력해주세요'); return; } const data = { loc: document.getElementById('fLoc').value, cat: document.getElementById('fCat').value, name, bought: document.getElementById('fBought').value, exp: document.getElementById('fExp').value, memo: document.getElementById('fMemo').value.trim(), unit: currentUnit, stock: currentUnit !== 'none' ? Number(document.getElementById('fStock').value || 0) : null, ts: Date.now() }; if (editingItemId) { gRef('items/' + editingItemId).update(data); toast(name + ' 수정 완료! ✓'); } else { gRef('items').push(data); toast(name + ' 추가 완료! ✓'); } closeOv('itemModal'); }
     function delItem(id) { if (confirm('삭제할까요?')) gRef('items/' + id).remove(); }
@@ -3060,14 +3096,20 @@
       document.getElementById('cl-pending').innerHTML = pend.length ? pend.map(mkP).join('') : '<div class="empty"><div>🛒</div>구매 예정 없음</div>';
       document.getElementById('cl-done').innerHTML = done.length ? done.map(mkD).join('') : '<div class="empty"><div>✅</div>완료 목록 없음</div>';
     }
-    function openCartModal() { document.getElementById('cartModalTitle').textContent = '🛒 장보기 추가'; document.getElementById('cartModalOkBtn').textContent = '추가하기';['cEditId', 'cLinkedId'].forEach(i => document.getElementById(i).value = '');['cName', 'cMemo', 'cPrice', 'cStock'].forEach(i => document.getElementById(i).value = ''); document.getElementById('cLoc').value = ''; document.getElementById('cBought').value = new Date().toISOString().split('T')[0]; document.getElementById('cartSearch').value = ''; document.getElementById('cartPicker').innerHTML = ''; resetCExp(); openOv('cartModal'); }
-    function openEditCart(id) { const v = carts[id]; if (!v) return; document.getElementById('cartModalTitle').textContent = '✏️ 장보기 수정'; document.getElementById('cartModalOkBtn').textContent = '수정하기'; document.getElementById('cEditId').value = id; document.getElementById('cName').value = v.name || ''; document.getElementById('cMemo').value = v.memo || ''; document.getElementById('cPrice').value = fmtAmt(v.checked ? (v.actualPrice || v.price || 0) : (v.price || 0)); document.getElementById('cCat').value = v.cat || '기타'; document.getElementById('cLoc').value = v.loc || ''; document.getElementById('cLinkedId').value = v.linkedId || ''; document.getElementById('cItemCat').value = v.itemCat || '기타'; document.getElementById('cBought').value = v.boughtDate || new Date().toISOString().split('T')[0]; document.getElementById('cartSearch').value = ''; document.getElementById('cartPicker').innerHTML = ''; selCUnit(v.cUnit || 'none'); if (v.cUnit && v.cUnit !== 'none') document.getElementById('cStock').value = v.cStock !== undefined ? v.cStock : ''; resetCExp(); if (v.expDate) { document.getElementById('cExp').value = v.expDate; document.getElementById('cetoggle').checked = true; document.getElementById('cedr').classList.add('show'); document.getElementById('cExpDate').value = v.expDate; const d = calcD(v.expDate); document.getElementById('ceprev').textContent = '📅 ' + v.expDate.replace(/-/g, '.') + (d >= 0 ? ' (D-' + d + ')' : ' (D+' + Math.abs(d) + ' 만료)'); } openOv('cartModal'); }
+    function openCartModal() { document.getElementById('cartModalTitle').textContent = '🛒 장보기 추가'; document.getElementById('cartModalOkBtn').textContent = '추가하기';['cEditId', 'cLinkedId'].forEach(i => document.getElementById(i).value = '');['cName', 'cMemo', 'cPrice', 'cStock'].forEach(i => document.getElementById(i).value = ''); document.getElementById('cLoc').value = ''; document.getElementById('cBought').value = (function () { let d = new Date(); d.setHours(d.getHours() + 9); return d.toISOString().split('T')[0]; })(); document.getElementById('cartSearch').value = ''; document.getElementById('cartPicker').innerHTML = ''; resetCExp(); openOv('cartModal'); }
+    function openEditCart(id) { const v = carts[id]; if (!v) return; document.getElementById('cartModalTitle').textContent = '✏️ 장보기 수정'; document.getElementById('cartModalOkBtn').textContent = '수정하기'; document.getElementById('cEditId').value = id; document.getElementById('cName').value = v.name || ''; document.getElementById('cMemo').value = v.memo || ''; document.getElementById('cPrice').value = fmtAmt(v.checked ? (v.actualPrice || v.price || 0) : (v.price || 0)); document.getElementById('cCat').value = v.cat || '기타'; document.getElementById('cLoc').value = v.loc || ''; document.getElementById('cLinkedId').value = v.linkedId || ''; document.getElementById('cItemCat').value = v.itemCat || '기타'; document.getElementById('cBought').value = v.boughtDate || (function () { let d = new Date(); d.setHours(d.getHours() + 9); return d.toISOString().split('T')[0]; })(); document.getElementById('cartSearch').value = ''; document.getElementById('cartPicker').innerHTML = ''; selCUnit(v.cUnit || 'none'); if (v.cUnit && v.cUnit !== 'none') document.getElementById('cStock').value = v.cStock !== undefined ? v.cStock : ''; resetCExp(); if (v.expDate) { document.getElementById('cExp').value = v.expDate; document.getElementById('cetoggle').checked = true; document.getElementById('cedr').classList.add('show'); document.getElementById('cExpDate').value = v.expDate; const d = calcD(v.expDate); document.getElementById('ceprev').textContent = '📅 ' + v.expDate.replace(/-/g, '.') + (d >= 0 ? ' (D-' + d + ')' : ' (D+' + Math.abs(d) + ' 만료)'); } openOv('cartModal'); }
     function saveCart() {
       const name = document.getElementById('cName').value.trim(); if (!name) { toast('상품명을 입력해주세요'); return; } const editId = document.getElementById('cEditId').value; const data = { name, memo: document.getElementById('cMemo').value.trim(), price: parseAmt(document.getElementById('cPrice').value), cat: document.getElementById('cCat').value, loc: document.getElementById('cLoc').value, itemCat: document.getElementById('cItemCat').value, linkedId: document.getElementById('cLinkedId').value || null, boughtDate: document.getElementById('cBought').value, expDate: document.getElementById('cExp').value, cUnit: currentCUnit, cStock: currentCUnit !== 'none' ? Number(document.getElementById('cStock').value || 100) : null };
       if (editId) { const prev = carts[editId]; gRef('cart/' + editId).update(data); if (prev && prev.checked && prev.expenseId) { const newAmt = parseAmt(document.getElementById('cPrice').value) || prev.actualPrice || 0; gRef('expenses/' + prev.expenseId).update({ name: data.name, amt: newAmt, cat: data.cat }); gRef('cart/' + editId + '/actualPrice').set(newAmt); toast(name + ' 수정 + 지출 반영 ✓'); } else toast(name + ' 수정됐어요 ✓'); } else { gRef('cart').push({ ...data, checked: false, ts: Date.now() }); toast(name + ' 추가! 🛒'); } closeOv('cartModal');
     }
     function checkCart(id) {
-      const c = carts[id]; if (!c || c.checked) return; const today = new Date().toISOString().split('T')[0]; const actualPrice = c.price || 0;
+      const c = carts[id]; if (!c || c.checked) return; // 한국 시간(KST) 기준으로 정확한 오늘 날짜 계산
+      const d = new Date();
+      d.setHours(d.getHours() + 9);
+      // 한국 시간(KST) 기준으로 정확한 오늘 날짜 계산
+      const d = new Date();
+      d.setHours(d.getHours() + 9);
+      const today = d.toISOString().split('T')[0]; const actualPrice = c.price || 0;
       const after = (eid) => { gRef('cart/' + id).update({ checked: true, doneAt: Date.now(), actualPrice, expenseId: eid || null }); if (c.loc) { if (c.linkedId && items[c.linkedId]) { const itm = items[c.linkedId]; if (itm.unit === 'pct') gRef('items/' + c.linkedId + '/stock').set(100); else if (itm.unit === 'count') gRef('items/' + c.linkedId + '/stock').set(Number(itm.stock || 0) + 1); if (c.boughtDate) gRef('items/' + c.linkedId + '/bought').set(c.boughtDate); toast(c.name + ' 재고 보충됐어요! ✓'); } else { gRef('items').push({ loc: c.loc, cat: c.itemCat || '기타', name: c.name, bought: c.boughtDate || today, exp: c.expDate || '', memo: '', unit: c.cUnit || 'pct', stock: c.cStock != null ? c.cStock : 100, ts: Date.now() }); toast(c.name + ' 보관함에 추가됐어요! ✓'); } } else toast(c.name + ' 구매완료!' + (actualPrice > 0 ? ' · ₩' + actualPrice.toLocaleString() + ' 기록' : '')); };
       if (actualPrice > 0) { const ref = gRef('expenses').push({ date: today, name: c.name, amt: actualPrice, cat: c.cat || '식재료', memo: '장보기 자동기록', cartId: id, ts: Date.now() }); after(ref.key); } else after(null);
     }
@@ -3087,7 +3129,7 @@
     function renderHistory() { const all = Object.entries(exps); const months = [...new Set(all.map(([, v]) => monthKey(v.date)).filter(Boolean))].sort().reverse(); if (!months.length) months.push(new Date().toISOString().slice(0, 7)); if (!expMonth || !months.includes(expMonth)) expMonth = months[0]; document.getElementById('mtabs').innerHTML = months.map(m => '<div class="mtab' + (m === expMonth ? ' active' : '') + '" onclick="selMon(\'' + m + '\')">' + m + '</div>').join(''); const fil = all.filter(([, v]) => monthKey(v.date) === expMonth).sort(([, a], [, b]) => b.date.localeCompare(a.date)); document.getElementById('elist').innerHTML = fil.length ? fil.map(([id, v]) => '<div class="erow"><div><div class="ename2">' + v.name + (v.cartId && carts[v.cartId] ? '<span style="font-size:9px;color:var(--sage);background:var(--sage-l);border-radius:4px;padding:1px 5px;margin-left:4px;">🛒연동</span>' : '') + '</div><div class="edate2">' + v.date + (v.memo ? ' · ' + v.memo : '') + '</div></div><div class="ecat2">' + (v.cat || '기타') + '</div><div class="eprice">₩' + Number(v.amt).toLocaleString() + '</div><div style="display:flex;gap:2px;"><button class="bicon edit" onclick="openEditExp(\'' + id + '\')">✏️</button><button class="bicon del" onclick="delExp(\'' + id + '\')">🗑</button></div></div>').join('') : '<div class="empty" style="padding:30px"><div>💰</div>지출 내역이 없어요</div>'; }
     function selMon(m) { expMonth = m; renderHistory(); }
     function renderExp() { if (anPeriod === 'history') renderHistory(); else renderCharts(); }
-    function openExpModal() { document.getElementById('expModalTitle').textContent = '💰 지출 추가'; document.getElementById('expModalOkBtn').textContent = '저장하기';['eEditId', 'eLinkedCartId'].forEach(i => document.getElementById(i).value = ''); document.getElementById('eDate').value = new Date().toISOString().split('T')[0];['eName', 'eAmt', 'eMemo'].forEach(i => document.getElementById(i).value = ''); openOv('expModal'); }
+    function openExpModal() { document.getElementById('expModalTitle').textContent = '💰 지출 추가'; document.getElementById('expModalOkBtn').textContent = '저장하기';['eEditId', 'eLinkedCartId'].forEach(i => document.getElementById(i).value = ''); document.getElementById('eDate').value = (function () { let d = new Date(); d.setHours(d.getHours() + 9); return d.toISOString().split('T')[0]; })();['eName', 'eAmt', 'eMemo'].forEach(i => document.getElementById(i).value = ''); openOv('expModal'); }
     function openEditExp(expId) { const v = exps[expId]; if (!v) return; document.getElementById('expModalTitle').textContent = '✏️ 지출 수정'; document.getElementById('expModalOkBtn').textContent = '수정하기'; document.getElementById('eEditId').value = expId; document.getElementById('eLinkedCartId').value = v.cartId || ''; document.getElementById('eDate').value = v.date || ''; document.getElementById('eName').value = v.name || ''; document.getElementById('eAmt').value = fmtAmt(v.amt) || ''; document.getElementById('eCat').value = v.cat || '식재료'; document.getElementById('eMemo').value = v.memo || ''; openOv('expModal'); }
     function saveExp() { const n = document.getElementById('eName').value.trim(); const a = document.getElementById('eAmt').value; if (!n || !parseAmt(a)) { toast('상품명과 금액을 입력해주세요'); return; } const editId = document.getElementById('eEditId').value; const cartId = document.getElementById('eLinkedCartId').value; const data = { date: document.getElementById('eDate').value, name: n, amt: parseAmt(a), cat: document.getElementById('eCat').value, memo: document.getElementById('eMemo').value.trim() }; if (editId) { gRef('expenses/' + editId).update(data); if (cartId && carts[cartId]) gRef('cart/' + cartId).update({ name: n, price: parseAmt(a), actualPrice: parseAmt(a), cat: data.cat }); toast(n + ' 지출 수정됐어요 ✓'); } else { gRef('expenses').push({ ...data, ts: Date.now() }); toast('₩' + parseAmt(a).toLocaleString() + ' 기록! ✓'); } closeOv('expModal'); }
     function addExp() { saveExp(); }
@@ -3102,8 +3144,10 @@
     function trackAd(loc) { console.log('[쿠팡파트너스] 클릭:', loc); }
 
     // ══════════════════════════════════════════════════
-    // 영수증 AI 스캔 (Gemini)
+    // 영수증 AI 스캔 (Gemini) 및 확인 모달
     // ══════════════════════════════════════════════════
+    let tempReceiptItems = [];
+
     document.getElementById('receipt-upload').addEventListener('change', async function (e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -3116,46 +3160,23 @@
         const base64String = reader.result.split(',')[1];
 
         try {
-          // Vercel의 API를 호출합니다 (이후 단계에서 만들 예정!)
           const res = await fetch('/api/ocr', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ imageBase64: base64String })
           });
 
-          if (!res.ok) {
-            // 에러의 진짜 번호와 서버가 보낸 메시지를 잡아서 던집니다!
-            const errText = await res.text();
-            throw new Error(`API 에러 (${res.status}): ${errText}`);
-          }
+          if (!res.ok) throw new Error('API 호출 실패');
 
           const items = await res.json();
+          tempReceiptItems = items;
 
-          // 항목들을 하나씩 더해서 총액을 계산합니다.
-          let totalExpense = 0;
-          let memoList = [];
-          for (let item of items) {
-            totalExpense += item.price;
-            memoList.push(item.name);
-          }
+          renderReceiptItems();
+          openOv('modal-receipt');
 
-          // 우리집 식탁의 기존 방식(gRef)을 이용해 '지출 내역'에 바로 저장!
-          const today = new Date().toISOString().split('T')[0];
-          gRef('expenses').push({
-            date: today,
-            name: '📸 영수증 스캔',
-            amt: totalExpense,
-            cat: '식재료',
-            // 산 물건들을 메모에 요약해서 넣어줍니다.
-            memo: memoList.join(', ').substring(0, 30) + (memoList.length > 3 ? '...' : ''),
-            ts: Date.now()
-          });
-
-          toast(`✅ 영수증 인식 완료! (총 ₩${totalExpense.toLocaleString()})`);
           statusEl.innerText = "";
 
         } catch (error) {
-          // 에러의 진짜 이유를 화면에 그대로 출력합니다!
           statusEl.innerText = "❌ 에러 발생: " + error.message;
           console.error(error);
         }
@@ -3163,6 +3184,151 @@
       reader.readAsDataURL(file);
     });
 
+    function renderReceiptItems() {
+      const container = document.getElementById('receipt-items-container');
+      container.innerHTML = '';
+
+      tempReceiptItems.forEach((item, index) => {
+        container.innerHTML += `
+      <div style="display: flex; gap: 5px; align-items: center; background: #f5f5f5; padding: 8px; border-radius: 6px; margin-bottom: 5px;">
+        <input type="text" id="r-name-${index}" value="${item.name}" style="flex: 2; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;">
+        <input type="number" id="r-price-${index}" value="${item.price}" style="flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;">
+        <span style="font-size:14px; color:#666; white-space: nowrap;">원</span>
+        <button onclick="removeReceiptItem(${index})" style="background:none; border:none; color:#ff4d4f; font-size:18px; cursor:pointer; padding: 0 5px;">✕</button>
+      </div>
+    `;
+      });
+    }
+
+    function removeReceiptItem(index) {
+      updateTempItemsFromUI();
+      tempReceiptItems.splice(index, 1);
+      renderReceiptItems();
+    }
+
+    function updateTempItemsFromUI() {
+      tempReceiptItems.forEach((item, index) => {
+        const nameIpt = document.getElementById(`r-name-${index}`);
+        const priceIpt = document.getElementById(`r-price-${index}`);
+        if (nameIpt && priceIpt) {
+          item.name = nameIpt.value;
+          item.price = Number(priceIpt.value);
+        }
+      });
+    }
+
+    function saveReceiptData() {
+      updateTempItemsFromUI();
+
+      if (tempReceiptItems.length === 0) {
+        alert("저장할 항목이 없습니다.");
+        return;
+      }
+
+      let totalExpense = 0;
+      let memoList = [];
+
+      tempReceiptItems.forEach(item => {
+        totalExpense += item.price;
+        memoList.push(item.name);
+      });
+
+      // 한국 시간(KST) 기준으로 정확한 오늘 날짜 계산
+      const d = new Date();
+      d.setHours(d.getHours() + 9);
+      const today = d.toISOString().split('T')[0];
+      gRef('expenses').push({
+        date: today,
+        name: '📸 영수증 스캔',
+        amt: totalExpense,
+        cat: '식재료',
+        memo: memoList.join(', ').substring(0, 30) + (memoList.length > 3 ? '...' : ''),
+        ts: Date.now()
+      });
+
+      toast(`✅ 영수증 항목 저장 완료! (총 ₩${totalExpense.toLocaleString()})`);
+      closeOv('modal-receipt');
+    }
+    // 🟢 기간별 지출 요약 계산 및 화면 업데이트 함수
+    function updateHomeExpenses() {
+      const filter = document.getElementById('expense-filter').value;
+      const resultEl = document.getElementById('home-expense-result');
+
+      // 지출 데이터가 아직 없으면 0원 처리
+      if (typeof exps === 'undefined' || !exps || Object.keys(exps).length === 0) {
+        resultEl.innerHTML = `<div style="font-size:24px; font-weight:bold; color:#ccc;">₩0</div>`;
+        return;
+      }
+
+      const d = new Date();
+      d.setHours(d.getHours() + 9);
+      // 한국 시간(KST) 기준으로 정확한 오늘 날짜 계산
+      const d = new Date();
+      d.setHours(d.getHours() + 9);
+      const today = d.toISOString().split('T')[0];
+
+      let total = 0;
+      let title = "";
+      let filteredList = [];
+
+      Object.values(exps).forEach(exp => {
+        const expDate = exp.date;
+        let isMatch = false;
+
+        if (filter === 'day') {
+          title = "오늘의 총 지출";
+          if (expDate === todayStr) isMatch = true;
+        }
+        else if (filter === 'month') {
+          title = "이번 달 총 지출";
+          if (expDate.substring(0, 7) === todayStr.substring(0, 7)) isMatch = true;
+        }
+        else if (filter === 'week') {
+          title = "이번 주 총 지출";
+          const todayObj = new Date(todayStr);
+          const expObj = new Date(expDate);
+
+          let day = todayObj.getDay();
+          if (day === 0) day = 7;
+
+          const startOfWeek = new Date(todayObj);
+          startOfWeek.setDate(todayObj.getDate() - day + 1);
+
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+          if (expObj >= startOfWeek && expObj <= endOfWeek) isMatch = true;
+        }
+
+        if (isMatch) {
+          total += exp.amt;
+          filteredList.push(exp);
+        }
+      });
+
+      filteredList.sort((a, b) => b.ts - a.ts);
+
+      let listHtml = '';
+      filteredList.slice(0, 3).forEach(exp => {
+        listHtml += `
+      <div style="display:flex; justify-content:space-between; font-size:13px; color:#555; margin-top:8px; border-top:1px dashed #eee; padding-top:8px;">
+        <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:65%;">${exp.name}</span>
+        <span style="font-weight:bold;">₩${exp.amt.toLocaleString()}</span>
+      </div>`;
+      });
+
+      if (filteredList.length === 0) {
+        listHtml = `<div style="font-size:12px; color:#999; margin-top:10px;">이 기간에는 지출 내역이 없어요. 💸</div>`;
+      }
+
+      resultEl.innerHTML = `
+    <div style="font-size:13px; color:#666; margin-bottom:5px;">${title}</div>
+    <div style="font-size:28px; font-weight:900; color:var(--terra); letter-spacing:-0.5px;">₩${total.toLocaleString()}</div>
+    <div style="margin-top:10px; text-align:left;">
+      ${listHtml}
+    </div>
+  `;
+    }
     // ══════════════════════════════════════════════════
     // TOAST
     // ══════════════════════════════════════════════════

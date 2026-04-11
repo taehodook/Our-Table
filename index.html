@@ -2142,30 +2142,76 @@
     .cmp-diff.down { color: var(--sage-d); }
     .cmp-diff.same { color: var(--muted); }
 
-    /* ── 영수증 확인 모달 ── */
+    /* ── 영수증 확인 바텀시트 ── */
+    #modal-receipt {
+      align-items: flex-end;
+      padding: 0;
+    }
+    .receipt-sheet {
+      background: var(--warm);
+      border-radius: 22px 22px 0 0;
+      width: 100%;
+      max-width: 520px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -8px 40px rgba(0,0,0,.18);
+      transform: translateY(100%);
+      transition: transform .28s cubic-bezier(.32,1,.45,1);
+    }
+    .ov.open .receipt-sheet { transform: translateY(0); }
+    .receipt-sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px 10px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .receipt-sheet-header span { font-size: 16px; font-weight: 700; }
+    .receipt-sheet-header button { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); padding: 2px 4px; }
+    .receipt-sheet-hint { font-size: 11px; color: var(--muted); padding: 6px 20px 0; flex-shrink: 0; }
+    .receipt-sheet-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 16px 0;
+      -webkit-overflow-scrolling: touch;
+    }
+    .receipt-sheet-footer {
+      flex-shrink: 0;
+      border-top: 1.5px solid var(--border);
+      padding: 10px 16px 12px;
+      background: var(--warm);
+    }
+    .receipt-footer-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 10px;
+      padding: 0 2px;
+    }
+    .receipt-footer-summary #receipt-checked-count { color: var(--sage-d); font-weight: 600; }
+    .receipt-footer-summary strong { font-size: 17px; color: var(--sage-d); }
+
     .receipt-item-row {
       display: flex;
       align-items: center;
       gap: 8px;
       padding: 8px 0;
       border-bottom: 1px solid var(--border);
+      transition: opacity .15s;
     }
     .receipt-item-row:last-child { border-bottom: none; }
+    .receipt-item-row.unchecked { opacity: 0.38; }
+    .receipt-item-row.unchecked .ri-name,
+    .receipt-item-row.unchecked .ri-price { text-decoration: line-through; color: var(--muted); }
+    .ri-cb { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--sage-d); cursor: pointer; }
     .ri-name { flex: 1; font-size: 13px; border: 1px solid var(--border); border-radius: 6px; padding: 4px 7px; background: var(--cream); min-width: 0; }
     .ri-name:focus { outline: none; border-color: var(--sage); background: #fff; }
     .ri-price { width: 90px; font-size: 13px; font-weight: 700; text-align: right; border: 1px solid var(--border); border-radius: 6px; padding: 4px 7px; background: var(--cream); }
     .ri-price:focus { outline: none; border-color: var(--sage); background: #fff; }
     .ri-del { background: none; border: none; cursor: pointer; font-size: 15px; color: var(--red); padding: 2px 5px; flex-shrink: 0; }
-    .receipt-total-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0 0;
-      font-weight: 700;
-      font-size: 14px;
-      border-top: 2px solid var(--border);
-      margin-top: 4px;
-    }
 
     /* ── 지출 날짜 필터 ── */
     .hist-sub-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
@@ -2808,20 +2854,27 @@
     </div>
   </div>
 
-  <!-- 영수증 확인 모달 -->
+  <!-- 영수증 확인 바텀시트 -->
   <div class="ov" id="modal-receipt">
-    <div class="modal">
-      <div class="mtitle">🧾 영수증 항목 확인</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">품목명·가격을 직접 수정하거나 삭제할 수 있어요. 항목 추가도 가능해요.</div>
-      <div id="receipt-items-list" style="max-height:240px;overflow-y:auto;"></div>
-      <button class="btn sm" style="width:100%;margin-top:8px;" onclick="addReceiptItem()">＋ 항목 추가</button>
-      <div class="receipt-total-row" style="margin-top:10px;">
-        <span>합계</span>
-        <span id="receipt-total-display" style="font-size:18px;color:var(--sage-d);">₩0</span>
+    <div class="receipt-sheet">
+      <div class="receipt-sheet-header">
+        <span>🧾 영수증 항목 확인</span>
+        <button onclick="closeOv('modal-receipt')" aria-label="닫기">✕</button>
       </div>
-      <div class="mbtns">
-        <button class="bcnl" onclick="closeOv('modal-receipt')">취소</button>
-        <button class="bok" onclick="saveReceiptData()">저장하기</button>
+      <div class="receipt-sheet-hint">체크된 항목만 저장돼요 · 품목명·가격 직접 수정 가능</div>
+      <div class="receipt-sheet-body">
+        <div id="receipt-items-list"></div>
+        <button class="btn sm" style="width:100%;margin-top:8px;margin-bottom:8px;" onclick="addReceiptItem()">＋ 항목 추가</button>
+      </div>
+      <div class="receipt-sheet-footer">
+        <div class="receipt-footer-summary">
+          <span id="receipt-checked-count">✓ 0개</span>
+          <span>합계 <strong id="receipt-total-display">₩0</strong></span>
+        </div>
+        <div class="mbtns" style="margin-top:0;">
+          <button class="bcnl" onclick="closeOv('modal-receipt')">취소</button>
+          <button class="bok" onclick="saveReceiptData()">저장하기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -3537,7 +3590,7 @@
           }
           const scanned = await res.json();
           // 스캔 결과를 임시 저장 후 확인 모달 오픈
-          tempReceiptItems = scanned.map(it => ({ name: it.name || '', price: Number(it.price) || 0 }));
+          tempReceiptItems = scanned.map(it => ({ name: it.name || '', price: Number(it.price) || 0, checked: true }));
           statusEl.innerText = '';
           renderReceiptModal();
           openOv('modal-receipt');
@@ -3556,28 +3609,47 @@
         recalcReceiptTotal();
         return;
       }
-      list.innerHTML = tempReceiptItems.map((it, i) => `
-        <div class="receipt-item-row" data-idx="${i}">
-          <input class="ri-name" data-idx="${i}" value="${it.name.replace(/"/g, '&quot;')}" placeholder="품목명" oninput="recalcReceiptTotal()" />
+      list.innerHTML = tempReceiptItems.map((it, i) => {
+        const isChecked = it.checked !== false;
+        const rowCls = isChecked ? 'receipt-item-row' : 'receipt-item-row unchecked';
+        const nameSafe = (it.name || '').replace(/"/g, '&quot;');
+        return `
+        <div class="${rowCls}" data-idx="${i}">
+          <input type="checkbox" class="ri-cb" data-idx="${i}" ${isChecked ? 'checked' : ''} onchange="toggleReceiptItem(${i},this.checked)" />
+          <input class="ri-name" data-idx="${i}" value="${nameSafe}" placeholder="품목명" oninput="recalcReceiptTotal()" />
           <input class="ri-price" data-idx="${i}" value="${it.price ? it.price.toLocaleString() : ''}" placeholder="0" inputmode="numeric" oninput="fmtComma(this);recalcReceiptTotal()" />
           <button class="ri-del" onclick="removeReceiptItem(${i})">✕</button>
-        </div>`).join('');
+        </div>`;
+      }).join('');
       recalcReceiptTotal();
     }
 
-    // DOM에서 직접 읽어서 합계 계산 (배열 싱크 의존 없음)
+    function toggleReceiptItem(i, checked) {
+      syncReceiptFromDOM();
+      tempReceiptItems[i].checked = checked;
+      // 체크 상태만 스타일 반영 (리렌더 없이)
+      const rows = document.querySelectorAll('#receipt-items-list .receipt-item-row');
+      if (rows[i]) rows[i].className = checked ? 'receipt-item-row' : 'receipt-item-row unchecked';
+      recalcReceiptTotal();
+    }
+
+    // DOM에서 직접 읽어서 합계 계산 (체크된 항목만)
     function recalcReceiptTotal() {
       const rows = document.querySelectorAll('#receipt-items-list .receipt-item-row');
-      let total = 0;
+      let total = 0, checkedCount = 0;
       rows.forEach(row => {
+        const cb = row.querySelector('.ri-cb');
         const priceEl = row.querySelector('.ri-price');
-        total += parseAmt(priceEl ? priceEl.value : '0');
+        if (cb && cb.checked) {
+          total += parseAmt(priceEl ? priceEl.value : '0');
+          checkedCount++;
+        }
       });
       document.getElementById('receipt-total-display').textContent = '₩' + total.toLocaleString();
+      document.getElementById('receipt-checked-count').textContent = '✓ ' + checkedCount + '개';
     }
 
     function removeReceiptItem(i) {
-      // 삭제 전 현재 DOM 값을 배열에 동기화
       syncReceiptFromDOM();
       tempReceiptItems.splice(i, 1);
       renderReceiptModal();
@@ -3585,9 +3657,8 @@
 
     function addReceiptItem() {
       syncReceiptFromDOM();
-      tempReceiptItems.push({ name: '', price: 0 });
+      tempReceiptItems.push({ name: '', price: 0, checked: true });
       renderReceiptModal();
-      // 새로 추가된 품목명 인풋에 자동 포커스
       const rows = document.querySelectorAll('#receipt-items-list .receipt-item-row');
       if (rows.length) rows[rows.length - 1].querySelector('.ri-name').focus();
     }
@@ -3596,32 +3667,36 @@
     function syncReceiptFromDOM() {
       const rows = document.querySelectorAll('#receipt-items-list .receipt-item-row');
       rows.forEach((row, i) => {
-        if (!tempReceiptItems[i]) tempReceiptItems[i] = { name: '', price: 0 };
+        if (!tempReceiptItems[i]) tempReceiptItems[i] = { name: '', price: 0, checked: true };
         const nameEl = row.querySelector('.ri-name');
         const priceEl = row.querySelector('.ri-price');
+        const cbEl = row.querySelector('.ri-cb');
         tempReceiptItems[i].name = nameEl ? nameEl.value.trim() : '';
         tempReceiptItems[i].price = parseAmt(priceEl ? priceEl.value : '0');
+        tempReceiptItems[i].checked = cbEl ? cbEl.checked : true;
       });
     }
 
     function saveReceiptData() {
       syncReceiptFromDOM();
-      const validItems = tempReceiptItems.filter(it => it.name || it.price > 0);
-      if (!validItems.length) { toast('저장할 항목이 없어요'); return; }
+      const checkedItems = tempReceiptItems.filter(it => it.checked !== false && (it.name || it.price > 0));
+      if (!checkedItems.length) { toast('체크된 항목이 없어요'); return; }
       const today = localDateStr(new Date());
-      const total = validItems.reduce((s, it) => s + (it.price || 0), 0);
-      const memo = validItems.map(it => it.name).filter(Boolean).join(', ').substring(0, 40);
-      gRef('expenses').push({
-        date: today,
-        name: '📸 영수증 스캔',
-        amt: total,
-        cat: '식재료',
-        memo,
-        ts: Date.now()
+      const total = checkedItems.reduce((s, it) => s + (it.price || 0), 0);
+      const ref = gRef('expenses');
+      checkedItems.forEach(it => {
+        ref.push({
+          date: today,
+          name: it.name || '품목',
+          amt: it.price || 0,
+          cat: '식재료',
+          memo: '📸 영수증 스캔',
+          ts: Date.now()
+        });
       });
       closeOv('modal-receipt');
       tempReceiptItems = [];
-      toast(`✅ 저장 완료! (총 ₩${total.toLocaleString()})`);
+      toast(`✅ ${checkedItems.length}개 항목 저장 완료! (총 ₩${total.toLocaleString()})`);
     }
 
     // ══════════════════════════════════════════════════

@@ -1,17 +1,18 @@
-// 파일 경로: api/ocr.js
 export default async function handler(req, res) {
-  // POST 요청만 받음
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   const { imageBase64 } = req.body;
-  // Vercel 환경변수에서 API 키를 가져옵니다.
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY; 
+
+  // 1. Vercel 환경변수에 API 키가 잘 들어왔는지 체크
+  if (!GEMINI_API_KEY) {
+    return res.status(500).json({ error: 'Vercel 설정에 API 키가 없습니다. 환경변수와 재배포를 확인해주세요.' });
+  }
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-  // Gemini에게 내릴 명령
   const payload = {
     contents: [{
       parts: [
@@ -29,15 +30,19 @@ export default async function handler(req, res) {
     });
     
     const data = await response.json();
-    const textResult = data.candidates[0].content.parts[0].text;
     
-    // 혹시 모를 마크다운(```json 등) 찌꺼기 제거
+    // 2. 구글 AI가 에러를 뱉었는지 확인하고 그 이유를 화면에 띄움!
+    if (!response.ok || data.error) {
+      const geminiError = data.error ? data.error.message : response.statusText;
+      return res.status(500).json({ error: `구글 AI 거절 사유 ➡️ ${geminiError}` });
+    }
+
+    const textResult = data.candidates[0].content.parts[0].text;
     const cleanedText = textResult.replace(/```json/g, '').replace(/```/g, '').trim();
     
-    // JSON으로 변환해서 프론트엔드로 전달
     res.status(200).json(JSON.parse(cleanedText));
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: '영수증 분석 중 오류가 발생했습니다.' });
+    // 3. 코드 내부에서 터진 진짜 에러 확인
+    res.status(500).json({ error: `서버 코드 에러 ➡️ ${error.message}` });
   }
 }

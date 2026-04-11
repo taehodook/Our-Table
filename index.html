@@ -2055,6 +2055,123 @@
     .toast.show {
       transform: translateX(-50%) translateY(0);
     }
+
+    /* ── 홈 현황 요약 카드 ── */
+    .hw-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .hw-scard {
+      background: var(--warm);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 11px 8px;
+      text-align: center;
+    }
+    .hw-scard-val {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--sage-d);
+    }
+    .hw-scard-label {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .hw-scard.warn .hw-scard-val { color: var(--amber); }
+    .hw-scard.danger .hw-scard-val { color: var(--red); }
+
+    /* ── 예산 카드 ── */
+    .budget-card {
+      background: var(--warm);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+    .budget-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .budget-title { font-size: 13px; font-weight: 700; }
+    .budget-amt { font-size: 12px; color: var(--muted); }
+    .budget-bar-wrap {
+      background: var(--border);
+      border-radius: 20px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .budget-bar {
+      height: 100%;
+      border-radius: 20px;
+      background: var(--sage);
+      transition: width .4s;
+    }
+    .budget-bar.warn { background: var(--amber); }
+    .budget-bar.over { background: var(--red); }
+    .budget-pct { font-size: 11px; color: var(--muted); margin-top: 5px; text-align: right; }
+
+    /* ── 이번달 vs 지난달 비교 ── */
+    .cmp-card {
+      background: var(--warm);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+    .cmp-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+    .cmp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .cmp-label { font-size: 11px; color: var(--muted); width: 42px; flex-shrink: 0; }
+    .cmp-bar-wrap { flex: 1; background: var(--border); border-radius: 20px; height: 10px; overflow: hidden; }
+    .cmp-bar { height: 100%; border-radius: 20px; }
+    .cmp-amt { font-size: 11px; font-weight: 700; width: 70px; text-align: right; flex-shrink: 0; }
+    .cmp-diff {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .cmp-diff.up { color: var(--red); }
+    .cmp-diff.down { color: var(--sage-d); }
+    .cmp-diff.same { color: var(--muted); }
+
+    /* ── 영수증 확인 모달 ── */
+    .receipt-item-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .receipt-item-row:last-child { border-bottom: none; }
+    .ri-name { flex: 1; font-size: 13px; border: none; background: transparent; padding: 2px 4px; }
+    .ri-price { width: 80px; font-size: 13px; font-weight: 700; text-align: right; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; }
+    .ri-del { background: none; border: none; cursor: pointer; font-size: 14px; color: var(--red); padding: 2px 4px; }
+    .receipt-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0 0;
+      font-weight: 700;
+      font-size: 14px;
+      border-top: 2px solid var(--border);
+      margin-top: 4px;
+    }
+
+    /* ── 지출 날짜 필터 ── */
+    .hist-sub-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+    .hist-sub-tabs .mtab { font-size: 12px; padding: 5px 12px; }
+    .hist-nav { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .hist-nav-label { flex: 1; text-align: center; font-size: 13px; font-weight: 700; }
+    .hist-range-row { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .hist-range-row .fi { flex: 1; min-width: 120px; }
   </style>
 </head>
 
@@ -2143,6 +2260,26 @@
 
   <!-- PAGE: HOME DASHBOARD -->
   <div class="page active" id="page-home">
+
+    <!-- 냉장고 현황 요약 카드 -->
+    <div class="hw-summary">
+      <div class="hw-scard ok">
+        <div class="hw-scard-val" id="hsSumTotal">0</div>
+        <div class="hw-scard-label">전체 식품</div>
+      </div>
+      <div class="hw-scard">
+        <div class="hw-scard-val" id="hsSumCart">0</div>
+        <div class="hw-scard-label">장보기 예정</div>
+      </div>
+      <div class="hw-scard warn">
+        <div class="hw-scard-val" id="hsSumWarn">0</div>
+        <div class="hw-scard-label">만료 임박</div>
+      </div>
+      <div class="hw-scard danger">
+        <div class="hw-scard-val" id="hsSumExp">0</div>
+        <div class="hw-scard-label">이미 만료</div>
+      </div>
+    </div>
 
     <!-- 주간 네비 -->
     <div class="hw-nav">
@@ -2359,6 +2496,22 @@
       <div class="mtab" id="anTab-history" onclick="setAnPeriod('history',this)">📋 전체 내역</div>
       <button class="btn sm" style="margin-left:auto;" onclick="renderExp()">🔄 새로고침</button>
     </div>
+    <!-- 예산 카드 -->
+    <div class="budget-card" id="budgetCard" style="display:none;">
+      <div class="budget-head">
+        <span class="budget-title">💳 이번달 예산</span>
+        <span class="budget-amt" id="budgetAmtLabel">₩0 / ₩0</span>
+        <button class="btn sm" onclick="openOv('budgetModal')" style="margin-left:8px;">설정</button>
+      </div>
+      <div class="budget-bar-wrap">
+        <div class="budget-bar" id="budgetBar" style="width:0%"></div>
+      </div>
+      <div class="budget-pct" id="budgetPct">0%</div>
+    </div>
+    <div id="noBudgetRow" style="text-align:right;margin-bottom:10px;">
+      <button class="btn sm" onclick="openOv('budgetModal')">💳 예산 설정하기</button>
+    </div>
+
     <div id="analysisSection">
       <div class="chart-grid">
         <div class="escard">
@@ -2392,9 +2545,55 @@
         <div class="estitle">카테고리별 지출 금액</div>
         <div class="cbdown" id="cbdown"></div>
       </div>
+      <!-- 이번달 vs 지난달 비교 -->
+      <div class="cmp-card" id="cmpCard">
+        <div class="cmp-title">📊 이번달 vs 지난달</div>
+        <div class="cmp-row">
+          <div class="cmp-label" style="color:var(--sage-d);">이번달</div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar" id="cmpBarThis" style="background:var(--sage);width:0%"></div></div>
+          <div class="cmp-amt" id="cmpAmtThis">₩0</div>
+        </div>
+        <div class="cmp-row">
+          <div class="cmp-label" style="color:var(--muted);">지난달</div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar" id="cmpBarPrev" style="background:var(--border);width:0%"></div></div>
+          <div class="cmp-amt" id="cmpAmtPrev" style="color:var(--muted);">₩0</div>
+        </div>
+        <div class="cmp-diff" id="cmpDiff">데이터 없음</div>
+      </div>
     </div>
     <div id="historySection" style="display:none;">
-      <div class="mtabs" id="mtabs"></div>
+      <!-- 날짜 보기 모드 탭 -->
+      <div class="hist-sub-tabs">
+        <div class="mtab active" id="hvTab-day" onclick="setHistView('day',this)">📅 일별</div>
+        <div class="mtab" id="hvTab-week" onclick="setHistView('week',this)">📆 주별</div>
+        <div class="mtab" id="hvTab-month" onclick="setHistView('month',this)">🗓 월별</div>
+        <div class="mtab" id="hvTab-range" onclick="setHistView('range',this)">🔍 기간선택</div>
+      </div>
+      <!-- 일별 네비 -->
+      <div class="hist-nav" id="histDayNav">
+        <button class="btn sm" onclick="moveHistDay(-1)">◀</button>
+        <div class="hist-nav-label" id="histDayLabel">오늘</div>
+        <button class="btn sm" onclick="moveHistDay(1)">▶</button>
+        <button class="btn sm terra" onclick="moveHistDay(0)">오늘</button>
+      </div>
+      <!-- 주별 네비 -->
+      <div class="hist-nav" id="histWeekNav" style="display:none;">
+        <button class="btn sm" onclick="moveHistWeek(-1)">◀</button>
+        <div class="hist-nav-label" id="histWeekLabel">이번 주</div>
+        <button class="btn sm" onclick="moveHistWeek(1)">▶</button>
+        <button class="btn sm terra" onclick="moveHistWeek(0)">이번주</button>
+      </div>
+      <!-- 월별 탭 -->
+      <div id="histMonthNav" style="display:none;">
+        <div class="mtabs" id="mtabs"></div>
+      </div>
+      <!-- 기간 선택 -->
+      <div class="hist-range-row" id="histRangeNav" style="display:none;">
+        <input class="fi" type="date" id="histFrom" onchange="renderHistByView()" />
+        <span style="color:var(--muted);font-size:13px;">~</span>
+        <input class="fi" type="date" id="histTo" onchange="renderHistByView()" />
+      </div>
+      <!-- 내역 테이블 -->
       <div class="ebox">
         <div class="ehead">
           <div>상품명</div>
@@ -2404,6 +2603,7 @@
         </div>
         <div id="elist"></div>
       </div>
+      <div id="histSubtotal" style="text-align:right;font-size:13px;font-weight:700;color:var(--sage-d);padding:8px 4px 0;"></div>
     </div>
     <a class="ad-banner" href="https://link.coupang.com/a/ebOmZe" target="_blank" rel="noopener"
       onclick="trackAd('expense')" style="margin-top:16px;">
@@ -2606,6 +2806,39 @@
     </div>
   </div>
 
+  <!-- 영수증 확인 모달 -->
+  <div class="ov" id="modal-receipt">
+    <div class="modal">
+      <div class="mtitle">🧾 영수증 항목 확인</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">이름/가격을 수정하거나 불필요한 항목을 삭제한 뒤 저장하세요.</div>
+      <div id="receipt-items-list" style="max-height:260px;overflow-y:auto;"></div>
+      <div class="receipt-total-row">
+        <span>합계</span>
+        <span id="receipt-total-display">₩0</span>
+      </div>
+      <div class="mbtns">
+        <button class="bcnl" onclick="closeOv('modal-receipt')">취소</button>
+        <button class="bok" onclick="saveReceiptData()">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 예산 설정 모달 -->
+  <div class="ov" id="budgetModal">
+    <div class="modal">
+      <div class="mtitle">💳 이번달 예산 설정</div>
+      <div class="fg">
+        <label class="fl">월 예산 (원)</label>
+        <input class="fi" type="text" inputmode="numeric" id="budgetInput" placeholder="예: 500,000" oninput="fmtComma(this)" />
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">0으로 설정하면 예산 표시가 숨겨집니다.</div>
+      <div class="mbtns">
+        <button class="bcnl" onclick="closeOv('budgetModal')">취소</button>
+        <button class="bok" onclick="saveBudget()">저장</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script>
@@ -2635,8 +2868,19 @@
     let editingItemId = null, currentUnit = 'pct', currentCUnit = 'none';
     let mealIngredients = [], deductCtx = [];
     let currentGroup = null;
+    let tempReceiptItems = [];
+    let monthBudget = 0;
+    let histViewMode = 'month', histDayDate = '', histWeekOff = 0, histRangeFrom = '', histRangeTo = '';
 
     const STORAGE_KEY = 'woori_group';
+
+    // 로컬 날짜 문자열 (KST 등 시간대 버그 방지)
+    function localDateStr(d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+    function localMonthStr(d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    }
 
     const CCOLORS = { '고기': '#d45f5f', '반찬': '#c4714f', '야채': '#7a9e7e', '과일': '#e8a838', '아이스크림': '#6b9db8', '닭고기': '#c9a84c', '소스': '#9b7ec8', '유제품': '#5ba8b5', '음료': '#4d9e6b', '양념': '#a0522d', '곡류': '#c8a45e', '기타': '#aaa' };
     const CAT_EMOJI = { '고기': '🥩', '반찬': '🍱', '야채': '🥦', '과일': '🍎', '아이스크림': '🍦', '닭고기': '🍗', '소스': '🫙', '유제품': '🥛', '음료': '🧃', '양념': '🧂', '곡류': '🌾', '기타': '📦' };
@@ -2764,7 +3008,7 @@
     const _renderStorage = debounce(renderStorage, 80);
     const _renderMeal = debounce(renderMeal, 80);
     const _renderCart = debounce(renderCart, 80);
-    const _renderExp = debounce(renderExp, 80);
+    const _renderExp = debounce(() => { renderExp(); renderBudget(); }, 80);
     const _renderHome = debounce(renderHome, 80);
 
     function startListeners() {
@@ -2776,11 +3020,13 @@
       L(gRef('cart'), s => { carts = s.val() || {}; _renderCart(); _renderHome(); });
       L(gRef('meals'), s => { meals = s.val() || {}; _renderMeal(); _renderHome(); });
       L(gRef('expenses'), s => { exps = s.val() || {}; _renderExp(); _renderHome(); });
+      L(db.ref('groups/' + currentGroup + '/budget'), s => { monthBudget = Number(s.val() || 0); renderBudget(); });
     }
     function stopListeners() {
       activeListeners.forEach(r => r.off());
       activeListeners = [];
       items = {}; carts = {}; meals = {}; exps = {};
+      monthBudget = 0;
     }
 
     // ── 자동 로그인 (localStorage) ──
@@ -2824,10 +3070,21 @@
     }
 
     function renderHome() {
+      // 냉장고 현황 요약
+      const allItems = Object.values(items);
+      const totalItems = allItems.length;
+      const warnItems = allItems.filter(v => { const d = calcD(v.exp); return d !== null && d >= 0 && d <= 3; }).length;
+      const expItems2 = allItems.filter(v => { const d = calcD(v.exp); return d !== null && d < 0; }).length;
+      const pendingCart = Object.values(carts).filter(v => !v.checked).length;
+      document.getElementById('hsSumTotal').textContent = totalItems;
+      document.getElementById('hsSumCart').textContent = pendingCart;
+      document.getElementById('hsSumWarn').textContent = warnItems;
+      document.getElementById('hsSumExp').textContent = expItems2;
+
       const days = getHomeWeekDays(homeWeekOff);
       const today = new Date(); today.setHours(0, 0, 0, 0);
       const fmt = d => (d.getMonth() + 1) + '/' + d.getDate();
-      const dkOf = d => d.toISOString().split('T')[0];
+      const dkOf = d => localDateStr(d);
       const DAYNAMES = ['월', '화', '수', '목', '금', '토', '일'];
 
       // 주간 범위 표시
@@ -3016,7 +3273,7 @@
 
     // ITEM MODAL
     function selUnit(u) { currentUnit = u; document.querySelectorAll('.uopt').forEach(b => b.classList.toggle('sel', b.dataset.u === u)); const show = u !== 'none'; document.getElementById('stockValWrap').style.display = show ? '' : 'none'; if (show) { document.getElementById('stockValLabel').textContent = u === 'pct' ? '현재 재고 (%)' : '현재 재고 (개수)'; document.getElementById('fStock').placeholder = u === 'pct' ? '100' : '예: 3'; } }
-    function openItemModal() { editingItemId = null; document.getElementById('itemModalTitle').textContent = '📦 식품 추가'; document.getElementById('itemModalOkBtn').textContent = '추가하기'; document.getElementById('fBought').value = new Date().toISOString().split('T')[0];['fName', 'fMemo'].forEach(i => document.getElementById(i).value = ''); document.getElementById('fStock').value = ''; selUnit('pct'); resetExp(); openOv('itemModal'); }
+    function openItemModal() { editingItemId = null; document.getElementById('itemModalTitle').textContent = '📦 식품 추가'; document.getElementById('itemModalOkBtn').textContent = '추가하기'; document.getElementById('fBought').value = localDateStr(new Date());['fName', 'fMemo'].forEach(i => document.getElementById(i).value = ''); document.getElementById('fStock').value = ''; selUnit('pct'); resetExp(); openOv('itemModal'); }
     function openEditModal(id) { editingItemId = id; const v = items[id]; if (!v) return; document.getElementById('itemModalTitle').textContent = '✏️ 식품 수정'; document.getElementById('itemModalOkBtn').textContent = '수정하기'; document.getElementById('fLoc').value = v.loc || 'fresh'; document.getElementById('fCat').value = v.cat || '기타'; document.getElementById('fName').value = v.name || ''; document.getElementById('fBought').value = v.bought || ''; document.getElementById('fMemo').value = v.memo || ''; selUnit(v.unit || 'none'); if (v.unit && v.unit !== 'none') document.getElementById('fStock').value = v.stock !== undefined ? v.stock : ''; resetExp(); if (v.exp) { document.getElementById('fExp').value = v.exp; document.getElementById('etoggle').checked = true; document.getElementById('edr').classList.add('show'); document.getElementById('fExpDate').value = v.exp; const d = calcD(v.exp); document.getElementById('eprev').textContent = '📅 ' + v.exp.replace(/-/g, '.') + (d >= 0 ? ' (D-' + d + ')' : ' (D+' + Math.abs(d) + ' 만료)'); } openOv('itemModal'); }
     function saveItem() { const name = document.getElementById('fName').value.trim(); if (!name) { toast('상품명을 입력해주세요'); return; } const data = { loc: document.getElementById('fLoc').value, cat: document.getElementById('fCat').value, name, bought: document.getElementById('fBought').value, exp: document.getElementById('fExp').value, memo: document.getElementById('fMemo').value.trim(), unit: currentUnit, stock: currentUnit !== 'none' ? Number(document.getElementById('fStock').value || 0) : null, ts: Date.now() }; if (editingItemId) { gRef('items/' + editingItemId).update(data); toast(name + ' 수정 완료! ✓'); } else { gRef('items').push(data); toast(name + ' 추가 완료! ✓'); } closeOv('itemModal'); }
     function delItem(id) { if (confirm('삭제할까요?')) gRef('items/' + id).remove(); }
@@ -3067,7 +3324,7 @@
       if (editId) { const prev = carts[editId]; gRef('cart/' + editId).update(data); if (prev && prev.checked && prev.expenseId) { const newAmt = parseAmt(document.getElementById('cPrice').value) || prev.actualPrice || 0; gRef('expenses/' + prev.expenseId).update({ name: data.name, amt: newAmt, cat: data.cat }); gRef('cart/' + editId + '/actualPrice').set(newAmt); toast(name + ' 수정 + 지출 반영 ✓'); } else toast(name + ' 수정됐어요 ✓'); } else { gRef('cart').push({ ...data, checked: false, ts: Date.now() }); toast(name + ' 추가! 🛒'); } closeOv('cartModal');
     }
     function checkCart(id) {
-      const c = carts[id]; if (!c || c.checked) return; const today = new Date().toISOString().split('T')[0]; const actualPrice = c.price || 0;
+      const c = carts[id]; if (!c || c.checked) return; const today = localDateStr(new Date()); const actualPrice = c.price || 0;
       const after = (eid) => { gRef('cart/' + id).update({ checked: true, doneAt: Date.now(), actualPrice, expenseId: eid || null }); if (c.loc) { if (c.linkedId && items[c.linkedId]) { const itm = items[c.linkedId]; if (itm.unit === 'pct') gRef('items/' + c.linkedId + '/stock').set(100); else if (itm.unit === 'count') gRef('items/' + c.linkedId + '/stock').set(Number(itm.stock || 0) + 1); if (c.boughtDate) gRef('items/' + c.linkedId + '/bought').set(c.boughtDate); toast(c.name + ' 재고 보충됐어요! ✓'); } else { gRef('items').push({ loc: c.loc, cat: c.itemCat || '기타', name: c.name, bought: c.boughtDate || today, exp: c.expDate || '', memo: '', unit: c.cUnit || 'pct', stock: c.cStock != null ? c.cStock : 100, ts: Date.now() }); toast(c.name + ' 보관함에 추가됐어요! ✓'); } } else toast(c.name + ' 구매완료!' + (actualPrice > 0 ? ' · ₩' + actualPrice.toLocaleString() + ' 기록' : '')); };
       if (actualPrice > 0) { const ref = gRef('expenses').push({ date: today, name: c.name, amt: actualPrice, cat: c.cat || '식재료', memo: '장보기 자동기록', cartId: id, ts: Date.now() }); after(ref.key); } else after(null);
     }
@@ -3075,19 +3332,169 @@
     function clearDone() { Object.entries(carts).filter(([, v]) => v.checked).forEach(([id]) => gRef('cart/' + id).remove()); }
 
     // ══════════════════════════════════════════════════
+    // 예산 관리
+    // ══════════════════════════════════════════════════
+    function renderBudget() {
+      const thisMonth = localMonthStr(new Date());
+      const used = Object.values(exps).filter(v => monthKey(v.date) === thisMonth).reduce((s, v) => s + Number(v.amt || 0), 0);
+      const hasBudget = monthBudget > 0;
+      document.getElementById('budgetCard').style.display = hasBudget ? '' : 'none';
+      document.getElementById('noBudgetRow').style.display = hasBudget ? 'none' : '';
+      if (!hasBudget) return;
+      const pct = Math.min(Math.round(used / monthBudget * 100), 999);
+      const bar = document.getElementById('budgetBar');
+      bar.style.width = Math.min(pct, 100) + '%';
+      bar.className = 'budget-bar' + (pct >= 100 ? ' over' : pct >= 80 ? ' warn' : '');
+      document.getElementById('budgetAmtLabel').textContent = '₩' + used.toLocaleString() + ' / ₩' + monthBudget.toLocaleString();
+      document.getElementById('budgetPct').textContent = pct + '% 사용' + (pct >= 100 ? ' 🚨 초과!' : pct >= 80 ? ' ⚠️ 임박' : '');
+    }
+
+    function openBudgetModal() {
+      document.getElementById('budgetInput').value = monthBudget ? monthBudget.toLocaleString() : '';
+      openOv('budgetModal');
+    }
+
+    function saveBudget() {
+      const val = parseAmt(document.getElementById('budgetInput').value);
+      db.ref('groups/' + currentGroup + '/budget').set(val);
+      closeOv('budgetModal');
+      toast(val ? '예산 ₩' + val.toLocaleString() + ' 설정됐어요 ✓' : '예산이 해제됐어요');
+    }
+
+    // ══════════════════════════════════════════════════
     // EXPENSE + CHARTS
     // ══════════════════════════════════════════════════
     function monthKey(d) { return (d || '').slice(0, 7); }
-    function setAnPeriod(p, el) { anPeriod = p; document.querySelectorAll('[id^="anTab-"]').forEach(t => t.classList.remove('active')); el.classList.add('active'); document.getElementById('analysisSection').style.display = p !== 'history' ? '' : 'none'; document.getElementById('historySection').style.display = p === 'history' ? '' : 'none'; if (p === 'history') renderHistory(); else renderCharts(); }
-    function getFilteredExps(p) { const all = Object.entries(exps); const today = new Date(); today.setHours(23, 59, 59, 999); if (p === 'week') { const from = new Date(); from.setDate(from.getDate() - 6); from.setHours(0, 0, 0, 0); return all.filter(([, v]) => v.date && new Date(v.date) >= from && new Date(v.date) <= today); } if (p === 'month') { const ym = today.toISOString().slice(0, 7); return all.filter(([, v]) => monthKey(v.date) === ym); } return all; }
-    function renderCharts() { const fil = getFilteredExps(anPeriod).sort(([, a], [, b]) => a.date.localeCompare(b.date)); const total = fil.reduce((s, [, v]) => s + Number(v.amt || 0), 0); const cnt = fil.length; const lbl = anPeriod === 'week' ? '최근 7일' : '이번달'; document.getElementById('chartPeriodLabel').textContent = lbl + ' 지출 요약'; document.getElementById('etotal').textContent = '₩' + total.toLocaleString(); document.getElementById('eperiod').textContent = lbl + ' 총 ' + cnt + '건'; document.getElementById('chartCnt').textContent = cnt + '건'; document.getElementById('chartAvg').textContent = cnt ? '₩' + Math.round(total / cnt).toLocaleString() : '₩0'; document.getElementById('barChartTitle').textContent = anPeriod === 'week' ? '최근 7일 일별 지출' : '이번달 일별 지출'; const cm = {}; fil.forEach(([, v]) => { cm[v.cat || '기타'] = (cm[v.cat || '기타'] || 0) + Number(v.amt || 0); }); const ca = Object.entries(cm).sort((a, b) => b[1] - a[1]); const mx = ca[0]?.[1] || 1; document.getElementById('cbdown').innerHTML = ca.length ? ca.map(([c, a], i) => '<div class="cbrow"><div class="cblabel">' + c + '</div><div class="cbtrack"><div class="cbfill" style="width:' + Math.round(a / mx * 100) + '%;background:' + CHART_COLORS[i % CHART_COLORS.length] + '"></div></div><div class="cbamt">₩' + a.toLocaleString() + '</div></div>').join('') : '<div style="font-size:12px;color:var(--muted);">데이터 없음</div>'; drawDonut(ca, total); drawBar(fil); }
+    function setAnPeriod(p, el) { anPeriod = p; document.querySelectorAll('[id^="anTab-"]').forEach(t => t.classList.remove('active')); el.classList.add('active'); document.getElementById('analysisSection').style.display = p !== 'history' ? '' : 'none'; document.getElementById('historySection').style.display = p === 'history' ? '' : 'none'; if (p === 'history') { renderHistByView(); } else renderCharts(); }
+    function getFilteredExps(p) { const all = Object.entries(exps); const today = new Date(); today.setHours(23, 59, 59, 999); if (p === 'week') { const from = new Date(); from.setDate(from.getDate() - 6); from.setHours(0, 0, 0, 0); return all.filter(([, v]) => v.date && new Date(v.date) >= from && new Date(v.date) <= today); } if (p === 'month') { const ym = localMonthStr(today); return all.filter(([, v]) => monthKey(v.date) === ym); } return all; }
+    function renderCharts() {
+      const fil = getFilteredExps(anPeriod).sort(([, a], [, b]) => a.date.localeCompare(b.date));
+      const total = fil.reduce((s, [, v]) => s + Number(v.amt || 0), 0);
+      const cnt = fil.length;
+      const lbl = anPeriod === 'week' ? '최근 7일' : '이번달';
+      document.getElementById('chartPeriodLabel').textContent = lbl + ' 지출 요약';
+      document.getElementById('etotal').textContent = '₩' + total.toLocaleString();
+      document.getElementById('eperiod').textContent = lbl + ' 총 ' + cnt + '건';
+      document.getElementById('chartCnt').textContent = cnt + '건';
+      document.getElementById('chartAvg').textContent = cnt ? '₩' + Math.round(total / cnt).toLocaleString() : '₩0';
+      document.getElementById('barChartTitle').textContent = anPeriod === 'week' ? '최근 7일 일별 지출' : '이번달 일별 지출';
+      const cm = {}; fil.forEach(([, v]) => { cm[v.cat || '기타'] = (cm[v.cat || '기타'] || 0) + Number(v.amt || 0); });
+      const ca = Object.entries(cm).sort((a, b) => b[1] - a[1]);
+      const mx = ca[0]?.[1] || 1;
+      document.getElementById('cbdown').innerHTML = ca.length ? ca.map(([c, a], i) => '<div class="cbrow"><div class="cblabel">' + c + '</div><div class="cbtrack"><div class="cbfill" style="width:' + Math.round(a / mx * 100) + '%;background:' + CHART_COLORS[i % CHART_COLORS.length] + '"></div></div><div class="cbamt">₩' + a.toLocaleString() + '</div></div>').join('') : '<div style="font-size:12px;color:var(--muted);">데이터 없음</div>';
+      drawDonut(ca, total);
+      drawBar(fil);
+      renderComparison();
+    }
+
+    function renderComparison() {
+      const now = new Date();
+      const thisYm = localMonthStr(now);
+      const prevDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      const prevYm = localMonthStr(prevDate);
+      const allExps = Object.values(exps);
+      const thisAmt = allExps.filter(v => monthKey(v.date) === thisYm).reduce((s, v) => s + Number(v.amt || 0), 0);
+      const prevAmt = allExps.filter(v => monthKey(v.date) === prevYm).reduce((s, v) => s + Number(v.amt || 0), 0);
+      const maxAmt = Math.max(thisAmt, prevAmt, 1);
+      document.getElementById('cmpBarThis').style.width = Math.round(thisAmt / maxAmt * 100) + '%';
+      document.getElementById('cmpBarPrev').style.width = Math.round(prevAmt / maxAmt * 100) + '%';
+      document.getElementById('cmpAmtThis').textContent = '₩' + thisAmt.toLocaleString();
+      document.getElementById('cmpAmtPrev').textContent = prevAmt ? '₩' + prevAmt.toLocaleString() : '데이터 없음';
+      const diffEl = document.getElementById('cmpDiff');
+      if (!prevAmt) { diffEl.textContent = '지난달 데이터가 없어요'; diffEl.className = 'cmp-diff same'; return; }
+      const diff = thisAmt - prevAmt;
+      const pct = Math.abs(Math.round(diff / prevAmt * 100));
+      if (diff > 0) { diffEl.textContent = '▲ ₩' + Math.abs(diff).toLocaleString() + ' 더 썼어요 (+' + pct + '%)'; diffEl.className = 'cmp-diff up'; }
+      else if (diff < 0) { diffEl.textContent = '▼ ₩' + Math.abs(diff).toLocaleString() + ' 절약했어요 (-' + pct + '%)'; diffEl.className = 'cmp-diff down'; }
+      else { diffEl.textContent = '지난달과 똑같이 썼어요'; diffEl.className = 'cmp-diff same'; }
+    }
     function drawDonut(ca, total) { const canvas = document.getElementById('donutChart'); const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, 110, 110); if (!ca.length || !total) { ctx.beginPath(); ctx.arc(55, 55, 40, 0, Math.PI * 2); ctx.strokeStyle = '#e8e0d5'; ctx.lineWidth = 18; ctx.stroke(); document.getElementById('donutLegend').innerHTML = '<div style="font-size:11px;color:var(--muted);">데이터 없음</div>'; return; } let start = -Math.PI / 2; ca.forEach(([c, a], i) => { const sl = (a / total) * Math.PI * 2; ctx.beginPath(); ctx.moveTo(55, 55); ctx.arc(55, 55, 46, start, start + sl); ctx.closePath(); ctx.fillStyle = CHART_COLORS[i % CHART_COLORS.length]; ctx.fill(); start += sl; }); ctx.beginPath(); ctx.arc(55, 55, 28, 0, Math.PI * 2); ctx.fillStyle = '#fffef9'; ctx.fill(); document.getElementById('donutLegend').innerHTML = ca.slice(0, 5).map(([c, a], i) => '<div class="legend-row"><div class="legend-dot" style="background:' + CHART_COLORS[i % CHART_COLORS.length] + '"></div><div class="legend-label">' + c + '</div><div class="legend-pct">' + Math.round(a / total * 100) + '%</div></div>').join(''); }
-    function drawBar(fil) { const canvas = document.getElementById('barChart'); const ctx = canvas.getContext('2d'); const dm = {}; fil.forEach(([, v]) => { dm[v.date] = (dm[v.date] || 0) + Number(v.amt || 0); }); let labels = []; if (anPeriod === 'week') { for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); labels.push(d.toISOString().split('T')[0]); } } else { const now = new Date(); const yr = now.getFullYear(), mo = now.getMonth(); const days = new Date(yr, mo + 1, 0).getDate(); for (let i = 1; i <= days; i++)labels.push(yr + '-' + (String(mo + 1).padStart(2, '0')) + '-' + (String(i).padStart(2, '0'))); } const vals = labels.map(l => dm[l] || 0); const maxVal = Math.max(...vals, 1); const W = Math.max(labels.length * 28, canvas.parentElement.clientWidth || 300); canvas.width = W; canvas.height = 140; ctx.clearRect(0, 0, W, 140); const barW = Math.min(22, W / labels.length - 4); const gap = (W - barW * labels.length) / (labels.length + 1); vals.forEach((v, i) => { const x = gap + (barW + gap) * i; const bh = v ? (v / maxVal) * 90 : 2; const y = 110 - bh; ctx.fillStyle = v ? '#7a9e7e' : '#e8e0d5'; roundRect(ctx, x, y, barW, bh, 4); ctx.fill(); ctx.fillStyle = '#8a8a8a'; ctx.font = '9px Noto Sans KR,sans-serif'; ctx.textAlign = 'center'; const lbl = anPeriod === 'week' ? (['일', '월', '화', '수', '목', '금', '토'][new Date(labels[i]).getDay()]) : (i % 5 === 0 ? String(i + 1) : ''); ctx.fillText(lbl, x + barW / 2, 125); if (v) { ctx.fillStyle = '#4d7a52'; ctx.font = 'bold 9px Noto Sans KR,sans-serif'; ctx.fillText(v >= 10000 ? Math.round(v / 1000) + 'k' : String(v), x + barW / 2, y - 3); } }); }
+    function drawBar(fil) { const canvas = document.getElementById('barChart'); const ctx = canvas.getContext('2d'); const dm = {}; fil.forEach(([, v]) => { dm[v.date] = (dm[v.date] || 0) + Number(v.amt || 0); }); let labels = []; if (anPeriod === 'week') { for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); labels.push(localDateStr(d)); } } else { const now = new Date(); const yr = now.getFullYear(), mo = now.getMonth(); const days = new Date(yr, mo + 1, 0).getDate(); for (let i = 1; i <= days; i++)labels.push(yr + '-' + (String(mo + 1).padStart(2, '0')) + '-' + (String(i).padStart(2, '0'))); } const vals = labels.map(l => dm[l] || 0); const maxVal = Math.max(...vals, 1); const W = Math.max(labels.length * 28, canvas.parentElement.clientWidth || 300); canvas.width = W; canvas.height = 140; ctx.clearRect(0, 0, W, 140); const barW = Math.min(22, W / labels.length - 4); const gap = (W - barW * labels.length) / (labels.length + 1); vals.forEach((v, i) => { const x = gap + (barW + gap) * i; const bh = v ? (v / maxVal) * 90 : 2; const y = 110 - bh; ctx.fillStyle = v ? '#7a9e7e' : '#e8e0d5'; roundRect(ctx, x, y, barW, bh, 4); ctx.fill(); ctx.fillStyle = '#8a8a8a'; ctx.font = '9px Noto Sans KR,sans-serif'; ctx.textAlign = 'center'; const lbl = anPeriod === 'week' ? (['일', '월', '화', '수', '목', '금', '토'][new Date(labels[i]).getDay()]) : (i % 5 === 0 ? String(i + 1) : ''); ctx.fillText(lbl, x + barW / 2, 125); if (v) { ctx.fillStyle = '#4d7a52'; ctx.font = 'bold 9px Noto Sans KR,sans-serif'; ctx.fillText(v >= 10000 ? Math.round(v / 1000) + 'k' : String(v), x + barW / 2, y - 3); } }); }
     function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); }
-    function renderHistory() { const all = Object.entries(exps); const months = [...new Set(all.map(([, v]) => monthKey(v.date)).filter(Boolean))].sort().reverse(); if (!months.length) months.push(new Date().toISOString().slice(0, 7)); if (!expMonth || !months.includes(expMonth)) expMonth = months[0]; document.getElementById('mtabs').innerHTML = months.map(m => '<div class="mtab' + (m === expMonth ? ' active' : '') + '" onclick="selMon(\'' + m + '\')">' + m + '</div>').join(''); const fil = all.filter(([, v]) => monthKey(v.date) === expMonth).sort(([, a], [, b]) => b.date.localeCompare(a.date)); document.getElementById('elist').innerHTML = fil.length ? fil.map(([id, v]) => '<div class="erow"><div><div class="ename2">' + v.name + (v.cartId && carts[v.cartId] ? '<span style="font-size:9px;color:var(--sage);background:var(--sage-l);border-radius:4px;padding:1px 5px;margin-left:4px;">🛒연동</span>' : '') + '</div><div class="edate2">' + v.date + (v.memo ? ' · ' + v.memo : '') + '</div></div><div class="ecat2">' + (v.cat || '기타') + '</div><div class="eprice">₩' + Number(v.amt).toLocaleString() + '</div><div style="display:flex;gap:2px;"><button class="bicon edit" onclick="openEditExp(\'' + id + '\')">✏️</button><button class="bicon del" onclick="delExp(\'' + id + '\')">🗑</button></div></div>').join('') : '<div class="empty" style="padding:30px"><div>💰</div>지출 내역이 없어요</div>'; }
-    function selMon(m) { expMonth = m; renderHistory(); }
-    function renderExp() { if (anPeriod === 'history') renderHistory(); else renderCharts(); }
-    function openExpModal() { document.getElementById('expModalTitle').textContent = '💰 지출 추가'; document.getElementById('expModalOkBtn').textContent = '저장하기';['eEditId', 'eLinkedCartId'].forEach(i => document.getElementById(i).value = ''); document.getElementById('eDate').value = new Date().toISOString().split('T')[0];['eName', 'eAmt', 'eMemo'].forEach(i => document.getElementById(i).value = ''); openOv('expModal'); }
+    function renderExpList(fil) {
+      const sorted = fil.slice().sort(([, a], [, b]) => b.date.localeCompare(a.date));
+      const total = sorted.reduce((s, [, v]) => s + Number(v.amt || 0), 0);
+      document.getElementById('elist').innerHTML = sorted.length ? sorted.map(([id, v]) =>
+        '<div class="erow"><div><div class="ename2">' + v.name +
+        (v.cartId && carts[v.cartId] ? '<span style="font-size:9px;color:var(--sage);background:var(--sage-l);border-radius:4px;padding:1px 5px;margin-left:4px;">🛒연동</span>' : '') +
+        '</div><div class="edate2">' + v.date + (v.memo ? ' · ' + v.memo : '') + '</div></div>' +
+        '<div class="ecat2">' + (v.cat || '기타') + '</div>' +
+        '<div class="eprice">₩' + Number(v.amt).toLocaleString() + '</div>' +
+        '<div style="display:flex;gap:2px;"><button class="bicon edit" onclick="openEditExp(\'' + id + '\')">✏️</button><button class="bicon del" onclick="delExp(\'' + id + '\')">🗑</button></div></div>'
+      ).join('') : '<div class="empty" style="padding:30px"><div>💰</div>지출 내역이 없어요</div>';
+      document.getElementById('histSubtotal').textContent = sorted.length ? '소계: ₩' + total.toLocaleString() + ' (' + sorted.length + '건)' : '';
+    }
+
+    function setHistView(mode, el) {
+      histViewMode = mode;
+      document.querySelectorAll('.hist-sub-tabs .mtab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('histDayNav').style.display = mode === 'day' ? '' : 'none';
+      document.getElementById('histWeekNav').style.display = mode === 'week' ? '' : 'none';
+      document.getElementById('histMonthNav').style.display = mode === 'month' ? '' : 'none';
+      document.getElementById('histRangeNav').style.display = mode === 'range' ? '' : 'none';
+      if (mode === 'month') renderHistMonth();
+      else if (mode === 'range') { if (!histRangeFrom) { const t = new Date(); histRangeFrom = localDateStr(new Date(t.getFullYear(), t.getMonth(), 1)); histRangeTo = localDateStr(t); document.getElementById('histFrom').value = histRangeFrom; document.getElementById('histTo').value = histRangeTo; } renderHistByView(); }
+      else renderHistByView();
+    }
+
+    function renderHistByView() {
+      if (histViewMode === 'day') renderHistDay();
+      else if (histViewMode === 'week') renderHistWeek();
+      else if (histViewMode === 'month') renderHistMonth();
+      else renderHistRange();
+    }
+
+    function moveHistDay(d) {
+      if (d === 0) { histDayDate = localDateStr(new Date()); }
+      else { const dt = histDayDate ? new Date(histDayDate) : new Date(); dt.setDate(dt.getDate() + d); histDayDate = localDateStr(dt); }
+      renderHistDay();
+    }
+    function renderHistDay() {
+      if (!histDayDate) histDayDate = localDateStr(new Date());
+      const dt = new Date(histDayDate);
+      const DAYNAMES = ['일', '월', '화', '수', '목', '금', '토'];
+      document.getElementById('histDayLabel').textContent = histDayDate + ' (' + DAYNAMES[dt.getDay()] + ')';
+      const fil = Object.entries(exps).filter(([, v]) => v.date === histDayDate);
+      renderExpList(fil);
+    }
+
+    function moveHistWeek(d) {
+      histWeekOff = d === 0 ? 0 : histWeekOff + d;
+      renderHistWeek();
+    }
+    function renderHistWeek() {
+      const t = new Date(); t.setHours(0, 0, 0, 0);
+      const mon = new Date(t); mon.setDate(t.getDate() - (t.getDay() || 7) + 1 + histWeekOff * 7);
+      const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+      const from = localDateStr(mon), to = localDateStr(sun);
+      document.getElementById('histWeekLabel').textContent = from + ' ~ ' + to;
+      const fil = Object.entries(exps).filter(([, v]) => v.date >= from && v.date <= to);
+      renderExpList(fil);
+    }
+
+    function renderHistMonth() {
+      const all = Object.entries(exps);
+      const months = [...new Set(all.map(([, v]) => monthKey(v.date)).filter(Boolean))].sort().reverse();
+      if (!months.length) months.push(localMonthStr(new Date()));
+      if (!expMonth || !months.includes(expMonth)) expMonth = months[0];
+      document.getElementById('mtabs').innerHTML = months.map(m => '<div class="mtab' + (m === expMonth ? ' active' : '') + '" onclick="selMon(\'' + m + '\')">' + m + '</div>').join('');
+      const fil = all.filter(([, v]) => monthKey(v.date) === expMonth);
+      renderExpList(fil);
+    }
+
+    function renderHistRange() {
+      histRangeFrom = document.getElementById('histFrom').value;
+      histRangeTo = document.getElementById('histTo').value;
+      if (!histRangeFrom || !histRangeTo) return;
+      const fil = Object.entries(exps).filter(([, v]) => v.date >= histRangeFrom && v.date <= histRangeTo);
+      renderExpList(fil);
+    }
+
+    function renderHistory() { renderHistMonth(); }
+    function selMon(m) { expMonth = m; renderHistMonth(); }
+    function renderExp() { if (anPeriod === 'history') renderHistByView(); else renderCharts(); }
+    function openExpModal() { document.getElementById('expModalTitle').textContent = '💰 지출 추가'; document.getElementById('expModalOkBtn').textContent = '저장하기';['eEditId', 'eLinkedCartId'].forEach(i => document.getElementById(i).value = ''); document.getElementById('eDate').value = localDateStr(new Date());['eName', 'eAmt', 'eMemo'].forEach(i => document.getElementById(i).value = ''); openOv('expModal'); }
     function openEditExp(expId) { const v = exps[expId]; if (!v) return; document.getElementById('expModalTitle').textContent = '✏️ 지출 수정'; document.getElementById('expModalOkBtn').textContent = '수정하기'; document.getElementById('eEditId').value = expId; document.getElementById('eLinkedCartId').value = v.cartId || ''; document.getElementById('eDate').value = v.date || ''; document.getElementById('eName').value = v.name || ''; document.getElementById('eAmt').value = fmtAmt(v.amt) || ''; document.getElementById('eCat').value = v.cat || '식재료'; document.getElementById('eMemo').value = v.memo || ''; openOv('expModal'); }
     function saveExp() { const n = document.getElementById('eName').value.trim(); const a = document.getElementById('eAmt').value; if (!n || !parseAmt(a)) { toast('상품명과 금액을 입력해주세요'); return; } const editId = document.getElementById('eEditId').value; const cartId = document.getElementById('eLinkedCartId').value; const data = { date: document.getElementById('eDate').value, name: n, amt: parseAmt(a), cat: document.getElementById('eCat').value, memo: document.getElementById('eMemo').value.trim() }; if (editId) { gRef('expenses/' + editId).update(data); if (cartId && carts[cartId]) gRef('cart/' + cartId).update({ name: n, price: parseAmt(a), actualPrice: parseAmt(a), cat: data.cat }); toast(n + ' 지출 수정됐어요 ✓'); } else { gRef('expenses').push({ ...data, ts: Date.now() }); toast('₩' + parseAmt(a).toLocaleString() + ' 기록! ✓'); } closeOv('expModal'); }
     function addExp() { saveExp(); }
@@ -3102,11 +3509,12 @@
     function trackAd(loc) { console.log('[쿠팡파트너스] 클릭:', loc); }
 
     // ══════════════════════════════════════════════════
-    // 영수증 AI 스캔 (Gemini)
+    // 영수증 AI 스캔 (Gemini) + 확인 모달
     // ══════════════════════════════════════════════════
     document.getElementById('receipt-upload').addEventListener('change', async function (e) {
       const file = e.target.files[0];
       if (!file) return;
+      e.target.value = '';
 
       const statusEl = document.getElementById('scan-status');
       statusEl.innerText = "⏳ AI가 영수증을 읽고 있어요... (약 3~5초 소요)";
@@ -3114,54 +3522,68 @@
       const reader = new FileReader();
       reader.onloadend = async () => {
         const base64String = reader.result.split(',')[1];
-
         try {
-          // Vercel의 API를 호출합니다 (이후 단계에서 만들 예정!)
           const res = await fetch('/api/ocr', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ imageBase64: base64String })
           });
-
           if (!res.ok) {
-            // 에러의 진짜 번호와 서버가 보낸 메시지를 잡아서 던집니다!
             const errText = await res.text();
             throw new Error(`API 에러 (${res.status}): ${errText}`);
           }
-
-          const items = await res.json();
-
-          // 항목들을 하나씩 더해서 총액을 계산합니다.
-          let totalExpense = 0;
-          let memoList = [];
-          for (let item of items) {
-            totalExpense += item.price;
-            memoList.push(item.name);
-          }
-
-          // 우리집 식탁의 기존 방식(gRef)을 이용해 '지출 내역'에 바로 저장!
-          const today = new Date().toISOString().split('T')[0];
-          gRef('expenses').push({
-            date: today,
-            name: '📸 영수증 스캔',
-            amt: totalExpense,
-            cat: '식재료',
-            // 산 물건들을 메모에 요약해서 넣어줍니다.
-            memo: memoList.join(', ').substring(0, 30) + (memoList.length > 3 ? '...' : ''),
-            ts: Date.now()
-          });
-
-          toast(`✅ 영수증 인식 완료! (총 ₩${totalExpense.toLocaleString()})`);
-          statusEl.innerText = "";
-
+          const scanned = await res.json();
+          // 스캔 결과를 임시 저장 후 확인 모달 오픈
+          tempReceiptItems = scanned.map(it => ({ name: it.name || '', price: Number(it.price) || 0 }));
+          statusEl.innerText = '';
+          renderReceiptModal();
+          openOv('modal-receipt');
         } catch (error) {
-          // 에러의 진짜 이유를 화면에 그대로 출력합니다!
           statusEl.innerText = "❌ 에러 발생: " + error.message;
           console.error(error);
         }
       };
       reader.readAsDataURL(file);
     });
+
+    function renderReceiptModal() {
+      const list = document.getElementById('receipt-items-list');
+      list.innerHTML = tempReceiptItems.length ? tempReceiptItems.map((it, i) => `
+        <div class="receipt-item-row">
+          <input class="ri-name" value="${it.name}" oninput="tempReceiptItems[${i}].name=this.value" placeholder="상품명" />
+          <input class="ri-price" type="number" value="${it.price}" oninput="tempReceiptItems[${i}].price=Number(this.value);updateReceiptTotal()" />
+          <button class="ri-del" onclick="removeReceiptItem(${i})">✕</button>
+        </div>`).join('') : '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">인식된 항목이 없어요.<br>직접 추가해 주세요.</div>';
+      updateReceiptTotal();
+    }
+
+    function removeReceiptItem(i) {
+      tempReceiptItems.splice(i, 1);
+      renderReceiptModal();
+    }
+
+    function updateReceiptTotal() {
+      const total = tempReceiptItems.reduce((s, it) => s + (Number(it.price) || 0), 0);
+      document.getElementById('receipt-total-display').textContent = '₩' + total.toLocaleString();
+    }
+
+    function saveReceiptData() {
+      if (!tempReceiptItems.length) { toast('저장할 항목이 없어요'); return; }
+      const today = localDateStr(new Date());
+      const total = tempReceiptItems.reduce((s, it) => s + (Number(it.price) || 0), 0);
+      const memo = tempReceiptItems.map(it => it.name).join(', ').substring(0, 40);
+      gRef('expenses').push({
+        date: today,
+        name: '📸 영수증 스캔',
+        amt: total,
+        cat: '식재료',
+        memo,
+        ts: Date.now()
+      });
+      closeOv('modal-receipt');
+      tempReceiptItems = [];
+      toast(`✅ 저장 완료! (총 ₩${total.toLocaleString()})`);
+    }
 
     // ══════════════════════════════════════════════════
     // TOAST

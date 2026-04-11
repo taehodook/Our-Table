@@ -3123,7 +3123,11 @@
             body: JSON.stringify({ imageBase64: base64String })
           });
 
-          if (!res.ok) throw new Error('API 호출 실패');
+          if (!res.ok) {
+            // 에러의 진짜 번호와 서버가 보낸 메시지를 잡아서 던집니다!
+            const errText = await res.text();
+            throw new Error(`API 에러 (${res.status}): ${errText}`);
+          }
 
           const items = await res.json();
 
